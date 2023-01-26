@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/gameBoard.js":
+/*!**************************!*\
+  !*** ./src/gameBoard.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Gameboard\": () => (/* binding */ Gameboard)\n/* harmony export */ });\n//for the moment, our gameboard can just be logic. We can represent it as a 2d array of positions and coordinates. The ships available in a particular gameboard should be stored inside some kind of data structure (maybe an array?). We should set some kind of limit for how many ships a board can have, so the user can't add more than the limit.\n\n//we could then have a placeShip() method that calls the ship factory, and creates a ship and places it at a coordinate that we pass into it. \n\n//we will also need a recieve attack method, so that our board can register if an attack on the board has hit a ship or not & send that hit to the correct ship. If the hit is a miss we'll need to record that miss coordinate in some way (maybe adding an 'x' in the 2d array gameboard so we know its a miss).\n\nconst Gameboard = () => {\n    const board = [];\n\n    const fillBoard = (board) => {\n        for (let i=0; i<7; i++) {\n            const arr = new Array(7);\n            arr.fill('');\n            board.push(arr);\n        }\n    }\n\n    const getBoard = () => board;\n\n    const placeShip = (ship, coordinate) => {\n        for (let i=0; i<ship.length; i++) {\n            board[coordinate[0]][coordinate[1] + i] = ship;\n        }\n\n    }\n    fillBoard(board);\n    \n    return { getBoard, placeShip }\n}\n\n//# sourceURL=webpack://battleship/./src/gameBoard.js?");
+
+/***/ }),
+
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _shipModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shipModule */ \"./src/shipModule.js\");\n//We want a factory function for creating the ships that our players will use, this factory would have properties on it like the type of ship, size/length of the ship. We want methods in this ship factory that allow for the ships to take damage, for example in the instance that a ship gets clicked on, we want to add a hit counter to it. This ship and its data would be an object.\n\n//the factory should also have a method on it to check if the players ship is sunk. This would be a boolean value that checks the number of hits it has recieved against the length of the ship. \n\n\n\nconst battleship = (0,_shipModule__WEBPACK_IMPORTED_MODULE_0__.Ship)('battleship', 4);\n\nconsole.log(battleship);\n\n//# sourceURL=webpack://battleship/./src/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _shipModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shipModule */ \"./src/shipModule.js\");\n/* harmony import */ var _gameBoard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameBoard */ \"./src/gameBoard.js\");\n//We want a factory function for creating the ships that our players will use, this factory would have properties on it like the type of ship, size/length of the ship. We want methods in this ship factory that allow for the ships to take damage, for example in the instance that a ship gets clicked on, we want to add a hit counter to it. This ship and its data would be an object.\n\n//the factory should also have a method on it to check if the players ship is sunk. This would be a boolean value that checks the number of hits it has recieved against the length of the ship. \n\n\n\n\nconst playerBoard = (0,_gameBoard__WEBPACK_IMPORTED_MODULE_1__.Gameboard)();\n\nconst shipCarrier = (0,_shipModule__WEBPACK_IMPORTED_MODULE_0__.Ship)('Carrier', 5);\n\nplayerBoard.placeShip(shipCarrier, [0,2]);\n\nconsole.log(playerBoard.getBoard());\n\n\n//# sourceURL=webpack://battleship/./src/main.js?");
 
 /***/ }),
 
