@@ -4,6 +4,26 @@
 
 //we will also need a recieve attack method, so that our board can register if an attack on the board has hit a ship or not & send that hit to the correct ship. If the hit is a miss we'll need to record that miss coordinate in some way (maybe adding an 'x' in the 2d array gameboard so we know its a miss).
 
-const Gameboard = () => {
+export const Gameboard = () => {
+    const board = [];
 
+    const fillBoard = (board) => {
+        for (let i=0; i<7; i++) {
+            const arr = new Array(7);
+            arr.fill('');
+            board.push(arr);
+        }
+    }
+
+    const getBoard = () => board;
+
+    const placeShip = (ship, coordinate) => {
+        for (let i=0; i<ship.length; i++) {
+            board[coordinate[0]][coordinate[1] + i] = ship;
+        }
+
+    }
+    fillBoard(board);
+    
+    return { getBoard, placeShip }
 }

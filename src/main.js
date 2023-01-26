@@ -3,3 +3,12 @@
 //the factory should also have a method on it to check if the players ship is sunk. This would be a boolean value that checks the number of hits it has recieved against the length of the ship. 
 
 import { Ship } from "./shipModule";
+import { Gameboard } from "./gameBoard";
+
+const playerBoard = Gameboard();
+
+const shipCarrier = Ship('Carrier', 5);
+
+playerBoard.placeShip(shipCarrier, [0,2]);
+
+console.log(playerBoard.getBoard());
