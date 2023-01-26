@@ -1,20 +1,16 @@
 //ship factory should include a type, which we can define later from the ship that the user clicks on. 
 
-export const Ship = (type) => (shipLength) => {
+export const Ship = (type, length) => {
 
     let damageRecieved = 0;
 
     const hit = () => {
         damageRecieved++;
     }
-    const isSunk = () => {
-        // if (damageRecieved === shipLength) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-        return damageRecieved === shipLength;
-    }
+    const isSunk = () => damageRecieved === length;
+    
 
-    return { type, length, damageRecieved, hit, isSunk };
+    const getDamageRecieved = () => damageRecieved;
+
+    return { type, length, getDamageRecieved, hit, isSunk }
 }
