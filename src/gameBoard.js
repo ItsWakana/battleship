@@ -8,8 +8,8 @@ export const Gameboard = () => {
     const board = [];
 
     const fillBoard = (board) => {
-        for (let i=0; i<7; i++) {
-            const arr = new Array(7);
+        for (let i=0; i<10; i++) {
+            const arr = new Array(10);
             arr.fill('');
             board.push(arr);
         }
@@ -18,6 +18,11 @@ export const Gameboard = () => {
     const getBoard = () => board;
 
     const placeShip = (ship, coordinate) => {
+    console.log(coordinate[1] + ship.length) // evaluates to 11
+    if (coordinate[1] + ship.length > 9) {
+        throw new Error('Ship not on the board');
+    }
+
         for (let i=0; i<ship.length; i++) {
             board[coordinate[0]][coordinate[1] + i] = ship;
         }

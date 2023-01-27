@@ -2,14 +2,42 @@ import { Ship } from "./shipModule";
 import { Gameboard } from "./gameBoard";
 //what we want to test:
 
-//placing a ship on the board
+//placing a VALID ship on the board, if its off the grid, doesn't fit or its being placed on top of an existing ship. We need to throw an error.
 
-test('placing invalid ship coordinate on board', () => {
-    const shipCarrier = Ship('Carrier', 5);
+test('placing invalid ship off of the board', () => {
+    const sub = Ship('Submarine', 3);
     const board = Gameboard();
 
 
-    expect(board.placeShip(shipCarrier, [4,5])).toBe('Error: ship does not fit on board');
+    expect(() => {
+        board.placeShip(sub, [3,8])
+    }).toThrow();
+
+});
+
+test('placing invalid ship off of the board', () => {
+    const bship = Ship('Battleship', 4);
+    const board = Gameboard();
+
+
+    expect(() => {
+        board.placeShip(bship, [8,6])
+    }).toThrow();
+
+});
+
+test('placing ship on top of existing ship', () => {
+    const destroyer = Ship('Destroyer', 2);
+    const bship = Ship('Battleship', 4);
+    const board = Gameboard();
+
+    board.placeShip(destroyer, [2,2]);
+    console.log(board.getBoard());
+
+    expect(() => {
+        board.placeShip(bship, [8,6])
+    }).toThrow();
+
 });
 
 test('placing valid ship coordinate on board', () => {
@@ -18,16 +46,19 @@ test('placing valid ship coordinate on board', () => {
     board.placeShip(s, [0,2]);
 
     expect(board.getBoard()).toEqual([
-        ['','',s,s,s,s,s],
-        ['','','','','','',''],
-        ['','','','','','',''],
-        ['','','','','','',''],
-        ['','','','','','',''],
-        ['','','','','','',''],
-        ['','','','','','',''],
+        ['','',s,s,s,s,s,'','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+
     ])
 });
-
 
 //that the gameboard is recieving an attack on the board (using coordinates)
 
