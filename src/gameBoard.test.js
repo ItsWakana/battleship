@@ -2,8 +2,6 @@ import { Ship } from "./shipModule";
 import { Gameboard } from "./gameBoard";
 //what we want to test:
 
-//placing a VALID ship on the board, if its off the grid, doesn't fit or its being placed on top of an existing ship. We need to throw an error.
-
 test('placing invalid ship off of the board', () => {
     const sub = Ship('Submarine', 3);
     const board = Gameboard();
@@ -22,6 +20,20 @@ test('placing invalid ship off of the board', () => {
 
     expect(() => {
         board.placeShip(bship, [8,6])
+    }).toThrow();
+
+});
+
+test('placing ship on top of existing ship', () => {
+    const destroyer = Ship('Destroyer', 2);
+    const bship = Ship('Battleship', 4);
+    const board = Gameboard();
+
+    board.placeShip(destroyer, [7,6]);
+    console.log(board.getBoard());
+
+    expect(() => {
+        board.placeShip(bship, [7,7])
     }).toThrow();
 
 });
