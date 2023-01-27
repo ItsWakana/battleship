@@ -18,7 +18,10 @@ export const Gameboard = () => {
     const getBoard = () => board;
 
     const placeShip = (ship, coordinate) => {
-    console.log(coordinate[1] + ship.length) // evaluates to 11
+
+    if (board[coordinate[0]][coordinate[1]] !== '') {
+        throw new Error('Ship exists in this position');
+    } 
     if (coordinate[1] + ship.length > 9) {
         throw new Error('Ship not on the board');
     }

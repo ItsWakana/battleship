@@ -27,15 +27,15 @@ test('placing invalid ship off of the board', () => {
 });
 
 test('placing ship on top of existing ship', () => {
-    const destroyer = Ship('Destroyer', 2);
+    const carrier = Ship('Carrier', 5);
     const bship = Ship('Battleship', 4);
     const board = Gameboard();
 
-    board.placeShip(destroyer, [2,2]);
+    board.placeShip(carrier, [2,2]);
     console.log(board.getBoard());
 
     expect(() => {
-        board.placeShip(bship, [8,6])
+        board.placeShip(bship, [2,5])
     }).toThrow();
 
 });
