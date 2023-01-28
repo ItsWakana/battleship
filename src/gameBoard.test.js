@@ -72,6 +72,29 @@ test('placing valid ship coordinate on board', () => {
     ])
 });
 
+test('Attacking a ship on the gameboard', () => {
+    const s = Ship('Carrier', 5);
+    const board = Gameboard();
+    board.placeShip(s, [0,2]);
+    board.recieveAttack([0,4]);
+
+    //i want to test if the hit is being registered on the board, so i guess i need to check if the board is displaying a mark on that spot to indicate this?
+
+    expect(board.getBoard()).toEqual([
+        ['','',s,s,'x',s,s,'','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+
+    ]);
+});
+
 //that the gameboard is recieving an attack on the board (using coordinates)
 
 

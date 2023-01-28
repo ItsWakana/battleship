@@ -31,7 +31,13 @@ export const Gameboard = () => {
         }
 
     }
+
+    const recieveAttack = () => {
+        //function should recieve some coordinates as a parameter, and determine if the coordinate has hit a ship on the board or not. We can then mark that position on the board with an 'x' or something similar. 
+
+        //if it does end up hitting a ship, we can somehow check which ship its hit and call the hit() method for that speicific ship.
+    }
     fillBoard(board);
     
-    return { getBoard, placeShip }
+    return { getBoard, placeShip, recieveAttack }
 }
