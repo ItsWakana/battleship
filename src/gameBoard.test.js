@@ -72,13 +72,13 @@ test('placing valid ship coordinate on board', () => {
     ])
 });
 
+//that the gameboard is recieving an attack on the board (using coordinates)
+
 test('Attacking a ship on the gameboard', () => {
     const s = Ship('Carrier', 5);
     const board = Gameboard();
     board.placeShip(s, [0,2]);
     board.recieveAttack([0,4]);
-
-    //i want to test if the hit is being registered on the board, so i guess i need to check if the board is displaying a mark on that spot to indicate this?
 
     expect(board.getBoard()).toEqual([
         ['','',s,s,'x',s,s,'','',''],
@@ -95,7 +95,35 @@ test('Attacking a ship on the gameboard', () => {
     ]);
 });
 
-//that the gameboard is recieving an attack on the board (using coordinates)
+test('Attacking an empty spot on the gameboard', () => {
+    const board = Gameboard();
+    board.recieveAttack([5,5]);
+
+    expect(board.getBoard()).toEqual([
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','x','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+        ['','','','','','','','','',''],
+
+    ]);
+});
+
+test('Checking for invalid or out of bounds attack', () => {
+    const s = Ship('Carrier', 5);
+    const board = Gameboard();
+    board.placeShip(s, [0,2]);
+    board.recieveAttack([10,4]);
+
+    expect(() => {
+        board.recieveAttack([10,4]);
+    }).toThrow();
+});
 
 
 
