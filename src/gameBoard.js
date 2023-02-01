@@ -32,10 +32,20 @@ export const Gameboard = () => {
 
     }
 
-    const recieveAttack = () => {
+    const recieveAttack = (coordinate) => {
         //function should recieve some coordinates as a parameter, and determine if the coordinate has hit a ship on the board or not. We can then mark that position on the board with an 'x' or something similar. 
 
         //if it does end up hitting a ship, we can somehow check which ship its hit and call the hit() method for that speicific ship.
+
+        if (coordinate[0] <= 9 && coordinate[1] <= 9) {
+            //valid coordinate
+            if (board[coordinate[0]][coordinate[1]] === 'x') {
+                throw new Error('Cannot attack same coordinate more than once');
+            }
+            board[coordinate[0]][coordinate[1]] = 'x';
+        } else {
+            throw new Error('Attack is not on the board');
+        } 
     }
     fillBoard(board);
     

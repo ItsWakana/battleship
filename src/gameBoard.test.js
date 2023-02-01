@@ -95,20 +95,41 @@ test('Attacking a ship on the gameboard', () => {
     ]);
 });
 
+test('Attacking same spot of a ship', () => {
+    const s = Ship('Carrier', 5);
+    const board = Gameboard();
+    board.placeShip(s, [4,4]);
+    board.recieveAttack([4,4]);
+
+    expect(() => {
+        board.recieveAttack([4,4]);
+    }).toThrow();
+});
+
 test('Attacking an empty spot on the gameboard', () => {
     const board = Gameboard();
     board.recieveAttack([5,5]);
+    board.recieveAttack([5,1]);
 
     expect(board.getBoard()[5]).toEqual(
-        ['','','','','','x','','','','']
+        ['','x','','','','x','','','','']
     );
+});
+
+test('Attacking the same coordinate more than once', () => {
+    const board = Gameboard();
+    board.recieveAttack([3,8]);
+
+    expect(() => {
+        board.recieveAttack([3,8]);
+    }).toThrow();
+
 });
 
 test('Checking for invalid or out of bounds attack', () => {
     const s = Ship('Carrier', 5);
     const board = Gameboard();
     board.placeShip(s, [0,2]);
-    board.recieveAttack([10,4]);
 
     expect(() => {
         board.recieveAttack([10,4]);

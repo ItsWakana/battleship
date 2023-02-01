@@ -7,6 +7,7 @@ import { Gameboard } from "./gameBoard";
 
 const playerBoard = Gameboard();
 
+
 const shipCarrier = Ship('Carrier', 5);
 
 playerBoard.placeShip(shipCarrier, [0,2]);
