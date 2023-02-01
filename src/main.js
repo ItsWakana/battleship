@@ -9,8 +9,5 @@ const playerBoard = Gameboard();
 
 const ship = Ship(4);
 
-// playerBoard.placeShip(ship, [0,2]);
-ship.hit();
-ship.hit();
-ship.hit();
-console.log(ship.isSunk());
+playerBoard.placeShip(ship, [0,2]);
+playerBoard.recieveAttack([0,2]);
