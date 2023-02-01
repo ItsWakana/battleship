@@ -3,88 +3,95 @@ import { Gameboard } from "./gameBoard";
 //what we want to test:
 
 test('placing invalid ship off of the board', () => {
-    const sub = Ship(3);
     const board = Gameboard();
 
 
     expect(() => {
-        board.placeShip(sub, [3,8])
+        board.placeShip(3, [3,8])
     }).toThrow();
 
 });
 
 test('placing invalid ship off of the board', () => {
-    const bship = Ship(4);
     const board = Gameboard();
 
 
     expect(() => {
-        board.placeShip(bship, [8,6])
+        board.placeShip(4, [8,6])
     }).toThrow();
 
 });
 
 test('placing ship on top of existing ship', () => {
-    const destroyer = Ship(2);
-    const bship = Ship(4);
     const board = Gameboard();
 
-    board.placeShip(destroyer, [7,6]);
-    console.log(board.getBoard());
+    board.placeShip(2, [7,6]);
 
     expect(() => {
-        board.placeShip(bship, [7,7])
+        board.placeShip(2, [7,7])
     }).toThrow();
 
 });
 
 test('placing ship on top of existing ship', () => {
-    const carrier = Ship(5);
-    const bship = Ship(4);
     const board = Gameboard();
-
-    board.placeShip(carrier, [2,2]);
-    console.log(board.getBoard());
+    board.placeShip(5, [2,2]);
 
     expect(() => {
-        board.placeShip(bship, [2,5])
+        board.placeShip(5, [2,5])
     }).toThrow();
 
 });
 
 test('placing valid ship coordinate on board', () => {
-    const s = Ship(5);
     const board = Gameboard();
-    board.placeShip(s, [0,2]);
+    const carrier = board.placeShip(5, [0,2]);
+    const destroyer = board.placeShip(2, [5,6]);
+    
+    expect(board.getBoard()[0]).toEqual(
+        ['','',carrier,carrier,carrier,carrier,carrier,'','',''],
 
-    expect(board.getBoard()).toEqual([
-        ['','',s,s,s,s,s,'','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
-        ['','','','','','','','','',''],
+    );
 
-    ])
+    expect(board.getBoard()[5]).toEqual(
+        ['','','','','','',destroyer,destroyer,'',''],
+
+    );
 });
 
 //that the gameboard is recieving an attack on the board (using coordinates)
 
 test('Attacking a ship on the gameboard', () => {
-    const s = Ship(5);
     const board = Gameboard();
-    board.placeShip(s, [0,2]);
+    const carrier = board.placeShip(5, [0,2]);
     board.recieveAttack([0,4]);
 
-    expect(s.getDamageRecieved()).toEqual(1);
+    expect(carrier.getDamageRecieved()).toBe(1);
 
-    expect(board.getBoard()[0]).toEqual([
-        ['','',s,s,'x',s,s,'','',''],
-    ]);
+    expect(board.getBoard()[0]).toEqual(
+        ['','',carrier,carrier,'x',carrier,carrier,'','',''],
+    );
+});
+
+test('Attacking multiple ships on the gameboard', () => {
+
+    const board = Gameboard();
+    const carrier = board.placeShip(5, [6,4]);
+    const destroyer = board.placeShip(2, [2,2]);
+
+    board.recieveAttack([6,6]);
+    board.recieveAttack([2,3]);
+
+    expect(carrier.getDamageRecieved()).toBe(1);
+    expect(destroyer.getDamageRecieved()).toBe(1);
+
+    expect(board.getBoard()[6]).toEqual(
+        ['','','','',carrier,carrier,'x',carrier,carrier,''],
+    );
+
+    expect(board.getBoard()[2]).toEqual(
+        ['','',destroyer,'x','','','','','',''],
+    );
 });
 
 test('Attacking same spot of a ship', () => {
@@ -119,9 +126,8 @@ test('Attacking the same coordinate more than once', () => {
 });
 
 test('Checking for invalid or out of bounds attack', () => {
-    const s = Ship(5);
     const board = Gameboard();
-    board.placeShip(s, [0,2]);
+    board.placeShip(5, [0,2]);
 
     expect(() => {
         board.recieveAttack([10,4]);
