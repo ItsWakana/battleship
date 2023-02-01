@@ -7,9 +7,10 @@ import { Gameboard } from "./gameBoard";
 
 const playerBoard = Gameboard();
 
+const ship = Ship(4);
 
-const shipCarrier = Ship('Carrier', 5);
-
-playerBoard.placeShip(shipCarrier, [0,2]);
-
-console.log(playerBoard.getBoard());
+// playerBoard.placeShip(ship, [0,2]);
+ship.hit();
+ship.hit();
+ship.hit();
+console.log(ship.isSunk());

@@ -3,7 +3,7 @@ import { Gameboard } from "./gameBoard";
 //what we want to test:
 
 test('placing invalid ship off of the board', () => {
-    const sub = Ship('Submarine', 3);
+    const sub = Ship(3);
     const board = Gameboard();
 
 
@@ -14,7 +14,7 @@ test('placing invalid ship off of the board', () => {
 });
 
 test('placing invalid ship off of the board', () => {
-    const bship = Ship('Battleship', 4);
+    const bship = Ship(4);
     const board = Gameboard();
 
 
@@ -25,8 +25,8 @@ test('placing invalid ship off of the board', () => {
 });
 
 test('placing ship on top of existing ship', () => {
-    const destroyer = Ship('Destroyer', 2);
-    const bship = Ship('Battleship', 4);
+    const destroyer = Ship(2);
+    const bship = Ship(4);
     const board = Gameboard();
 
     board.placeShip(destroyer, [7,6]);
@@ -39,8 +39,8 @@ test('placing ship on top of existing ship', () => {
 });
 
 test('placing ship on top of existing ship', () => {
-    const carrier = Ship('Carrier', 5);
-    const bship = Ship('Battleship', 4);
+    const carrier = Ship(5);
+    const bship = Ship(4);
     const board = Gameboard();
 
     board.placeShip(carrier, [2,2]);
@@ -53,7 +53,7 @@ test('placing ship on top of existing ship', () => {
 });
 
 test('placing valid ship coordinate on board', () => {
-    const s = Ship('Carrier', 5);
+    const s = Ship(5);
     const board = Gameboard();
     board.placeShip(s, [0,2]);
 
@@ -75,7 +75,7 @@ test('placing valid ship coordinate on board', () => {
 //that the gameboard is recieving an attack on the board (using coordinates)
 
 test('Attacking a ship on the gameboard', () => {
-    const s = Ship('Carrier', 5);
+    const s = Ship(5);
     const board = Gameboard();
     board.placeShip(s, [0,2]);
     board.recieveAttack([0,4]);
@@ -96,7 +96,7 @@ test('Attacking a ship on the gameboard', () => {
 });
 
 test('Attacking same spot of a ship', () => {
-    const s = Ship('Carrier', 5);
+    const s = Ship(5);
     const board = Gameboard();
     board.placeShip(s, [4,4]);
     board.recieveAttack([4,4]);
@@ -127,7 +127,7 @@ test('Attacking the same coordinate more than once', () => {
 });
 
 test('Checking for invalid or out of bounds attack', () => {
-    const s = Ship('Carrier', 5);
+    const s = Ship(5);
     const board = Gameboard();
     board.placeShip(s, [0,2]);
 
