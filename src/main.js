@@ -8,6 +8,6 @@ import { Gameboard } from "./gameBoard";
 const playerBoard = Gameboard();
 
 const ship = Ship(4);
-
+console.log(ship);
 playerBoard.placeShip(ship, [0,2]);
 playerBoard.recieveAttack([0,2]);
