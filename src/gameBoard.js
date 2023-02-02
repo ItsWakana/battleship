@@ -20,9 +20,7 @@ export const Gameboard = () => {
     const getBoard = () => board;
 
     //place a specific ship at a specific coordinate on the gameboard
-    const placeShip = (shipLength, coordinate) => {
-    
-        const ship = Ship(shipLength);
+    const placeShip = (ship, coordinate) => {
     
         if (board[coordinate[0]][coordinate[1]] !== '') {
             throw new Error('Ship exists in this position');
