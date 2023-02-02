@@ -39,49 +39,53 @@ describe('placeShip', () => {
 
 });
 
-// describe('recieveAttack', () => {
+describe('recieveAttack', () => {
 
-//     let board;
+    let board;
 
-//     beforeEach(() => board = Gameboard());
+    beforeEach(() => board = Gameboard());
 
-//     test('Recieve an attack to a ship on the board', () => {
+    test('Recieve an attack to a ship on the board', () => {
+        const ship = Ship(5);
 
-//     });
-// });
+        board.placeShip(ship, [0,2]);
+        board.recieveAttack([0,4]);
 
-// test('Attacking a ship on the gameboard', () => {
-//     const board = Gameboard();
-//     const carrier = board.placeShip(Ship(5), [0,2]);
-//     board.recieveAttack([0,4]);
+        expect(ship.getDamageRecieved()).toBe(1);
 
-//     expect(carrier.getDamageRecieved()).toBe(1);
+        expect(board.getBoard()[0][2]).toBe(ship);
+        expect(board.getBoard()[0][3]).toBe(ship);
+        expect(board.getBoard()[0][4]).toBe('x');
+        expect(board.getBoard()[0][5]).toBe(ship);
+        expect(board.getBoard()[0][6]).toBe(ship);
+    });
 
-//     expect(board.getBoard()[0]).toEqual(
-//         ['','',carrier,carrier,'x',carrier,carrier,'','',''],
-//     );
-// });
+    test('Recieve multiple attacks to a ship on the board', () => {
+        const ship = Ship(5);
 
-// test('Attacking multiple ships on the gameboard', () => {
+        board.placeShip(ship, [0,2]);
+        board.recieveAttack([0,4]);
+        board.recieveAttack([0,6]);
 
-//     const board = Gameboard();
-//     const carrier = board.placeShip(Ship(5), [6,4]);
-//     const destroyer = board.placeShip(Ship(2), [2,2]);
+        expect(ship.getDamageRecieved()).toBe(2);
 
-//     board.recieveAttack([6,6]);
-//     board.recieveAttack([2,3]);
+        expect(board.getBoard()[0][2]).toBe(ship);
+        expect(board.getBoard()[0][3]).toBe(ship);
+        expect(board.getBoard()[0][4]).toBe('x');
+        expect(board.getBoard()[0][5]).toBe(ship);
+        expect(board.getBoard()[0][6]).toBe('x');
+    });
 
-//     expect(carrier.getDamageRecieved()).toBe(1);
-//     expect(destroyer.getDamageRecieved()).toBe(1);
+    test('Should throw error if attacking marked coordinate', () => {
+        board.placeShip(Ship(5), [4,4]);
+        board.recieveAttack([4,4]);
+        board.recieveAttack([6,2]);
+        
+        expect(() => board.recieveAttack([4,4])).toThrowError('Cannot attack same coordinate more than once');
 
-//     expect(board.getBoard()[6]).toEqual(
-//         ['','','','',carrier,carrier,'x',carrier,carrier,''],
-//     );
-
-//     expect(board.getBoard()[2]).toEqual(
-//         ['','',destroyer,'x','','','','','',''],
-//     );
-// });
+        expect(() => board.recieveAttack([6,2])).toThrowError('Cannot attack same coordinate more than once');
+    });
+});
 
 // test('Attacking same spot of a ship', () => {
 //     const board = Gameboard();
