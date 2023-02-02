@@ -1,6 +1,6 @@
 //for the moment, our gameboard can just be logic. We can represent it as a 2d array of positions and coordinates. The ships available in a particular gameboard should be stored inside some kind of data structure (maybe an array?). We should set some kind of limit for how many ships a board can have, so the user can't add more than the limit.
 
-import { Ship } from "./shipModule";
+// import { Ship } from "./shipModule";
 
 //we could then have a placeShip() method that calls the ship factory, and creates a ship and places it at a coordinate that we pass into it. 
 

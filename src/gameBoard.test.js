@@ -47,7 +47,7 @@ test('placing valid ship coordinate on board', () => {
     const board = Gameboard();
     const carrier = board.placeShip( Ship(5), [0,2]);
     const destroyer = board.placeShip( Ship(2), [5,6]);
-    
+
     expect(board.getBoard()[0]).toEqual(
         ['','',carrier,carrier,carrier,carrier,carrier,'','',''],
 
