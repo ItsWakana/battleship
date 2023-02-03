@@ -5,7 +5,9 @@ describe('placeShip', () => {
 
     let board;
 
-    beforeEach(() => board = Gameboard());
+    beforeEach(() => {
+        board = Gameboard();
+    });
 
     test('Should place ship on the board', () => {
         const ship = {type: 'Carrier', length: 5}
@@ -16,6 +18,8 @@ describe('placeShip', () => {
         expect(board.getBoard()[0][4]).toBe(ship);
         expect(board.getBoard()[0][5]).toBe(ship);
         expect(board.getBoard()[0][6]).toBe(ship);
+
+        expect(board.getShips()).toEqual([ship]);
     });
 
     test('Should throw error if ship not on the board', () => {
@@ -95,25 +99,50 @@ describe('recieveAttack', () => {
     });
 
     test('Missed shot should be recorded', () => {
-        //if we miss a shot on a ship, we should store that coordinate somehow,perhaps we could use an object lookup to store our misses in each row. So key 0 could have an array of arrays for the coordinates that have been missed in that row.
 
         board.recieveAttack([5,2]);
         board.recieveAttack([5,7]);
-
         board.recieveAttack([2,1]);
         board.recieveAttack([8,3]);
-
-        // const missesRow5 = [2,7];
-        // const missesRow2 = [1];
-        // const missesRow8 = [3];
-        
-        // expect(board.getMisses()[5]).toBe(missesRow5);
-        // expect(board.getMisses()[2]).toBe(missesRow2);
-        // expect(board.getMisses()[8]).toBe(missesRow8);
 
         expect(board.getMisses()[5]).toEqual([2,7]);
         expect(board.getMisses()[2]).toEqual([1]);
         expect(board.getMisses()[8]).toEqual([3]);
+    });
+});
+
+describe('allShipsSunk', () => {
+
+    let board;
+
+    beforeEach(() => board = Gameboard());
+
+    test('Return true as all ships are sunk', () => {
+        
+        board.placeShip(Ship(5), [2,2]);
+        board.placeShip(Ship(2), [6,3]);
+
+        for (let i=2; i<=7; i++) {
+            board.recieveAttack([2,i]);
+        }
+
+        for (let i=3; i<=5; i++) {
+            board.recieveAttack([6,i]);
+        }
+
+        expect(board.allShipsSunk()).toBe(true);
+    });
+
+    test('Return false as not all ships are sunk', () => {
+
+        board.placeShip(Ship(3), [1,5]);
+        board.placeShip(Ship(4), [6,2]);
+
+        board.recieveAttack([1,7]);
+        board.recieveAttack([6,3]);
+        board.recieveAttack([6,4]);
+
+        expect(board.allShipsSunk()).toBe(false);
     });
 });
 

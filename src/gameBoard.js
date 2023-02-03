@@ -5,6 +5,9 @@
 export const Gameboard = () => {
     const board = [];
 
+    const ships = [];
+    //we can use a method called 'allShipsSunk' which could use the 'every' array method to loop over this ships array containing all the ships on the gameboard and if all the ships return true for 'isSunk'. We can deduce that all the ships have been sunk and the game can finish.
+
     const fillBoard = (board) => {
         for (let i=0; i<10; i++) {
             const arr = new Array(10);
@@ -27,6 +30,8 @@ export const Gameboard = () => {
         for (let i=0; i<ship.length; i++) {
             board[coordinate[0]][coordinate[1] + i] = ship;
         }
+
+        ships.push(ship);
 
         return ship;
 
@@ -51,7 +56,7 @@ export const Gameboard = () => {
             throw new Error('Attack is not on the board');
         } 
     }
-
+    //change this to an array of missedShots, this way we have access to lots of array methods if we need to work on the missed shots data.
     const missedShots = {
         0: [],
         1: [],
@@ -69,7 +74,16 @@ export const Gameboard = () => {
         return missedShots;
     }
 
+    const getShips = () => {
+        return ships;
+    }
+
+    const allShipsSunk = () => {
+
+        return ships.every((ship) => ship.isSunk());
+    }
+
     fillBoard(board);
     
-    return { getBoard, placeShip, recieveAttack, getMisses }
+    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk }
 }
