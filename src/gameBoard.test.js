@@ -45,11 +45,13 @@ describe('recieveAttack', () => {
 
     beforeEach(() => board = Gameboard());
 
-    test('Recieve an attack to a ship on the board', () => {
+    test('Recieve an attack on the board', () => {
         const ship = Ship(5);
 
         board.placeShip(ship, [0,2]);
         board.recieveAttack([0,4]);
+
+        board.recieveAttack([5,6]);
 
         expect(ship.getDamageRecieved()).toBe(1);
 
@@ -58,6 +60,8 @@ describe('recieveAttack', () => {
         expect(board.getBoard()[0][4]).toBe('x');
         expect(board.getBoard()[0][5]).toBe(ship);
         expect(board.getBoard()[0][6]).toBe(ship);
+
+        expect(board.getBoard()[5][6]).toBe('x');
     });
 
     test('Recieve multiple attacks to a ship on the board', () => {
@@ -76,7 +80,7 @@ describe('recieveAttack', () => {
         expect(board.getBoard()[0][6]).toBe('x');
     });
 
-    test('Should throw error if attacking marked coordinate', () => {
+    test('Should throw error if attacking same coordinate more than once', () => {
         board.placeShip(Ship(5), [4,4]);
         board.recieveAttack([4,4]);
         board.recieveAttack([6,2]);
@@ -85,45 +89,10 @@ describe('recieveAttack', () => {
 
         expect(() => board.recieveAttack([6,2])).toThrowError('Cannot attack same coordinate more than once');
     });
+
+    test('Should throw error if an attack is not on the board', () => {
+        expect(() => board.recieveAttack([10,4])).toThrowError('Attack is not on the board');
+    });
 });
-
-// test('Attacking same spot of a ship', () => {
-//     const board = Gameboard();
-//     board.placeShip(Ship(5), [4,4]);
-//     board.recieveAttack([4,4]);
-
-//     expect(() => {
-//         board.recieveAttack([4,4]);
-//     }).toThrow();
-// });
-
-// test('Attacking an empty spot on the gameboard', () => {
-//     const board = Gameboard();
-//     board.recieveAttack([5,5]);
-//     board.recieveAttack([5,1]);
-
-//     expect(board.getBoard()[5]).toEqual(
-//         ['','x','','','','x','','','','']
-//     );
-// });
-
-// test('Attacking the same coordinate more than once', () => {
-//     const board = Gameboard();
-//     board.recieveAttack([3,8]);
-
-//     expect(() => {
-//         board.recieveAttack([3,8]);
-//     }).toThrow();
-
-// });
-
-// test('Checking for invalid or out of bounds attack', () => {
-//     const board = Gameboard();
-//     board.placeShip(Ship(5), [0,2]);
-
-//     expect(() => {
-//         board.recieveAttack([10,4]);
-//     }).toThrow();
-// });
 
 
