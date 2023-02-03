@@ -7,7 +7,8 @@ import { Gameboard } from "./gameBoard";
 
 const playerBoard = Gameboard();
 
-const ship = Ship(4);
-console.log(ship);
-playerBoard.placeShip(ship, [0,2]);
+playerBoard.placeShip(Ship(4), [0,2]);
+playerBoard.recieveAttack([0,3]);
 playerBoard.recieveAttack([0,2]);
+console.log(playerBoard.getBoard());
+console.log(playerBoard.getBoard()[0][4].getDamageRecieved());

@@ -2,10 +2,6 @@
 
 // import { Ship } from "./shipModule";
 
-//we could then have a placeShip() method that calls the ship factory, and creates a ship and places it at a coordinate that we pass into it. 
-
-//we will also need a recieve attack method, so that our board can register if an attack on the board has hit a ship or not & send that hit to the correct ship. If the hit is a miss we'll need to record that miss coordinate in some way (maybe adding an 'x' in the 2d array gameboard so we know its a miss).
-
 export const Gameboard = () => {
     const board = [];
 
@@ -19,7 +15,6 @@ export const Gameboard = () => {
 
     const getBoard = () => board;
 
-    //place a specific ship at a specific coordinate on the gameboard
     const placeShip = (ship, coordinate) => {
     
         if (board[coordinate[0]][coordinate[1]] !== '') {
@@ -38,19 +33,16 @@ export const Gameboard = () => {
     }
 
     const recieveAttack = (coordinate) => {
-        //function should recieve some coordinates as a parameter, and determine if the coordinate has hit a ship on the board or not. We can then mark that position on the board with an 'x' or something similar. 
-
-        //we need a way to check if the coordinate is a ship, if it is a ship we need to call the hit method on it.
-        
-        //need a way of recording the coordinates of missed shots, so i'll have to set up a test for this.
 
         if (coordinate[0] <= 9 && coordinate[1] <= 9) {
             const boardItem = board[coordinate[0]][coordinate[1]];
 
+            if (boardItem === '') {
+                missedShots[coordinate[0]].push(coordinate[1]);
+            }
             if (typeof boardItem === 'object') {
                 boardItem.hit();
             }
-            //valid coordinate
             if (board[coordinate[0]][coordinate[1]] === 'x') {
                 throw new Error('Cannot attack same coordinate more than once');
             }
@@ -59,7 +51,25 @@ export const Gameboard = () => {
             throw new Error('Attack is not on the board');
         } 
     }
+
+    const missedShots = {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+    }
+
+    const getMisses = () => {
+        return missedShots;
+    }
+
     fillBoard(board);
     
-    return { getBoard, placeShip, recieveAttack }
+    return { getBoard, placeShip, recieveAttack, getMisses }
 }
