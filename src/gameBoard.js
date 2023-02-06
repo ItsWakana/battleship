@@ -32,9 +32,6 @@ export const Gameboard = () => {
         }
 
         ships.push(ship);
-
-        return ship;
-
     }
 
     const recieveAttack = (coordinate) => {
@@ -56,7 +53,6 @@ export const Gameboard = () => {
             throw new Error('Attack is not on the board');
         } 
     }
-    //change this to an array of missedShots, this way we have access to lots of array methods if we need to work on the missed shots data.
 
     const missedShots = [
         [],[],[],[],[],[],[],[],[],[]
