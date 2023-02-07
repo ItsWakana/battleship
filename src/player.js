@@ -5,14 +5,21 @@ export const Player = (name, opponentBoard, isCPU) => {
     const attack = (coordinate) => {
 
         if (isCPU) {
-            let compCoordinate;
-
             
+            const validPositions = opponentBoard.getValidPositions();
+            
+            let cpuCoordinate = validPositions[Math.floor(Math.random() * validPositions.length - 1)];
+
+            opponentBoard.recieveAttack(cpuCoordinate);
+
+            return cpuCoordinate
         }
         //check if isCPU is true, if it is we want to calculate a random coordinate on the boardand use that for the board to recieveAttack. 
 
         //player attack coordinate can be passed into here.
         opponentBoard.recieveAttack(coordinate);
+
+        return coordinate;
     }
 
 

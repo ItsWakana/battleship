@@ -8,10 +8,15 @@ describe('Attack', () => {
 
     beforeEach(() => enemyBoard = Gameboard());
 
-    test('Attack a valid spot on the board', () => {
+    test('CPU attack a valid spot on the board', () => {
 
-        const firstPlayer = Player('John', enemyBoard);
-        
-        firstPlayer.attack([4,4]);
+        const computerPlayer = Player('CPU', enemyBoard);
+        const validPositions = enemyBoard.getValidPositions();
+        const pos = validPositions[Math.floor(Math.random() * validPositions.length - 1)];
+
+        computerPlayer.attack(pos);
+
+        console.log(pos);
+        expect(enemyBoard.getBoard()[pos[0][pos[1]]]).toBe(pos);
     });
 });

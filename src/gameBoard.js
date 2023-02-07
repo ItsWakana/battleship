@@ -28,8 +28,6 @@ export const Gameboard = () => {
                 }
             }
         }
-
-        console.log(arr);
         return arr;
     }
 
