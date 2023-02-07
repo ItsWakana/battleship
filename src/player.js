@@ -1,6 +1,20 @@
-const Player = (name, opponentBoard) => {
+import { Gameboard } from "./gameBoard"
+
+export const Player = (name, opponentBoard, isCPU) => {
 //factory for our different players (in the case of this game it would be the player and the computer) would take a name, and the opposing players board. So if we make a player it would take in the computers board.
     const attack = (coordinate) => {
-        //make an attack on the board by calling the opponents board to recieve an attack at the specified coordinate.
+
+        if (isCPU) {
+            let compCoordinate;
+
+            
+        }
+        //check if isCPU is true, if it is we want to calculate a random coordinate on the boardand use that for the board to recieveAttack. 
+
+        //player attack coordinate can be passed into here.
+        opponentBoard.recieveAttack(coordinate);
     }
+
+
+    return { attack }
 }
