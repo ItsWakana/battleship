@@ -23,7 +23,7 @@ export const Player = (name, opponentBoard, isCPU = false) => {
     const randomAttack = () => {
         const validPositions = opponentBoard.getValidPositions();
             
-        let cpuCoordinate = validPositions[Math.floor(Math.random() * validPositions.length - 1)];
+        let cpuCoordinate = validPositions[Math.floor(Math.random() * validPositions.length)];
 
         opponentBoard.recieveAttack(cpuCoordinate);
 
