@@ -11,10 +11,18 @@ describe('Attack', () => {
     test('CPU attack a valid spot on the board', () => {
 
         const computerPlayer = Player('CPU', enemyBoard, true);
-        const validPositions = enemyBoard.getValidPositions();
-        const pos = validPositions[Math.floor(Math.random() * validPositions.length - 1)];
+        const compMove = computerPlayer.attack();
 
-        computerPlayer.attack(pos);
-        expect(enemyBoard.getBoard()[pos[0]][[pos[1]]]).toBe('x');
+
+        expect(enemyBoard.getBoard()[compMove[0]][compMove[1]]).toBe('x');
+    });
+
+    test('Player attack spot on the board', () => {
+
+        const player = Player('James', enemyBoard);
+
+        player.attack([4,4]);
+
+        expect(enemyBoard.getBoard()[4][4]).toBe('x');
     });
 });

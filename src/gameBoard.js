@@ -68,7 +68,9 @@ export const Gameboard = () => {
             console.log('Attack is not on the board');
             // return null;
             throw new Error('Attack is not on the board');
-        } 
+        }
+        
+        return coordinate;
     }
 
     const missedShots = [
