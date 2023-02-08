@@ -8,6 +8,8 @@ describe('Attack', () => {
 
     beforeEach(() => enemyBoard = Gameboard());
 
+    //I think I need to write seperate tests or use seperate functions for the player attack vs the computer attack. Perhaps if the player is attacking we call 'attack()' but if the computer is attacking we call some different attack like 'randomAttack()' that would contain our random attack logic as its quite different for the user picking their own move.
+    
     test('CPU attack a valid spot on the board', () => {
 
         const computerPlayer = Player('CPU', enemyBoard, true);
