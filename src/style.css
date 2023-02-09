@@ -1,0 +1,32 @@
+*, *::before, *::after {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    /* height: 100vh; */
+    background-color: rgb(56, 58, 70);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.gameboards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 80%;
+}
+.grid.left,
+.grid.right {
+    background: rgb(216, 226, 241);
+    border-radius: 5px;
+    flex-shrink: 0;
+    width: 50%;
+    aspect-ratio: 1/1;
+}
+
+

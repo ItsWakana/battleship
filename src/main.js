@@ -1,7 +1,7 @@
 import { Ship } from "./shipModule";
 import { Gameboard } from "./gameBoard";
 import { Player } from "./player";
-
+import './style.css';
 // gameLoop() could be called on a button click like 'start-game'
 const gameLoop = () => {
 
@@ -33,7 +33,6 @@ const gameLoop = () => {
     placeTestShips(playerBoard, computerBoard);
 
     let currentPlayer = player.getName();
-
     // if current player is not the computer we can use some function to get the input from the player on the coordinate they want to attack, if its the computer we just want to generate a random attack.
 
 
