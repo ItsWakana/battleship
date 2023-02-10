@@ -8,4 +8,3 @@ document.querySelector('.start-game')
     .addEventListener('click', () => {
         dom.generateGrid();
     });
-// startGame();

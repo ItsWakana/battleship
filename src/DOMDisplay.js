@@ -1,4 +1,5 @@
 //function to generate the grid
+import { game } from "./gameLoop";
 
 const DOMHelperCreation = () => {
 
@@ -12,8 +13,13 @@ const DOMHelperCreation = () => {
                     const box = document.createElement('div');
                     box.className = 'box';
                     row.appendChild(box);
+                    box.dataset.xyPos = `${j}${i}`;
+                    const xy = box.dataset.xyPos;
+                    box.addEventListener('click', () => {
+                        game.player.attack([xy[0], xy[1]]);
+                    });
                 }
-            } 
+            }
     }
 
     return { makeGridSquares }

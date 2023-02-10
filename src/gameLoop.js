@@ -2,7 +2,7 @@ import { Ship } from "./shipModule";
 import { Gameboard } from "./gameBoard";
 import { Player } from "./player";
 
-export const startGame = () => {
+const gameInitHelper = () => {
 
     const placeTestShips = (playerBoard, computerBoard) => {
         computerBoard.placeShip(Ship(5), [4,1]);
@@ -15,6 +15,13 @@ export const startGame = () => {
         playerBoard.placeShip(Ship(3), [9,5]);
         playerBoard.placeShip(Ship(2), [3,7]);
     }
+
+    return { placeTestShips }
+}
+
+export const gameState = () => {
+
+    const gameInit = gameInitHelper();
 
     //initialize boards for a 2-way game
     //create two player objects for the two players (one person and one computer)
@@ -29,8 +36,11 @@ export const startGame = () => {
     const player = Player('Ryan', computerBoard, false);
     const computer = Player('Computer', playerBoard, true);
 
-    placeTestShips(playerBoard, computerBoard);
+    gameInit.placeTestShips(playerBoard, computerBoard);
 
-    let currentPlayer = player.getName();
     // if current player is not the computer we can use some function to get the input from the player on the coordinate they want to attack, if its the computer we just want to generate a random attack.
+
+    return { playerBoard, computerBoard, player, computer }
 }
+
+export const game = gameState();
