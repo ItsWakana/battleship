@@ -4,7 +4,4 @@ import { DOM } from "./DOMDisplay";
 
 const dom = DOM();
 
-document.querySelector('.start-game')
-    .addEventListener('click', () => {
-        dom.generateGrid();
-    });
+dom.setUpGame();

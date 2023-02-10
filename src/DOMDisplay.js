@@ -3,7 +3,7 @@ import { game } from "./gameLoop";
 
 const DOMHelperCreation = () => {
 
-    const makeGridSquares = (container) => {
+    const makeGridSquares = (container, isCompGrid) => {
             for (let i=0; i<10; i++) {
                 const row = document.createElement('div');
                 row.className = 'row';
@@ -14,20 +14,14 @@ const DOMHelperCreation = () => {
                     box.className = 'box';
                     row.appendChild(box);
                     box.dataset.xyPos = `${j}${i}`;
-                    const xy = box.dataset.xyPos;
-                    box.addEventListener('click', () => {
-                        game.player.attack([xy[0], xy[1]]);
-                    });
+                    if (isCompGrid) {
+                        box.dataset.player = game.computer.getName();
+                    } else {
+                        box.dataset.player = game.player.getName();
+                    }
                 }
             }
     }
-
-    return { makeGridSquares }
-}
-
-export const DOM = () => {
-
-    const DOMHelper = DOMHelperCreation();
 
     const generateGrid = () => {
 
@@ -35,12 +29,39 @@ export const DOM = () => {
         const rightBoard = document.querySelector('.grid.right');
 
         if (leftBoard.dataset.grid === 'false') {
-            DOMHelper.makeGridSquares(leftBoard);
-            DOMHelper.makeGridSquares(rightBoard);
+            makeGridSquares(leftBoard, false);
+            makeGridSquares(rightBoard, true);
             leftBoard.dataset.grid = 'true';
             rightBoard.dataset.grid = 'true';
         }
     }
 
-    return { generateGrid }
+    const addListenersToGrid = () => {
+        const squares = document.querySelectorAll('.box');
+
+        squares.forEach((square) => {
+            square.addEventListener('click', () => {
+                const xy = square.dataset.xyPos;
+                game.attackTheBoard([xy[0], xy[1]]);
+                game.attackTheBoard();
+            });
+        });
+    }
+
+    return { generateGrid, addListenersToGrid }
+}
+
+export const DOM = () => {
+
+    const DOMHelper = DOMHelperCreation();
+
+    const setUpGame = () => {
+        document.querySelector('.start-game').
+            addEventListener('click', () => {
+                DOMHelper.generateGrid();
+                DOMHelper.addListenersToGrid();
+            });
+    }
+
+    return { setUpGame }
 }
