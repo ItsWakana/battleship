@@ -41,9 +41,9 @@ const DOMHelperCreation = () => {
 
         squares.forEach((square) => {
             square.addEventListener('click', () => {
+                //need to make it so the player can only click attack  on the opponents board and not their own. And we also want the computer to be making their attack on the opponents board and not their own.
                 const xy = square.dataset.xyPos;
                 game.attackTheBoard([xy[0], xy[1]]);
-                game.attackTheBoard();
             });
         });
     }

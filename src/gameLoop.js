@@ -29,24 +29,25 @@ export const gameState = () => {
     const player = Player('Ryan', computerBoard, false);
     const computer = Player('Computer', playerBoard, true);
 
-    let currentPlayer = player.getName();
+    // let currentPlayer = player.getName();
 
-    const changeTurn = () => {
-        currentPlayer === player.getName() ? currentPlayer = computer.getName() : currentPlayer = player.getName();
-    }
+    // const changeTurn = () => {
+    //     currentPlayer === player.getName() ? currentPlayer = computer.getName() : currentPlayer = player.getName();
+    // }
 
     gameInit.placeTestShips(playerBoard, computerBoard);
 
     // if current player is not the computer we can use some function to get the input from the player on the coordinate they want to attack, if its the computer we just want to generate a random attack.
 
     const attackTheBoard = (coordinate) => {
-        if (currentPlayer === player.getName()) {
-            player.attack(coordinate);
-            changeTurn();
-        } else {
-            computer.attack();
-            changeTurn();
-        }
+        // if (currentPlayer === player.getName()) {
+        //     player.attack(coordinate);
+        //     computer.attack();
+        // } else {
+        //     computer.attack();
+        // }
+        player.attack(coordinate);
+        computer.attack();
 
     }
 
