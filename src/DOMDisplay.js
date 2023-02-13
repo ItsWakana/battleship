@@ -1,5 +1,5 @@
 //function to generate the grid
-import { game } from "./gameLoop";
+import { game } from "./gameState";
 
 const DOMHelperCreation = () => {
 

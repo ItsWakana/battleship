@@ -1,57 +1,14 @@
-import { Ship } from "./shipModule";
-import { Gameboard } from "./gameBoard";
-import { Player } from "./player";
+import { gameState } from "./gameState"
 
-const gameInitHelper = () => {
+//should run through our game turn by turn, it is in this gameLoop we should initialize our game module. Which will include all our methods for working with the game. We could set up a condition like a while loop that continues until the game state is terminal.
 
-    const placeTestShips = (playerBoard, computerBoard) => {
-        computerBoard.placeShip(Ship(5), [4,1]);
-        computerBoard.placeShip(Ship(4), [7,4]);
-        computerBoard.placeShip(Ship(3), [2,2]);
-        computerBoard.placeShip(Ship(2), [8,7]);
+const gameLoop = () => {
 
-        playerBoard.placeShip(Ship(5), [2,3]);
-        playerBoard.placeShip(Ship(4), [1,1]);
-        playerBoard.placeShip(Ship(3), [9,5]);
-        playerBoard.placeShip(Ship(2), [3,7]);
-    }
+    const game = gameState();
 
-    return { placeTestShips }
-}
-
-export const gameState = () => {
-
-    const gameInit = gameInitHelper();
+    let isGameOver = false;
+    //we could have a method on our game object like 'isGameOver()' which checks if either the computer or players ships have all sunk. and call it like 
     
-    const playerBoard = Gameboard();
-    const computerBoard = Gameboard();
-    
-    const player = Player('Ryan', computerBoard, false);
-    const computer = Player('Computer', playerBoard, true);
+    // if (game.isGameOver()) return 'game is over';
 
-    // let currentPlayer = player.getName();
-
-    // const changeTurn = () => {
-    //     currentPlayer === player.getName() ? currentPlayer = computer.getName() : currentPlayer = player.getName();
-    // }
-
-    gameInit.placeTestShips(playerBoard, computerBoard);
-
-    // if current player is not the computer we can use some function to get the input from the player on the coordinate they want to attack, if its the computer we just want to generate a random attack.
-
-    const attackTheBoard = (coordinate) => {
-        // if (currentPlayer === player.getName()) {
-        //     player.attack(coordinate);
-        //     computer.attack();
-        // } else {
-        //     computer.attack();
-        // }
-        player.attack(coordinate);
-        computer.attack();
-
-    }
-
-    return { playerBoard, computerBoard, player, computer, attackTheBoard }
 }
-
-export const game = gameState();
