@@ -2,11 +2,13 @@ import './style.css';
 import { View } from "./displayController";
 import { gameState } from './gameState';
 
-const gameController = (game, view) => {
+const gameController = () => {
+
+    const view = View();
 
     view.startButton.addEventListener('click', () => {
         view.DOMHelper.generateGrid();
-        // game.startGame();
+        view.addListenersToCells((cell) => game.player.attack(cell));
     });
 
     // view.playerCells.forEach((cell) => {
@@ -19,8 +21,9 @@ const gameController = (game, view) => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const display = View();
-    gameController(null, display);
+    // const display = View();
+    // gameController(null, display);
+    gameController();
 });
 
 // const dom = View();

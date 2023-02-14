@@ -44,7 +44,9 @@ export const View = () => {
 
     const startButton = document.querySelector('.start-game');
 
-    const playerCells = document.querySelector('.grid.left')
+    // const playerCells = document.querySelectorAll('[data-player="player"]');
+    // const computerCells = document.querySelectorAll('[data-player="computer"]');
+
 
     // const setUpGame = () => {
     //     document.querySelector('.start-game').
@@ -66,6 +68,18 @@ export const View = () => {
     //         });
     //     });
     // }
+    const addListenersToCells = (callback) => {
+        const cells = document.querySelectorAll('[data-player="computer"]');
 
-    return { DOMHelper, startButton }
+
+        if (!cells) {
+            cells.forEach((cell) => {
+                cell.addEventListener('click', (e) => {
+                    callback(e);
+                });
+            });
+        }
+    }
+
+    return { DOMHelper, startButton, addListenersToCells }
 }
