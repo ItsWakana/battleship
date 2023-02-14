@@ -6,10 +6,6 @@ const gameLoop = () => {
 
     const game = gameState();
 
-    while (!game.isGameOver()) {
-
-        
-    }
 
     let isGameOver = false;
 

@@ -1,6 +1,28 @@
 import './style.css';
-import { DOM } from "./DOMDisplay";
+import { View } from "./displayController";
+import { gameState } from './gameState';
 
-const dom = DOM();
+const gameController = (game, view) => {
 
-dom.setUpGame();
+    view.startButton.addEventListener('click', () => {
+        view.DOMHelper.generateGrid();
+        // game.startGame();
+    });
+
+    // view.playerCells.forEach((cell) => {
+    //     cell.addEventListener('click', () => {
+    //         let coordinate;
+    //         game.player.attack(coordinate);
+    //         view.updateBoard(game.computerBoard);
+    //     });
+    // });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const display = View();
+    gameController(null, display);
+});
+
+// const dom = View();
+
+// dom.setUpGame();
