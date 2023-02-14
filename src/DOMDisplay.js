@@ -1,5 +1,5 @@
 //function to generate the grid
-import { game } from "./gameState";
+import { gameState } from "./gameState";
 
 const DOMHelperCreation = () => {
 
@@ -36,7 +36,26 @@ const DOMHelperCreation = () => {
         }
     }
 
-    const addListenersToGrid = () => {
+    return { generateGrid }
+}
+
+export const DOM = () => {
+
+    let game;
+
+    //have the listener be set up the moment the object is instantiated. Out the scope of the function
+    const DOMHelper = DOMHelperCreation();
+
+    const setUpGame = () => {
+        document.querySelector('.start-game').
+            addEventListener('click', () => {
+                game = gameState();
+                DOMHelper.generateGrid();
+                addListenersToCells();
+            });
+    }
+
+    const addListenersToCells = () => {
         const squares = document.querySelectorAll('.box');
 
         squares.forEach((square) => {
@@ -46,21 +65,6 @@ const DOMHelperCreation = () => {
                 game.attackTheBoard([xy[0], xy[1]]);
             });
         });
-    }
-
-    return { generateGrid, addListenersToGrid }
-}
-
-export const DOM = () => {
-
-    const DOMHelper = DOMHelperCreation();
-
-    const setUpGame = () => {
-        document.querySelector('.start-game').
-            addEventListener('click', () => {
-                DOMHelper.generateGrid();
-                DOMHelper.addListenersToGrid();
-            });
     }
 
     return { setUpGame }

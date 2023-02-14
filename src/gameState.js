@@ -31,6 +31,8 @@ export const gameState = () => {
 
     gameInit.placeTestShips(playerBoard, computerBoard);
 
+    
+
     return { playerBoard, computerBoard, player, computer }
 }
 

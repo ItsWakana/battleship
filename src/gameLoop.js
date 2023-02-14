@@ -6,7 +6,14 @@ const gameLoop = () => {
 
     const game = gameState();
 
+    while (!game.isGameOver()) {
+
+        
+    }
+
     let isGameOver = false;
+
+
     //we could have a method on our game object like 'isGameOver()' which checks if either the computer or players ships have all sunk. and call it like 
     
     // if (game.isGameOver()) return 'game is over';
