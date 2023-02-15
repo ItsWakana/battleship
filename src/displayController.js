@@ -23,7 +23,7 @@ const DOMHelperCreation = () => {
             }
     }
 
-    const generateGrid = () => {
+    const generateGrids = () => {
 
         const playerBoard = document.querySelector('.grid.left');
         const computerBoard = document.querySelector('.grid.right');
@@ -35,7 +35,7 @@ const DOMHelperCreation = () => {
         }
     }
 
-    return { generateGrid }
+    return { generateGrids }
 }
 
 export const View = () => {
@@ -44,42 +44,26 @@ export const View = () => {
 
     const startButton = document.querySelector('.start-game');
 
-    // const playerCells = document.querySelectorAll('[data-player="player"]');
-    // const computerCells = document.querySelectorAll('[data-player="computer"]');
-
-
-    // const setUpGame = () => {
-    //     document.querySelector('.start-game').
-    //         addEventListener('click', () => {
-    //             game = gameState();
-    //             DOMHelper.generateGrid();
-    //             addListenersToCells();
-    //         });
-    // }
-
-    // const addListenersToCells = () => {
-    //     const squares = document.querySelectorAll('.box');
-
-    //     squares.forEach((square) => {
-    //         square.addEventListener('click', () => {
-    //             //need to make it so the player can only click attack  on the opponents board and not their own. And we also want the computer to be making their attack on the opponents board and not their own.
-    //             const xy = square.dataset.xyPos;
-    //             game.attackTheBoard([xy[0], xy[1]]);
-    //         });
-    //     });
-    // }
     const addListenersToCells = (callback) => {
         const cells = document.querySelectorAll('[data-player="computer"]');
 
-
-        if (!cells) {
             cells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
-                    callback(e);
+                    callback(e.target.dataset.xyPos);
                 });
             });
-        }
     }
 
-    return { DOMHelper, startButton, addListenersToCells }
+    const updateBoard = (computerBoard) => {
+        const cells = document.querySelectorAll('[data-player="computer"]');
+        cells.forEach((cell) => {
+            const xy = cell.dataset.xyPos;
+            if (computerBoard[xy[0]][xy[1]] === 'x') {
+                cell.textContent = computerBoard[xy[0]][xy[1]];
+            }
+        });
+        console.log(computerBoard)
+    }
+
+    return { DOMHelper, startButton, addListenersToCells, updateBoard }
 }

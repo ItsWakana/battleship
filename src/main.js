@@ -5,19 +5,22 @@ import { gameState } from './gameState';
 const gameController = () => {
 
     const view = View();
+    const game = gameState();
 
-    view.startButton.addEventListener('click', () => {
-        view.DOMHelper.generateGrid();
-        view.addListenersToCells((cell) => game.player.attack(cell));
-    });
+    let isStarted = false;
 
-    // view.playerCells.forEach((cell) => {
-    //     cell.addEventListener('click', () => {
-    //         let coordinate;
-    //         game.player.attack(coordinate);
-    //         view.updateBoard(game.computerBoard);
-    //     });
-    // });
+    const init = () => {
+        if (!isStarted) {
+            view.DOMHelper.generateGrids();
+            view.addListenersToCells((coordinate) => {
+                game.playRound([coordinate[0], coordinate[1]]);
+                view.updateBoard(game.computerBoard.getBoard());
+            });
+            isStarted = true;
+        }
+    }
+
+    view.startButton.addEventListener('click', init);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

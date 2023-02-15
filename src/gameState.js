@@ -31,9 +31,14 @@ export const gameState = () => {
 
     gameInit.placeTestShips(playerBoard, computerBoard);
 
-    
+    const playRound = (target) => {
+        //if player.allShipsSunk or computer.allShipsSunk return 'game over';
+        //else
+        player.attack(target);
 
-    return { playerBoard, computerBoard, player, computer }
+    }
+
+    return { playerBoard, computerBoard, player, computer, playRound }
 }
 
 // export const game = gameState();
