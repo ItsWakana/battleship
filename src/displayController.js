@@ -1,6 +1,3 @@
-//function to generate the grid
-import { gameState } from "./gameState";
-
 const DOMHelperCreation = () => {
 
     const playerBoard = document.querySelector('.grid.left');
@@ -43,7 +40,27 @@ const DOMHelperCreation = () => {
         }
     }
 
-    return { generateGrids, removeGrids }
+    // const currentPlayerOutline = (currentPlayer) => {
+    //     if (currentPlayer === 'computer') {
+    //         playerBoard.style.border = 'solid 3px red';
+    //         computerBoard.style.border = 'none';
+    //         return;
+    //     }
+    //     computerBoard.style.border = 'solid 3px green';
+    //     playerBoard.style.border = 'none';
+    // }
+
+    const currentPlayerOutline = (isPlayersTurn) => {
+        if (isPlayersTurn) {
+            playerBoard.style.border = 'solid 3px red';
+            computerBoard.style.border = '3px transparent';
+        } else {
+            computerBoard.style.border = 'solid 3px green';
+            playerBoard.style.border = '3px transparent';
+        }
+    }
+
+    return { generateGrids, removeGrids, currentPlayerOutline }
 }
 
 export const View = () => {
@@ -74,25 +91,47 @@ export const View = () => {
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                cell.style.backgroundColor = 'red';
+                // cell.style.backgroundColor = 'red';
             }
         });
 
         playerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (playerBoard[xy[0]][xy[1]] === 'x') {
-                setTimeout(() => {
-                    cell.textContent = playerBoard[xy[0]][xy[1]];  
-                },1000);
+                cell.textContent = playerBoard[xy[0]][xy[1]];  
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
                 cell.style.backgroundColor = 'green';
             }
         });
-
- 
     }
+
+    // const updateBoard = (computerBoard, playerBoard) => {
+    //     computerCells.forEach((cell) => {
+    //         const xy = cell.dataset.xyPos;
+    //         if (computerBoard[xy[0]][xy[1]] === 'x') {
+    //             cell.textContent = computerBoard[xy[0]][xy[1]];
+    //         }
+
+    //         if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
+    //             cell.style.backgroundColor = 'red';
+    //         }
+    //     });
+
+    //     playerCells.forEach((cell) => {
+    //         const xy = cell.dataset.xyPos;
+    //         if (playerBoard[xy[0]][xy[1]] === 'x') {
+    //             setTimeout(() => {
+    //                 cell.textContent = playerBoard[xy[0]][xy[1]];  
+    //             },1000);
+    //         }
+
+    //         if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
+    //             cell.style.backgroundColor = 'green';
+    //         }
+    //     });
+    // }
 
     const alertWinner = (winner) => {
         alert(`Player ${winner} has won the match!`);

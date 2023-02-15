@@ -1,20 +1,40 @@
 import './style.css';
 import { View } from "./displayController";
-import { gameState } from './gameState';
+import { GameState } from './gameState';
 
 const gameController = () => {
 
     const view = View();
-    let game = gameState();
+    let game = GameState();
 
     let gameStarted = false;
 
     const playGame = () => {
         if (!gameStarted) {
+
+            let currentPlayer;
+            
             view.DOMHelper.generateGrids();
             view.addListenersToCells((coordinate) => {
-                game.playRound([coordinate[0], coordinate[1]]);
-                view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+                currentPlayer = game.player.getName();
+                if (currentPlayer !== 'computer') {
+                    view.DOMHelper.currentPlayerOutline(true);
+                    game.player.attack([coordinate[0], coordinate[1]]);
+                    currentPlayer = game.computer.getName();
+                    view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+                }
+
+                setTimeout(() => {
+                    view.DOMHelper.currentPlayerOutline(false);
+                    game.computer.attack();
+                    // game.playRound([coordinate[0], coordinate[1]]);
+                    view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+                }, 1000);
+
+                // view.DOMHelper.currentPlayerOutline(false);
+                // game.computer.attack();
+                // // game.playRound([coordinate[0], coordinate[1]]);
+                // view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
                 const winner = game.checkForWinner();
                 if (winner) {
@@ -28,7 +48,7 @@ const gameController = () => {
     }
 
     const resetGame = () => {
-        game = gameState();
+        game = GameState();
         setTimeout(() => view.resetDisplay(), 2000);
         view.DOMHelper.removeGrids();
         gameStarted = false;

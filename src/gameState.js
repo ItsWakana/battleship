@@ -19,15 +19,10 @@ const gameInitHelper = () => {
     return { placeTestShips }
 }
 
-export const gameState = () => {
+export const GameState = () => {
 
     const gameInit = gameInitHelper();
     
-    // const playerBoard = Gameboard();
-    // const computerBoard = Gameboard();
-    
-    // const player = Player('Ryan', computerBoard, false);
-    // const computer = Player('Computer', playerBoard, true);
     let playerBoard = Gameboard();
     let computerBoard = Gameboard();
     
@@ -37,8 +32,6 @@ export const gameState = () => {
     gameInit.placeTestShips(playerBoard, computerBoard);
 
     const playRound = (target) => {
-        //if player.allShipsSunk or computer.allShipsSunk return 'game over';
-        //else
         player.attack(target);
         computer.attack();
 
