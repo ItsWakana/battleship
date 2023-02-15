@@ -64,12 +64,20 @@ export const View = () => {
             if (computerBoard[xy[0]][xy[1]] === 'x') {
                 cell.textContent = computerBoard[xy[0]][xy[1]];
             }
+
+            // if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
+            //     cell.style.backgroundColor = 'red';
+            // }
         });
 
         playerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (playerBoard[xy[0]][xy[1]] === 'x') {
                 cell.textContent = playerBoard[xy[0]][xy[1]];
+            }
+
+            if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
+                cell.style.backgroundColor = 'green';
             }
         });
 
