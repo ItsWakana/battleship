@@ -23,11 +23,16 @@ export const gameState = () => {
 
     const gameInit = gameInitHelper();
     
-    const playerBoard = Gameboard();
-    const computerBoard = Gameboard();
+    // const playerBoard = Gameboard();
+    // const computerBoard = Gameboard();
     
-    const player = Player('Ryan', computerBoard, false);
-    const computer = Player('Computer', playerBoard, true);
+    // const player = Player('Ryan', computerBoard, false);
+    // const computer = Player('Computer', playerBoard, true);
+    let playerBoard = Gameboard();
+    let computerBoard = Gameboard();
+    
+    let player = Player('Ryan', computerBoard, false);
+    let computer = Player('Computer', playerBoard, true)
 
     gameInit.placeTestShips(playerBoard, computerBoard);
 
@@ -39,7 +44,25 @@ export const gameState = () => {
 
     }
 
-    return { playerBoard, computerBoard, player, computer, playRound }
-}
+    const checkForWinner = () => {
+        if (playerBoard.allShipsSunk()) {
+            return computer.getName();
+        }
+        if (computerBoard.allShipsSunk()) {
+            return player.getName();
+        }
 
-// export const game = gameState();
+        return null;
+    }
+
+    const resetGame = () => {
+        playerBoard = Gameboard();
+        computerBoard = Gameboard();
+        player = Player('John', computerBoard, false);
+        computer = Player('computer', playerBoard, true);
+
+        gameInit.placeTestShips(playerBoard, computerBoard);
+    }
+
+    return { playerBoard, computerBoard, player, computer, playRound, checkForWinner, resetGame }
+}

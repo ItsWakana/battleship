@@ -28,11 +28,8 @@ const DOMHelperCreation = () => {
         const playerBoard = document.querySelector('.grid.left');
         const computerBoard = document.querySelector('.grid.right');
 
-        if (playerBoard.dataset.grid === 'false') {
-            makeGridSquares(playerBoard, false);
-            makeGridSquares(computerBoard, true);
-            playerBoard.dataset.grid = 'true';
-        }
+        makeGridSquares(playerBoard, false);
+        makeGridSquares(computerBoard, true);
     }
 
     return { generateGrids }
@@ -65,15 +62,17 @@ export const View = () => {
                 cell.textContent = computerBoard[xy[0]][xy[1]];
             }
 
-            // if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-            //     cell.style.backgroundColor = 'red';
-            // }
+            if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
+                cell.style.backgroundColor = 'red';
+            }
         });
 
         playerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (playerBoard[xy[0]][xy[1]] === 'x') {
-                cell.textContent = playerBoard[xy[0]][xy[1]];
+                setTimeout(() => {
+                    cell.textContent = playerBoard[xy[0]][xy[1]];  
+                },1000);
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
@@ -84,5 +83,17 @@ export const View = () => {
  
     }
 
-    return { DOMHelper, startButton, addListenersToCells, updateBoard }
+    const alertWinner = (winner) => {
+        alert(`Player ${winner} has won the match!`);
+    }
+
+    const resetDisplay = () => {
+        playerCells.forEach((cell) => {
+            cell.textContent = '';
+        });
+
+        computerCells.forEach((cell) => cell.textContent = '');
+    }
+
+    return { DOMHelper, startButton, addListenersToCells, updateBoard, alertWinner, resetDisplay }
 }

@@ -5,30 +5,37 @@ import { gameState } from './gameState';
 const gameController = () => {
 
     const view = View();
-    const game = gameState();
+    let game = gameState();
 
-    let isStarted = false;
+    let gameStarted = false;
 
-    const init = () => {
-        if (!isStarted) {
+    const playGame = () => {
+        if (!gameStarted) {
             view.DOMHelper.generateGrids();
             view.addListenersToCells((coordinate) => {
                 game.playRound([coordinate[0], coordinate[1]]);
                 view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+
+                const winner = game.checkForWinner();
+                if (winner) {
+                    view.alertWinner(winner);
+
+                    resetGame();
+                    
+                }
             });
-            isStarted = true;
+            gameStarted = true;
         }
     }
 
-    view.startButton.addEventListener('click', init);
+    const resetGame = () => {
+        game = gameState();
+        setTimeout(() => view.resetDisplay(), 2000);
+    }
+
+    view.startButton.addEventListener('click', playGame);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // const display = View();
-    // gameController(null, display);
     gameController();
 });
-
-// const dom = View();
-
-// dom.setUpGame();
