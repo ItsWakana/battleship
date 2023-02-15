@@ -3,6 +3,9 @@ import { gameState } from "./gameState";
 
 const DOMHelperCreation = () => {
 
+    const playerBoard = document.querySelector('.grid.left');
+    const computerBoard = document.querySelector('.grid.right');
+    
     const makeGridSquares = (container, isCompGrid) => {
             for (let i=0; i<10; i++) {
                 const row = document.createElement('div');
@@ -25,14 +28,22 @@ const DOMHelperCreation = () => {
 
     const generateGrids = () => {
 
-        const playerBoard = document.querySelector('.grid.left');
-        const computerBoard = document.querySelector('.grid.right');
-
         makeGridSquares(playerBoard, false);
         makeGridSquares(computerBoard, true);
     }
 
-    return { generateGrids }
+    const removeGrids = () => {
+        
+        while (playerBoard.hasChildNodes()) {
+            playerBoard.removeChild(playerBoard.lastChild);
+        }
+
+        while (computerBoard.hasChildNodes()) {
+            computerBoard.removeChild(computerBoard.lastChild);
+        }
+    }
+
+    return { generateGrids, removeGrids }
 }
 
 export const View = () => {

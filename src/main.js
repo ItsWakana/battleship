@@ -19,9 +19,8 @@ const gameController = () => {
                 const winner = game.checkForWinner();
                 if (winner) {
                     view.alertWinner(winner);
-
                     resetGame();
-                    
+                    return;
                 }
             });
             gameStarted = true;
@@ -31,6 +30,8 @@ const gameController = () => {
     const resetGame = () => {
         game = gameState();
         setTimeout(() => view.resetDisplay(), 2000);
+        view.DOMHelper.removeGrids();
+        gameStarted = false;
     }
 
     view.startButton.addEventListener('click', playGame);
