@@ -40,29 +40,40 @@ const DOMHelperCreation = () => {
 
 export const View = () => {
 
+    let playerCells;
+    let computerCells;
+
     const DOMHelper = DOMHelperCreation();
 
     const startButton = document.querySelector('.start-game');
 
     const addListenersToCells = (callback) => {
-        const cells = document.querySelectorAll('[data-player="computer"]');
+        computerCells = document.querySelectorAll('[data-player="computer"]');
+        playerCells = document.querySelectorAll('[data-player="player"]');
 
-            cells.forEach((cell) => {
+            computerCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
                     callback(e.target.dataset.xyPos);
                 });
             });
     }
 
-    const updateBoard = (computerBoard) => {
-        const cells = document.querySelectorAll('[data-player="computer"]');
-        cells.forEach((cell) => {
+    const updateBoard = (computerBoard, playerBoard) => {
+        computerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (computerBoard[xy[0]][xy[1]] === 'x') {
                 cell.textContent = computerBoard[xy[0]][xy[1]];
             }
         });
-        console.log(computerBoard)
+
+        playerCells.forEach((cell) => {
+            const xy = cell.dataset.xyPos;
+            if (playerBoard[xy[0]][xy[1]] === 'x') {
+                cell.textContent = playerBoard[xy[0]][xy[1]];
+            }
+        });
+
+ 
     }
 
     return { DOMHelper, startButton, addListenersToCells, updateBoard }

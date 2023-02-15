@@ -35,6 +35,7 @@ export const gameState = () => {
         //if player.allShipsSunk or computer.allShipsSunk return 'game over';
         //else
         player.attack(target);
+        computer.attack();
 
     }
 

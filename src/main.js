@@ -14,7 +14,7 @@ const gameController = () => {
             view.DOMHelper.generateGrids();
             view.addListenersToCells((coordinate) => {
                 game.playRound([coordinate[0], coordinate[1]]);
-                view.updateBoard(game.computerBoard.getBoard());
+                view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
             });
             isStarted = true;
         }
