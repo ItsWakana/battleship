@@ -47,8 +47,10 @@ export const Gameboard = () => {
         ships.push(ship);
     }
 
-    const checkIfValidSpot = () => {
-        
+    let lastHit = null;
+
+    const getLastHit = () => {
+        return lastHit;
     }
 
     const recieveAttack = (coordinate) => {
@@ -58,9 +60,11 @@ export const Gameboard = () => {
 
             if (boardItem === '') {
                 missedShots[coordinate[0]].push(coordinate[1]);
+                lastHit = null;
             }
             if (typeof boardItem === 'object') {
                 boardItem.hit();
+                lastHit = 'ship';
             }
             if (board[coordinate[0]][coordinate[1]] === 'x') {
                 throw new Error('Cannot attack same coordinate more than once');
@@ -92,5 +96,5 @@ export const Gameboard = () => {
 
     fillBoard(board);
     
-    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidPositions }
+    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidPositions, getLastHit }
 }

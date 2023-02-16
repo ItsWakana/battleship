@@ -18,7 +18,7 @@ export const Player = (name, opponentBoard, isCPU = false) => {
 
             return randomPosition;
         }
-        opponentBoard.recieveAttack(coordinate);
+        return opponentBoard.recieveAttack(coordinate)
 
     }
 
