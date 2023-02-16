@@ -16,15 +16,23 @@ const gameController = () => {
             view.DOMHelper.generateGrids();
             view.addListenersToCells( async (coordinate) => {
 
+                try {
                 view.DOMHelper.disableCells();
                 currentPlayer = game.player.getName();
                 
+                //need some kind of game.checkSpot method here to firstly make sure the attack is valid before even attempting to fire the attack. 
+
+                //game.computerBoard.checkIfValidSpot(coordinate);
                 if (currentPlayer !== 'computer') {
-                    view.DOMHelper.currentPlayerOutline(true);
+                    view.DOMHelper.currentPlayerOutline(true); 
+
                     game.player.attack([coordinate[0], coordinate[1]]);
                     currentPlayer = game.computer.getName();
                     updateGameStateAndView();
                 }
+
+                //if the attack of the player hit a ship, we need to return because we don't want the computer to make a turn.
+                
                     await delay(1000);
 
                     view.DOMHelper.currentPlayerOutline(false);
@@ -32,6 +40,10 @@ const gameController = () => {
 
                     updateGameStateAndView();
                     view.DOMHelper.enableCells();
+                } catch(err) {
+                    view.DOMHelper.enableCells();
+                    view.DOMHelper.currentPlayerOutline(false);
+                }
             });
             gameStarted = true;
         }
