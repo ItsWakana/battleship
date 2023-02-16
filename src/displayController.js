@@ -40,6 +40,16 @@ const DOMHelperCreation = () => {
         }
     }
 
+    const disableCells = () => {
+        computerBoard.classList.add('disabled');
+        playerBoard.classList.add('disabled');
+    }
+
+    const enableCells = () => {
+        computerBoard.classList.remove('disabled');
+        playerBoard.classList.remove('disabled');
+    }
+
     // const currentPlayerOutline = (currentPlayer) => {
     //     if (currentPlayer === 'computer') {
     //         playerBoard.style.border = 'solid 3px red';
@@ -60,7 +70,7 @@ const DOMHelperCreation = () => {
         }
     }
 
-    return { generateGrids, removeGrids, currentPlayerOutline }
+    return { generateGrids, removeGrids, currentPlayerOutline, enableCells, disableCells }
 }
 
 export const View = () => {
@@ -88,10 +98,11 @@ export const View = () => {
             const xy = cell.dataset.xyPos;
             if (computerBoard[xy[0]][xy[1]] === 'x') {
                 cell.textContent = computerBoard[xy[0]][xy[1]];
+                //we want to append something else like an element perhaps a circle to mark an attack, it'll look more visually appealing than an x
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                // cell.style.backgroundColor = 'red';
+                cell.style.backgroundColor = 'red';
             }
         });
 

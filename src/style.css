@@ -29,7 +29,11 @@ body {
     width: 50%;
     height: 100%;
     aspect-ratio: 1/1;
-    border: 3px transparent;
+}
+
+.grid.left.disabled,
+.grid.right.disabled {
+    pointer-events: none;
 }
 
 .row {
