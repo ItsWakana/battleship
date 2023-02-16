@@ -15,36 +15,37 @@ const gameController = () => {
             let currentPlayer;
             view.DOMHelper.generateGrids();
             view.addListenersToCells( async (coordinate) => {
-
                 try {
-                view.DOMHelper.disableCells();
-                currentPlayer = game.player.getName();
-                
-                if (currentPlayer !== 'computer') {
-                    view.DOMHelper.currentPlayerOutline(true); 
-                    game.player.attack([coordinate[0], coordinate[1]]);
-                    updateGameStateAndView();
+                    currentPlayer = game.player.getName();
                     
-                    if (game.computerBoard.getLastHit() === 'ship') {
-                        view.DOMHelper.enableCells();
-                        view.DOMHelper.currentPlayerOutline(false); 
-                        return;
+                    if (currentPlayer !== 'computer') { 
+                        view.playerViewUpdate();
+                        game.player.attack([coordinate[0], coordinate[1]]);
+                        updateGameStateAndView();
+                        
+                        if (game.computerBoard.getLastHit() === 'ship') { 
+                            view.computerViewUpdate();
+                            return;
+                        }
+                        currentPlayer = game.computer.getName();
                     }
-                    currentPlayer = game.computer.getName();
-                }
-
-                //if the attack of the player hit a ship, we need to return because we don't want the computer to make a turn.
-
                     await delay(1000);
 
                     view.DOMHelper.currentPlayerOutline(false);
                     game.computer.attack();
-
                     updateGameStateAndView();
+
+                    while (game.playerBoard.getLastHit() === 'ship') {
+                        view.DOMHelper.currentPlayerOutline(true);
+                        await delay(1000);
+                        game.computer.attack();
+                        updateGameStateAndView();
+                        view.computerViewUpdate();
+                    }
                     view.DOMHelper.enableCells();
+
                 } catch(err) {
-                    view.DOMHelper.enableCells();
-                    view.DOMHelper.currentPlayerOutline(false);
+                    view.computerViewUpdate();
                 }
             });
             gameStarted = true;

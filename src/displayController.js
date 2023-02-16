@@ -118,6 +118,16 @@ export const View = () => {
         });
     }
 
+    const playerViewUpdate = () => {
+        DOMHelper.disableCells();
+        DOMHelper.currentPlayerOutline(true);
+        
+    }
+
+    const computerViewUpdate = () => {
+        DOMHelper.enableCells();
+        DOMHelper.currentPlayerOutline(false);
+    }
     // const updateBoard = (computerBoard, playerBoard) => {
     //     computerCells.forEach((cell) => {
     //         const xy = cell.dataset.xyPos;
@@ -156,5 +166,5 @@ export const View = () => {
         computerCells.forEach((cell) => cell.textContent = '');
     }
 
-    return { DOMHelper, startButton, addListenersToCells, updateBoard, alertWinner, resetDisplay }
+    return { DOMHelper, startButton, addListenersToCells, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate }
 }
