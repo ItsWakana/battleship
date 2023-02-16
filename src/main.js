@@ -29,7 +29,7 @@ const gameController = () => {
                         }
                         currentPlayer = game.computer.getName();
                     }
-                    await delay(1000);
+                    await delay(2000);
 
                     view.DOMHelper.currentPlayerOutline(false);
                     game.computer.attack();
@@ -37,7 +37,7 @@ const gameController = () => {
 
                     while (game.playerBoard.getLastHit() === 'ship') {
                         view.DOMHelper.currentPlayerOutline(true);
-                        await delay(1000);
+                        await delay(2000);
                         game.computer.attack();
                         updateGameStateAndView();
                         view.computerViewUpdate();

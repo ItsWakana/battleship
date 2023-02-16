@@ -97,19 +97,28 @@ export const View = () => {
         computerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (computerBoard[xy[0]][xy[1]] === 'x') {
-                cell.textContent = computerBoard[xy[0]][xy[1]];
-                //we want to append something else like an element perhaps a circle to mark an attack, it'll look more visually appealing than an x
+                // cell.textContent = computerBoard[xy[0]][xy[1]];
+                if (!cell.hasChildNodes()) {
+                    const marker = document.createElement('div');
+                    marker.className = 'attack-marker';
+                    cell.appendChild(marker);
+                }
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                cell.style.backgroundColor = 'red';
+                // cell.style.backgroundColor = 'red';
             }
         });
 
         playerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (playerBoard[xy[0]][xy[1]] === 'x') {
-                cell.textContent = playerBoard[xy[0]][xy[1]];  
+                // cell.textContent = playerBoard[xy[0]][xy[1]];
+                if (!cell.hasChildNodes()) {
+                    const marker = document.createElement('div');
+                    marker.className = 'attack-marker';
+                    cell.appendChild(marker);
+                }  
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {

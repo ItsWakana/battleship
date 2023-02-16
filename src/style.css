@@ -45,6 +45,9 @@ body {
 }
 
 .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: solid 1px rgb(56, 58, 70);
     flex-grow: 1;
     cursor: pointer;
@@ -54,3 +57,10 @@ body {
     font-size: 30px;
 }
 
+
+.attack-marker {
+    width: 33px;
+    height: 33px;
+    background-color: black;
+    border-radius: 50%;
+}
