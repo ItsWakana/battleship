@@ -31,12 +31,6 @@ export const GameState = () => {
 
     gameInit.placeTestShips(playerBoard, computerBoard);
 
-    const playRound = (target) => {
-        player.attack(target);
-        computer.attack();
-
-    }
-
     const checkForWinner = () => {
         if (playerBoard.allShipsSunk()) {
             return computer.getName();
@@ -48,14 +42,5 @@ export const GameState = () => {
         return null;
     }
 
-    const resetGame = () => {
-        playerBoard = Gameboard();
-        computerBoard = Gameboard();
-        player = Player('John', computerBoard, false);
-        computer = Player('computer', playerBoard, true);
-
-        gameInit.placeTestShips(playerBoard, computerBoard);
-    }
-
-    return { playerBoard, computerBoard, player, computer, playRound, checkForWinner, resetGame }
+    return { playerBoard, computerBoard, player, computer, checkForWinner}
 }

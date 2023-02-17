@@ -71,7 +71,7 @@ const gameController = () => {
 
     const resetGame = () => {
         game = GameState();
-        setTimeout(() => view.resetDisplay(), 2000);
+        // setTimeout(() => view.resetDisplay(), 2000);
         view.DOMHelper.removeGrids();
         gameStarted = false;
     }

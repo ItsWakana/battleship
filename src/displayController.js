@@ -4,23 +4,49 @@ const DOMHelperCreation = () => {
     const computerBoard = document.querySelector('.grid.right');
     
     const makeGridSquares = (container, isCompGrid) => {
-            for (let i=0; i<10; i++) {
+            for (let i=0; i<11; i++) {
+
                 const row = document.createElement('div');
                 row.className = 'row';
                 container.appendChild(row);
     
-                for (let j=0; j<10; j++) {
-                    const box = document.createElement('div');
-                    box.className = 'box';
-                    row.appendChild(box);
-                    box.dataset.xyPos = `${j}${i}`;
-                    if (isCompGrid) {
-                        box.dataset.player = 'computer';
-                    } else {
-                        box.dataset.player = 'player';
+                for (let j=0; j<11; j++) {
+
+                        const box = document.createElement('div');
+                        box.className = 'box';
+                        row.appendChild(box);
+                        box.dataset.xyPos = `${j-1}${i-1}`;
+                        if (isCompGrid) {
+                            box.dataset.player = 'computer';
+                        } else {
+                            box.dataset.player = 'player';
+                        }
+                    
+                    if (i === 0) {
+                        box.className = 'outer-box';
+                        box.dataset.player = null;
+                        box.textContent = j;
+                    }
+                    if (j === 0) {
+                        box.className = 'outer-box';
+                        box.dataset.player = null;
+                        box.textContent = setAlphabet[i];
                     }
                 }
             }
+    }
+
+    const setAlphabet = {
+        1: 'A',
+        2: 'B',
+        3: 'C',
+        4: 'D',
+        5: 'E',
+        6: 'F',
+        7: 'G',
+        8: 'H',
+        9: 'I',
+        10: 'J'
     }
 
     const generateGrids = () => {
@@ -49,16 +75,6 @@ const DOMHelperCreation = () => {
         computerBoard.classList.remove('disabled');
         playerBoard.classList.remove('disabled');
     }
-
-    // const currentPlayerOutline = (currentPlayer) => {
-    //     if (currentPlayer === 'computer') {
-    //         playerBoard.style.border = 'solid 3px red';
-    //         computerBoard.style.border = 'none';
-    //         return;
-    //     }
-    //     computerBoard.style.border = 'solid 3px green';
-    //     playerBoard.style.border = 'none';
-    // }
 
     const currentPlayerOutline = (isPlayersTurn) => {
         if (isPlayersTurn) {
@@ -137,31 +153,6 @@ export const View = () => {
         DOMHelper.enableCells();
         DOMHelper.currentPlayerOutline(false);
     }
-    // const updateBoard = (computerBoard, playerBoard) => {
-    //     computerCells.forEach((cell) => {
-    //         const xy = cell.dataset.xyPos;
-    //         if (computerBoard[xy[0]][xy[1]] === 'x') {
-    //             cell.textContent = computerBoard[xy[0]][xy[1]];
-    //         }
-
-    //         if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-    //             cell.style.backgroundColor = 'red';
-    //         }
-    //     });
-
-    //     playerCells.forEach((cell) => {
-    //         const xy = cell.dataset.xyPos;
-    //         if (playerBoard[xy[0]][xy[1]] === 'x') {
-    //             setTimeout(() => {
-    //                 cell.textContent = playerBoard[xy[0]][xy[1]];  
-    //             },1000);
-    //         }
-
-    //         if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
-    //             cell.style.backgroundColor = 'green';
-    //         }
-    //     });
-    // }
 
     const alertWinner = (winner) => {
         alert(`Player ${winner} has won the match!`);

@@ -24,7 +24,7 @@ body {
 .grid.right {
     display: flex;
     background: rgb(216, 226, 241);
-    border-radius: 30px;
+    border-radius: 5px;
     flex-shrink: 0;
     width: 50%;
     height: 100%;
@@ -38,17 +38,18 @@ body {
 }
 
 .row {
-    border: solid 1px rgb(56, 58, 70);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     aspect-ratio: 1/1;
 }
 
-.box {
+.box,
+.outer-box {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     border: solid 1px rgb(56, 58, 70);
     flex-grow: 1;
     cursor: pointer;
@@ -58,10 +59,18 @@ body {
     font-size: 30px;
 }
 
+.outer-box {
+    background-color: rgb(56, 58, 70);
+    color: white;
+}
+
+.letter-coordinate {
+    position: absolute;
+}
 
 .attack-marker {
     width: 33px;
     height: 33px;
-    background-color: black;
+    border: solid 10px black;
     border-radius: 50%;
 }
