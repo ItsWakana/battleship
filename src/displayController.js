@@ -55,6 +55,28 @@ const DOMHelperCreation = () => {
         makeGridSquares(computerBoard, true);
     }
 
+    const generateShipElements = () => {
+        const shipElementArea = document.querySelector('.ship-container');
+
+        const carrier = document.createElement('div');
+        const battleship = document.createElement('div')
+        const cruiser = document.createElement('div');
+        const destroyer = document.createElement('div');
+        const shipElements = [carrier,battleship,cruiser,destroyer];
+
+        carrier.dataset.length = 5;
+        battleship.dataset.length = 4;
+        cruiser.dataset.length = 3;
+        destroyer.dataset.length = 2;
+        
+        for (const ship of shipElements) {
+            ship.className = 'ship-element';
+            shipElementArea.appendChild(ship);
+            ship.draggable = 'true';
+        }
+
+    }
+
     const removeGrids = () => {
         
         while (playerBoard.hasChildNodes()) {
@@ -86,7 +108,7 @@ const DOMHelperCreation = () => {
         }
     }
 
-    return { generateGrids, removeGrids, currentPlayerOutline, enableCells, disableCells }
+    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells }
 }
 
 export const View = () => {
@@ -98,7 +120,7 @@ export const View = () => {
 
     const startButton = document.querySelector('.start-game');
 
-    const addListenersToCells = (callback) => {
+    const onCellClick = (callback) => {
         computerCells = document.querySelectorAll('[data-player="computer"]');
         playerCells = document.querySelectorAll('[data-player="player"]');
 
@@ -166,5 +188,5 @@ export const View = () => {
         computerCells.forEach((cell) => cell.textContent = '');
     }
 
-    return { DOMHelper, startButton, addListenersToCells, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate }
 }

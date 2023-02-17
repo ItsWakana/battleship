@@ -9,47 +9,114 @@ const gameController = () => {
 
     let gameStarted = false;
 
+    // const gameLoop = () => {
+    //     if (!gameStarted) {
+
+    //         let currentPlayer;
+    //         view.DOMHelper.generateGrids();
+
+    //         // view.DOMHelper.generateShips();
+
+    //         //place ships at the bottom, which will allow the user to click a ship and drag it into a position on the board.
+
+    //         view.addListenersToCells( async (coordinate) => {
+    //             try {
+    //                 currentPlayer = game.player.getName();
+                    
+    //                 if (currentPlayer !== 'computer') { 
+    //                     view.playerViewUpdate();
+    //                     game.player.attack([coordinate[0], coordinate[1]]);
+    //                     updateGameStateAndView();
+                        
+    //                     if (game.computerBoard.getLastHit() === 'ship') { 
+    //                         view.computerViewUpdate();
+    //                         return;
+    //                     }
+    //                     currentPlayer = game.computer.getName();
+    //                 }
+    //                 await delay(2000);
+
+    //                 view.DOMHelper.currentPlayerOutline(false);
+    //                 game.computer.attack();
+    //                 updateGameStateAndView();
+
+    //                 while (game.playerBoard.getLastHit() === 'ship') {
+    //                     view.DOMHelper.currentPlayerOutline(true);
+    //                     await delay(2000);
+    //                     game.computer.attack();
+    //                     updateGameStateAndView();
+    //                     view.computerViewUpdate();
+    //                 }
+    //                 view.DOMHelper.enableCells();
+
+    //             } catch(err) {
+    //                 view.computerViewUpdate();
+    //             }
+    //         });
+    //         gameStarted = true;
+    //     }
+    // }
+
     const gameLoop = () => {
         if (!gameStarted) {
-
-            let currentPlayer;
             view.DOMHelper.generateGrids();
-            view.addListenersToCells( async (coordinate) => {
-                try {
-                    currentPlayer = game.player.getName();
-                    
-                    if (currentPlayer !== 'computer') { 
-                        view.playerViewUpdate();
-                        game.player.attack([coordinate[0], coordinate[1]]);
-                        updateGameStateAndView();
-                        
-                        if (game.computerBoard.getLastHit() === 'ship') { 
-                            view.computerViewUpdate();
-                            return;
-                        }
-                        currentPlayer = game.computer.getName();
-                    }
-                    await delay(2000);
+            view.DOMHelper.generateShipElements();
 
-                    view.DOMHelper.currentPlayerOutline(false);
-                    game.computer.attack();
-                    updateGameStateAndView();
+            //add listeners to each of the ship elements that the player can pick from. Ship elements need attributes on them telling us the length/values of the ship they have picked. 
 
-                    while (game.playerBoard.getLastHit() === 'ship') {
-                        view.DOMHelper.currentPlayerOutline(true);
-                        await delay(2000);
-                        game.computer.attack();
-                        updateGameStateAndView();
-                        view.computerViewUpdate();
-                    }
-                    view.DOMHelper.enableCells();
+            //when they drop the ship over a spot on the grid, we need to grab the coordinate of the square it was dropped on and call our game.playerBoard.placeShip() passing in that coordinate and the correct ship length.
 
-                } catch(err) {
-                    view.computerViewUpdate();
-                }
-            });
+            // view.DOMHelper.generateShips();
+
+            //place ships at the bottom, which will allow the user to click a ship and drag it into a position on the board.
+
+            view.onCellClick(playRound);
             gameStarted = true;
         }
+    }
+
+    const playRound = async (coordinate) => {
+
+        try {
+            executePlayerTurn(coordinate);
+            if (game.computerBoard.getLastHit() === 'ship') {
+                view.computerViewUpdate();
+                return;
+            } else {
+                await delay(2000);
+
+                executeComputerTurn();
+            }
+
+        } catch(err) {
+            view.computerViewUpdate();
+        }
+    }
+
+
+    const executePlayerTurn = (coordinate) => {
+
+        game.currentPlayer = game.player.getName();
+            view.playerViewUpdate();
+            game.player.attack([coordinate[0], coordinate[1]]);
+            updateGameStateAndView();
+            game.currentPlayer = game.computer.getName();
+    }
+
+    const executeComputerTurn = async () => {
+        view.DOMHelper.currentPlayerOutline(false);
+        game.computer.attack();
+        updateGameStateAndView();
+
+        while (game.playerBoard.getLastHit() === 'ship') {
+            view.DOMHelper.currentPlayerOutline(true);
+            await delay(2000);
+
+            game.computer.attack();
+            updateGameStateAndView();
+            view.computerViewUpdate();
+        }
+        view.DOMHelper.enableCells();
     }
 
     const delay = (ms) => {

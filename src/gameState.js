@@ -21,6 +21,8 @@ const gameInitHelper = () => {
 
 export const GameState = () => {
 
+    let currentPlayer;
+
     const gameInit = gameInitHelper();
     
     let playerBoard = Gameboard();
@@ -29,7 +31,7 @@ export const GameState = () => {
     let player = Player('Ryan', computerBoard, false);
     let computer = Player('Computer', playerBoard, true)
 
-    gameInit.placeTestShips(playerBoard, computerBoard);
+    // gameInit.placeTestShips(playerBoard, computerBoard);
 
     const checkForWinner = () => {
         if (playerBoard.allShipsSunk()) {
@@ -42,5 +44,5 @@ export const GameState = () => {
         return null;
     }
 
-    return { playerBoard, computerBoard, player, computer, checkForWinner}
+    return { playerBoard, computerBoard, player, computer, checkForWinner, currentPlayer}
 }
