@@ -86,6 +86,11 @@ const DOMHelperCreation = () => {
         while (computerBoard.hasChildNodes()) {
             computerBoard.removeChild(computerBoard.lastChild);
         }
+
+        const shipContainer = document.querySelector('.ship-container');
+        while (shipContainer.hasChildNodes()) {
+            shipContainer.removeChild(shipContainer.lastChild);
+        }
     }
 
     const disableCells = () => {
@@ -125,8 +130,6 @@ export const View = () => {
         computerCells = document.querySelectorAll('[data-player="computer"]');
     }
     const onCellClick = (callback) => {
-        // computerCells = document.querySelectorAll('[data-player="computer"]');
-        // playerCells = document.querySelectorAll('[data-player="player"]');
 
             computerCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {

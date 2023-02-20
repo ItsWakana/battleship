@@ -6,7 +6,6 @@ export const Gameboard = () => {
     const board = [];
 
     const ships = [];
-    //we can use a method called 'allShipsSunk' which could use the 'every' array method to loop over this ships array containing all the ships on the gameboard and if all the ships return true for 'isSunk'. We can deduce that all the ships have been sunk and the game can finish.
 
     const placeComputerShip = (ship) => {
         const validShipPositions = getValidShipPlacements();
@@ -14,10 +13,32 @@ export const Gameboard = () => {
         const randomPlacement = Math.floor(Math.random() * validShipPositions.length);
         const position = validShipPositions[randomPlacement];
 
-        if (position[1] + ship.length > 9) {
-            placeComputerShip(ship);
+        // console.log(`Tested Position: ${position} Ship Length: ${ship.length}`);
+        if (canPlaceShip(ship, position)) {
+            // console.log(`Passed Position: ${position} Ship Length: ${ship.length}`);
+            placeShip(ship, position);
+            return;
         }
-        placeShip(ship, position);
+
+        placeComputerShip(ship);
+    }
+
+    const canPlaceShip = (ship, position) => {
+        if (position[1] + ship.length > 9) {
+            return false;
+        }
+
+        for (let i=0; i<=ship.length; i++) {
+            if (typeof board[position[0]][position[1] + i] === 'object') {
+                return false;
+            }
+        }
+
+        if (board[position[0]][position[1]] !== '') {
+            return false;
+        }
+
+        return true;
     }
 
     const allShipsPlaced = () => {
@@ -53,7 +74,7 @@ export const Gameboard = () => {
 
         for (let i=0; i<board.length; i++) {
             for (let j=0; j<board[i].length; j++) {
-                if (board[i][j] !== 'object') {
+                if (typeof board[i][j] !== 'object') {
                     arr.push([i,j]);
                 }
             }
@@ -125,5 +146,5 @@ export const Gameboard = () => {
 
     fillBoard(board);
     
-    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidAttacks, getValidShipPlacements, getLastHit, allShipsPlaced, placeComputerShip }
+    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidAttacks, getValidShipPlacements, getLastHit, allShipsPlaced, placeComputerShip, canPlaceShip }
 }

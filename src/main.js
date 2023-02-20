@@ -19,13 +19,6 @@ const gameController = () => {
             game.placeAllComputerShips();
 
             view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
-            //add listeners to each of the ship elements that the player can pick from. Ship elements need attributes on them telling us the length/values of the ship they have picked. 
-
-            //when they drop the ship over a spot on the grid, we need to grab the coordinate of the square it was dropped on and call our game.playerBoard.placeShip() passing in that coordinate and the correct ship length.
-
-            // view.DOMHelper.generateShips();
-
-            //place ships at the bottom, which will allow the user to click a ship and drag it into a position on the board.
 
             view.dragAndDropShips((ship, coordinate) => {
 
@@ -39,9 +32,6 @@ const gameController = () => {
                     view.onCellClick(playRound);
                 }
             });
-            // if (game.playerBoard.allShipsPlaced()) {
-            //     view.onCellClick(playRound);
-            // }
             gameStarted = true;
         }
     }
@@ -111,7 +101,6 @@ const gameController = () => {
 
     const resetGame = () => {
         game = GameState();
-        // setTimeout(() => view.resetDisplay(), 2000);
         view.DOMHelper.removeGrids();
         gameStarted = false;
     }

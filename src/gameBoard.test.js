@@ -197,3 +197,24 @@ describe('Check all ships placed', () => {
         expect(board.allShipsPlaced()).toBe(false);
     });
 });
+
+describe('Computer can place its ships', () => {
+    let board;
+
+    beforeEach(() => board = Gameboard());
+
+    test('Return false as computer cannot place ship here', () => {
+        board.placeShip(Ship(5), [4,2]);
+        board.placeShip(Ship(2), [7,5]);
+        board.placeShip(Ship(4), [8,2]);
+        board.placeShip(Ship(3), [7,1]);
+
+        expect(board.canPlaceShip(Ship(5), [4,4])).toBe(false);
+        expect(board.canPlaceShip(Ship(4), [7,8])).toBe(false);
+        expect(board.canPlaceShip(Ship(2), [7,2])).toBe(false);
+        expect(board.canPlaceShip(Ship(2), [2,9])).toBe(false);
+        expect(board.canPlaceShip(Ship(3), [5,4])).toBe(true);
+        
+    });
+
+});
