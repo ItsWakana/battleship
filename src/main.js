@@ -1,67 +1,21 @@
 import './style.css';
 import { View } from "./displayController";
 import { GameState } from './gameState';
-
+import { gameInitHelper } from './gameState';
 const gameController = () => {
 
     const view = View();
     let game = GameState();
+    const gameHelper = gameInitHelper();
 
     let gameStarted = false;
-
-    // const gameLoop = () => {
-    //     if (!gameStarted) {
-
-    //         let currentPlayer;
-    //         view.DOMHelper.generateGrids();
-
-    //         // view.DOMHelper.generateShips();
-
-    //         //place ships at the bottom, which will allow the user to click a ship and drag it into a position on the board.
-
-    //         view.addListenersToCells( async (coordinate) => {
-    //             try {
-    //                 currentPlayer = game.player.getName();
-                    
-    //                 if (currentPlayer !== 'computer') { 
-    //                     view.playerViewUpdate();
-    //                     game.player.attack([coordinate[0], coordinate[1]]);
-    //                     updateGameStateAndView();
-                        
-    //                     if (game.computerBoard.getLastHit() === 'ship') { 
-    //                         view.computerViewUpdate();
-    //                         return;
-    //                     }
-    //                     currentPlayer = game.computer.getName();
-    //                 }
-    //                 await delay(2000);
-
-    //                 view.DOMHelper.currentPlayerOutline(false);
-    //                 game.computer.attack();
-    //                 updateGameStateAndView();
-
-    //                 while (game.playerBoard.getLastHit() === 'ship') {
-    //                     view.DOMHelper.currentPlayerOutline(true);
-    //                     await delay(2000);
-    //                     game.computer.attack();
-    //                     updateGameStateAndView();
-    //                     view.computerViewUpdate();
-    //                 }
-    //                 view.DOMHelper.enableCells();
-
-    //             } catch(err) {
-    //                 view.computerViewUpdate();
-    //             }
-    //         });
-    //         gameStarted = true;
-    //     }
-    // }
+    let shipsPlaced = false;
 
     const gameLoop = () => {
         if (!gameStarted) {
             view.DOMHelper.generateGrids();
             view.DOMHelper.generateShipElements();
-
+            view.setPlayerAndComputerCells();
             //add listeners to each of the ship elements that the player can pick from. Ship elements need attributes on them telling us the length/values of the ship they have picked. 
 
             //when they drop the ship over a spot on the grid, we need to grab the coordinate of the square it was dropped on and call our game.playerBoard.placeShip() passing in that coordinate and the correct ship length.
@@ -70,7 +24,16 @@ const gameController = () => {
 
             //place ships at the bottom, which will allow the user to click a ship and drag it into a position on the board.
 
-            view.onCellClick(playRound);
+            view.dragAndDropShips((ship, coordinate) => {
+
+                const arrayCoordinate = [+coordinate[0], +coordinate[1]];
+                const shipLength = +ship.dataset.length;
+                game.playerBoard.placeShip(gameHelper.makeShip(shipLength), arrayCoordinate);
+                ship.remove();
+            });
+            if (game.playerBoard.allShipsPlaced()) {
+                view.onCellClick(playRound);
+            }
             gameStarted = true;
         }
     }
@@ -93,7 +56,9 @@ const gameController = () => {
         }
     }
 
+    const setUpShips = () => {
 
+    }
     const executePlayerTurn = (coordinate) => {
 
         game.currentPlayer = game.player.getName();

@@ -1,12 +1,16 @@
 //for the moment, our gameboard can just be logic. We can represent it as a 2d array of positions and coordinates. The ships available in a particular gameboard should be stored inside some kind of data structure (maybe an array?). We should set some kind of limit for how many ships a board can have, so the user can't add more than the limit.
 
-// import { Ship } from "./shipModule";
+import { Ship } from "./shipModule";
 
 export const Gameboard = () => {
     const board = [];
 
     const ships = [];
     //we can use a method called 'allShipsSunk' which could use the 'every' array method to loop over this ships array containing all the ships on the gameboard and if all the ships return true for 'isSunk'. We can deduce that all the ships have been sunk and the game can finish.
+
+    const allShipsPlaced = () => {
+        return ships.length >= 4;
+    }
 
     const fillBoard = (board) => {
         for (let i=0; i<10; i++) {
@@ -32,7 +36,6 @@ export const Gameboard = () => {
     }
 
     const placeShip = (ship, coordinate) => {
-    
         if (board[coordinate[0]][coordinate[1]] !== '') {
             throw new Error('Ship exists in this position');
         } 
@@ -96,5 +99,5 @@ export const Gameboard = () => {
 
     fillBoard(board);
     
-    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidPositions, getLastHit }
+    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidPositions, getLastHit, allShipsPlaced }
 }

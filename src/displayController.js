@@ -120,15 +120,40 @@ export const View = () => {
 
     const startButton = document.querySelector('.start-game');
 
-    const onCellClick = (callback) => {
-        computerCells = document.querySelectorAll('[data-player="computer"]');
+    const setPlayerAndComputerCells = () => {
         playerCells = document.querySelectorAll('[data-player="player"]');
+        computerCells = document.querySelectorAll('[data-player="computer"]');
+    }
+    const onCellClick = (callback) => {
+        // computerCells = document.querySelectorAll('[data-player="computer"]');
+        // playerCells = document.querySelectorAll('[data-player="player"]');
 
             computerCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
                     callback(e.target.dataset.xyPos);
                 });
             });
+    }
+
+    const dragAndDropShips = (callback) => {
+        const shipElements = document.querySelectorAll('.ship-element');
+        let draggedShip;
+        shipElements.forEach((ship) => {
+            ship.addEventListener('dragstart', (event) => {
+                draggedShip = ship;
+            });
+        });
+
+        playerCells.forEach((cell) => {
+            cell.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+        });
+        playerCells.forEach((cell) => {
+            cell.addEventListener('drop', (e) => {
+                callback(draggedShip, e.target.dataset.xyPos);
+            });
+        });
     }
 
     const updateBoard = (computerBoard, playerBoard) => {
@@ -188,5 +213,5 @@ export const View = () => {
         computerCells.forEach((cell) => cell.textContent = '');
     }
 
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells }
 }
