@@ -169,7 +169,7 @@ export const View = () => {
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                // cell.style.backgroundColor = 'red';
+                cell.style.backgroundColor = 'red';
             }
         });
 

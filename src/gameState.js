@@ -18,7 +18,6 @@ export const gameInitHelper = () => {
 
     const makeShip = (length) => {
         const ship = Ship(length);
-        console.log(ship);
         return ship;
     }
 
@@ -37,7 +36,12 @@ export const GameState = () => {
     let player = Player('Ryan', computerBoard, false);
     let computer = Player('Computer', playerBoard, true)
 
-    // gameInit.placeTestShips(playerBoard, computerBoard);
+    const placeAllComputerShips = () => {
+        computerBoard.placeComputerShip(Ship(5));
+        computerBoard.placeComputerShip(Ship(4));
+        computerBoard.placeComputerShip(Ship(3));
+        computerBoard.placeComputerShip(Ship(2));
+    }
 
     const checkForWinner = () => {
         if (playerBoard.allShipsSunk()) {
@@ -50,5 +54,5 @@ export const GameState = () => {
         return null;
     }
 
-    return { playerBoard, computerBoard, player, computer, checkForWinner, currentPlayer}
+    return { playerBoard, computerBoard, player, computer, checkForWinner, placeAllComputerShips, currentPlayer }
 }

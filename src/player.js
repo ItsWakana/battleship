@@ -4,7 +4,7 @@ export const Player = (name, opponentBoard, isCPU = false) => {
 
     const caculationRandomPosition = () => {
 
-        const validPositions = opponentBoard.getValidPositions();
+        const validPositions = opponentBoard.getValidAttacks();
         const position = validPositions[Math.floor(Math.random() * validPositions.length)];
 
         return position;

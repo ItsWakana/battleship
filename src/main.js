@@ -9,13 +9,16 @@ const gameController = () => {
     const gameHelper = gameInitHelper();
 
     let gameStarted = false;
-    let shipsPlaced = false;
 
     const gameLoop = () => {
         if (!gameStarted) {
             view.DOMHelper.generateGrids();
             view.DOMHelper.generateShipElements();
             view.setPlayerAndComputerCells();
+
+            game.placeAllComputerShips();
+
+            view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
             //add listeners to each of the ship elements that the player can pick from. Ship elements need attributes on them telling us the length/values of the ship they have picked. 
 
             //when they drop the ship over a spot on the grid, we need to grab the coordinate of the square it was dropped on and call our game.playerBoard.placeShip() passing in that coordinate and the correct ship length.
@@ -30,10 +33,15 @@ const gameController = () => {
                 const shipLength = +ship.dataset.length;
                 game.playerBoard.placeShip(gameHelper.makeShip(shipLength), arrayCoordinate);
                 ship.remove();
+                view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+
+                if (game.playerBoard.allShipsPlaced()) {
+                    view.onCellClick(playRound);
+                }
             });
-            if (game.playerBoard.allShipsPlaced()) {
-                view.onCellClick(playRound);
-            }
+            // if (game.playerBoard.allShipsPlaced()) {
+            //     view.onCellClick(playRound);
+            // }
             gameStarted = true;
         }
     }

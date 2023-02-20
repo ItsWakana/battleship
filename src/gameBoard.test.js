@@ -147,13 +147,13 @@ describe('allShipsSunk', () => {
 });
 
 
-describe('getValidPositions', () => {
+describe('getValidAttacks', () => {
 
     let board;
 
     beforeEach(() => board = Gameboard());
 
-    test('Return array of valid positions', () => {
+    test('Return array of valid attack positions', () => {
         board.placeShip(Ship(5), [4,2]);
         board.placeShip(Ship(2), [7,5]);
         board.placeShip(Ship(4), [8,2]);
@@ -172,7 +172,7 @@ describe('getValidPositions', () => {
             [9,0], [9,1], [9,2], [9,3], [9,4], [9,5], [9,6], [9,7], [9,8], [9,9]
         ]
 
-        expect(board.getValidPositions()).toEqual(validPositions);
+        expect(board.getValidAttacks()).toEqual(validPositions);
     });
 });
 
