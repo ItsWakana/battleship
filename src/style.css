@@ -152,7 +152,7 @@ h2 {
 }
 
 .ship-element:hover {
-    border: solid 1px black;
+    border: solid 1px var(--main-background-clr);
 }
 
 

@@ -78,21 +78,6 @@ export const Gameboard = () => {
         return arr;
     }
 
-    // const placeShip = (ship, coordinate) => {
-    //     if (board[coordinate[0]][coordinate[1]] !== '') {
-    //         throw new Error('Ship exists in this position');
-    //     } 
-    //     if (coordinate[1] + ship.length > 9) {
-    //         throw new Error('Ship not on the board');
-    //     }
-
-    //     for (let i=0; i<ship.length; i++) {
-    //         board[coordinate[0]][coordinate[1] + i] = ship;
-    //     }
-
-    //     ships.push(ship);
-    // }
-
     const placeShip = (ship, coordinate) => {
         if (board[coordinate[0]][coordinate[1]] !== '') {
             throw new Error('Ship exists in this position');
@@ -114,26 +99,50 @@ export const Gameboard = () => {
         return lastHit;
     }
 
+    const isValidAttack = (coordinate) => {
+        if (coordinate[0] <= 9 && coordinate[1] <= 9) {
+
+            if (board[coordinate[0]][coordinate[1]] === 'x') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     const recieveAttack = (coordinate) => {
 
-        if (coordinate[0] <= 9 && coordinate[1] <= 9) {
             const boardItem = board[coordinate[0]][coordinate[1]];
 
             if (boardItem === '') {
                 missedShots[coordinate[0]].push(coordinate[1]);
                 lastHit = null;
             }
+
             if (typeof boardItem === 'object') {
                 boardItem.hit();
                 lastHit = 'ship';
             }
-            if (board[coordinate[0]][coordinate[1]] === 'x') {
-                throw new Error('Cannot attack same coordinate more than once');
-            }
+
             board[coordinate[0]][coordinate[1]] = 'x';
-        } else {
-            throw new Error('Attack is not on the board');
-        }
+        // if (coordinate[0] <= 9 && coordinate[1] <= 9) {
+        //     const boardItem = board[coordinate[0]][coordinate[1]];
+
+        //     if (boardItem === '') {
+        //         missedShots[coordinate[0]].push(coordinate[1]);
+        //         lastHit = null;
+        //     }
+        //     if (typeof boardItem === 'object') {
+        //         boardItem.hit();
+        //         lastHit = 'ship';
+        //     }
+        //     if (board[coordinate[0]][coordinate[1]] === 'x') {
+        //         throw new Error('Cannot attack same coordinate more than once');
+        //     }
+        //     board[coordinate[0]][coordinate[1]] = 'x';
+        // } else {
+        //     throw new Error('Attack is not on the board');
+        // }
         
         return coordinate;
     }
@@ -157,5 +166,5 @@ export const Gameboard = () => {
 
     fillBoard(board);
     
-    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidAttacks, getValidShipPlacements, getLastHit, allShipsPlaced, placeComputerShip, canPlaceShip }
+    return { getBoard, placeShip, recieveAttack, getMisses, getShips, allShipsSunk, getValidAttacks, getValidShipPlacements, getLastHit, allShipsPlaced, placeComputerShip, canPlaceShip, isValidAttack }
 }

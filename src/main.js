@@ -42,7 +42,6 @@ const gameController = () => {
             executePlayerTurn(coordinate);
             if (game.computerBoard.getLastHit() === 'ship') {
                 view.setHit(coordinate, true);
-                view.DOMHelper.setUserInstruction('Its your turn!');
                 view.computerViewUpdate();
                 return;
             } else {
@@ -76,9 +75,15 @@ const gameController = () => {
         game.currentPlayer = game.player.getName();
         view.DOMHelper.setUserInstruction('Computer is attacking!');
         view.playerViewUpdate();
-        game.player.attack([coordinate[0], coordinate[1]]);
-        updateGameStateAndView();
-        game.currentPlayer = game.computer.getName();
+
+        if (game.computerBoard.isValidAttack(coordinate)) {
+            console.log('valid');
+            game.player.attack([coordinate[0], coordinate[1]]);
+            updateGameStateAndView();
+            game.currentPlayer = game.computer.getName();
+        } else {
+            view.DOMHelper.setUserInstruction('Its your turn!');
+        }
     }
     
     const executeComputerTurn = async () => {
