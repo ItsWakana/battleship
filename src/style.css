@@ -4,16 +4,27 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+:root {
+    --main-background-clr: rgb(6, 18, 31);
+    --grid-border-clr: rgb(22, 47, 73);
+    --box-hover-clr: rgb(15, 29, 44);
+    --ship-clr: rgb(36, 60, 85);
+    --secondary-clr: #cee61c;
+}
+
 body {
     height: 100vh;
-    background-color: rgb(56, 58, 70);
-    /* margin-top: 10px; */
+    background-color: var(--main-background-clr);
+    margin-top: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 30px;
 }
 
+h2 {
+    color: var(--secondary-clr);
+}
 .gameboards {
     display: flex;
     justify-content: center;
@@ -23,7 +34,7 @@ body {
 .grid.left,
 .grid.right {
     display: flex;
-    background: rgb(216, 226, 241);
+    background: var(--main-background-clr);
     border-radius: 5px;
     flex-shrink: 0;
     width: 50%;
@@ -49,7 +60,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: solid 1px rgb(56, 58, 70);
+    /* border: solid 1px rgb(56, 58, 70); */
+    border: solid 1px var(--grid-border-clr);
     flex-grow: 1;
     cursor: pointer;
     aspect-ratio: 1/1;
@@ -59,20 +71,69 @@ body {
 }
 
 .box.hover {
-    background-color: rgb(197, 197, 197);
+    background-color: var(--box-hover-clr);
 }
 
+.box.placed {
+    background-color: var(--secondary-clr);
+}
 .outer-box {
-    background-color: rgb(56, 58, 70);
-    color: white;
+    background-color: var(--main-background-clr);
+    color: var(--secondary-clr);
+    border: none;
     font-size: 0.6rem;
 }
 
 .attack-marker {
-    width: 40%;
-    height: 40%;
-    border: solid 3px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 60%;
+    border: solid 3px var(--secondary-clr);
     border-radius: 50%;
+}
+
+.ship-hit-marker {
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.player-ship-hit,
+.computer-ship-hit {
+    position: relative;
+    border-radius: 0%;
+    border: none;
+}
+
+.player-ship-hit::before,
+.player-ship-hit::after,
+.computer-ship-hit::before,
+.computer-ship-hit::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.player-ship-hit::before,
+.player-ship-hit::after {
+    background-color: var(--main-background-clr);
+}
+
+.computer-ship-hit::before,
+.computer-ship-hit::after {
+    background-color: var(--secondary-clr);
+}
+
+.player-ship-hit::after,
+.computer-ship-hit::after {
+  transform: translateX(-50%) rotate(-45deg);
 }
 
 .ship-container {
@@ -82,34 +143,31 @@ body {
     gap: 20px;
     width: 100%;
     height: 120px;
-    background: white;
+    background: var(--grid-border-clr);
 }
 
 .ship-element {
-    background: red;
+    background: var(--secondary-clr);
+    height: 30px;
 }
 
 .ship-element:hover {
-    border: solid 1px white;
+    border: solid 1px black;
 }
 
 
 .ship-element.length-2 {
-    width: 40px;
-    height: 20px;
+    width: 50px;
 }
 
 .ship-element.length-3 {
-    width: 60px;
-    height: 20px;
+    width: 70px;
 }
 
 .ship-element.length-4 {
-    width: 80px;
-    height: 20px;
+    width: 90px;
 }
 
 .ship-element.length-5 {
-    width: 100px;
-    height: 20px;
+    width: 110px;
 }

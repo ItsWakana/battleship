@@ -58,6 +58,11 @@ const DOMHelperCreation = () => {
     const generateShipElements = () => {
         const shipElementArea = document.querySelector('.ship-container');
 
+        const title = document.createElement('h2');
+        title.className = 'user-instruction';
+        title.textContent = 'Drag your ships in place!'
+        shipElementArea.appendChild(title);
+
         const carrier = document.createElement('div');
         const battleship = document.createElement('div')
         const cruiser = document.createElement('div');
@@ -114,7 +119,12 @@ const DOMHelperCreation = () => {
         }
     }
 
-    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells }
+    const setUserInstruction = (message) => {
+        const heading = document.querySelector('.user-instruction');
+        heading.textContent = message;
+    }
+
+    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells, setUserInstruction }
 }
 
 export const View = () => {
@@ -139,6 +149,23 @@ export const View = () => {
             });
     }
 
+    const setHit = (coordinate, isPlayer) => {
+        // const shipHitMarker = document.createElement('div');
+        // shipHitMarker.className = 'ship-hit-marker';
+
+        if (isPlayer) {
+            const element = document.querySelector(`[data-player="computer"][data-xy-pos="${coordinate}"]`);
+            const child = element.querySelector('.attack-marker');
+            child.classList.add('computer-ship-hit');
+            // child.appendChild(shipHitMarker);
+        } else {
+            coordinate = coordinate.join('');
+            const element = document.querySelector(`[data-player="player"][data-xy-pos="${coordinate}"]`);
+            const child = element.querySelector('.attack-marker');
+            child.classList.add('player-ship-hit');
+            // child.appendChild(shipHitMarker);
+        }
+    }
     const dragAndDropShips = (callback) => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
@@ -186,7 +213,7 @@ export const View = () => {
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                cell.style.backgroundColor = 'red';
+                // cell.style.backgroundColor = 'red';
             }
         });
 
@@ -202,7 +229,8 @@ export const View = () => {
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
-                cell.style.backgroundColor = 'green';
+                // cell.style.backgroundColor = 'black';
+                cell.classList.add('placed');
             }
         });
     }
@@ -230,5 +258,5 @@ export const View = () => {
         computerCells.forEach((cell) => cell.textContent = '');
     }
 
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit }
 }

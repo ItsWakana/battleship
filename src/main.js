@@ -27,6 +27,7 @@ const gameController = () => {
 
                 if (game.playerBoard.allShipsPlaced()) {
                     view.DOMHelper.currentPlayerOutline(false);
+                    view.DOMHelper.setUserInstruction('Its your turn!');
                     view.onCellClick(playRound);
                 }
             });
@@ -40,6 +41,8 @@ const gameController = () => {
         try {
             executePlayerTurn(coordinate);
             if (game.computerBoard.getLastHit() === 'ship') {
+                view.setHit(coordinate, true);
+                view.DOMHelper.setUserInstruction('Its your turn!');
                 view.computerViewUpdate();
                 return;
             } else {
@@ -71,18 +74,22 @@ const gameController = () => {
     const executePlayerTurn = (coordinate) => {
 
         game.currentPlayer = game.player.getName();
-            view.playerViewUpdate();
-            game.player.attack([coordinate[0], coordinate[1]]);
-            updateGameStateAndView();
-            game.currentPlayer = game.computer.getName();
+        view.DOMHelper.setUserInstruction('Computer is attacking!');
+        view.playerViewUpdate();
+        game.player.attack([coordinate[0], coordinate[1]]);
+        updateGameStateAndView();
+        game.currentPlayer = game.computer.getName();
     }
-
+    
     const executeComputerTurn = async () => {
         view.DOMHelper.currentPlayerOutline(false);
-        game.computer.attack();
+        view.DOMHelper.setUserInstruction('Its your turn!');
+        const position = game.computer.attack();
         updateGameStateAndView();
 
         while (game.playerBoard.getLastHit() === 'ship') {
+            view.setHit(position, false);
+            view.DOMHelper.setUserInstruction('Computer is attacking!');
             view.DOMHelper.currentPlayerOutline(true);
             await delay(2000);
 
@@ -90,6 +97,7 @@ const gameController = () => {
             updateGameStateAndView();
             view.computerViewUpdate();
         }
+        view.DOMHelper.setUserInstruction('Its your turn!');
         view.DOMHelper.enableCells();
     }
 
