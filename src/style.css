@@ -58,6 +58,10 @@ body {
     font-size: 30px;
 }
 
+.box.hover {
+    background-color: rgb(197, 197, 197);
+}
+
 .outer-box {
     background-color: rgb(56, 58, 70);
     color: white;
@@ -82,7 +86,30 @@ body {
 }
 
 .ship-element {
-    width: 20px;
-    height: 20px;
     background: red;
+}
+
+.ship-element:hover {
+    border: solid 1px white;
+}
+
+
+.ship-element.length-2 {
+    width: 40px;
+    height: 20px;
+}
+
+.ship-element.length-3 {
+    width: 60px;
+    height: 20px;
+}
+
+.ship-element.length-4 {
+    width: 80px;
+    height: 20px;
+}
+
+.ship-element.length-5 {
+    width: 100px;
+    height: 20px;
 }

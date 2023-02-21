@@ -1,7 +1,5 @@
 //for the moment, our gameboard can just be logic. We can represent it as a 2d array of positions and coordinates. The ships available in a particular gameboard should be stored inside some kind of data structure (maybe an array?). We should set some kind of limit for how many ships a board can have, so the user can't add more than the limit.
 
-import { Ship } from "./shipModule";
-
 export const Gameboard = () => {
     const board = [];
 
@@ -13,9 +11,7 @@ export const Gameboard = () => {
         const randomPlacement = Math.floor(Math.random() * validShipPositions.length);
         const position = validShipPositions[randomPlacement];
 
-        // console.log(`Tested Position: ${position} Ship Length: ${ship.length}`);
         if (canPlaceShip(ship, position)) {
-            // console.log(`Passed Position: ${position} Ship Length: ${ship.length}`);
             placeShip(ship, position);
             return;
         }
@@ -81,6 +77,21 @@ export const Gameboard = () => {
         }
         return arr;
     }
+
+    // const placeShip = (ship, coordinate) => {
+    //     if (board[coordinate[0]][coordinate[1]] !== '') {
+    //         throw new Error('Ship exists in this position');
+    //     } 
+    //     if (coordinate[1] + ship.length > 9) {
+    //         throw new Error('Ship not on the board');
+    //     }
+
+    //     for (let i=0; i<ship.length; i++) {
+    //         board[coordinate[0]][coordinate[1] + i] = ship;
+    //     }
+
+    //     ships.push(ship);
+    // }
 
     const placeShip = (ship, coordinate) => {
         if (board[coordinate[0]][coordinate[1]] !== '') {

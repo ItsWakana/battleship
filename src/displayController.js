@@ -62,15 +62,16 @@ const DOMHelperCreation = () => {
         const battleship = document.createElement('div')
         const cruiser = document.createElement('div');
         const destroyer = document.createElement('div');
-        const shipElements = [carrier,battleship,cruiser,destroyer];
-
+        
         carrier.dataset.length = 5;
         battleship.dataset.length = 4;
         cruiser.dataset.length = 3;
         destroyer.dataset.length = 2;
+        const shipElements = [carrier,battleship,cruiser,destroyer];
         
         for (const ship of shipElements) {
             ship.className = 'ship-element';
+            ship.classList.add(`length-${ship.dataset.length}`);
             shipElementArea.appendChild(ship);
             ship.draggable = 'true';
         }
@@ -142,7 +143,7 @@ export const View = () => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
         shipElements.forEach((ship) => {
-            ship.addEventListener('dragstart', (event) => {
+            ship.addEventListener('dragstart', () => {
                 draggedShip = ship;
             });
         });
@@ -151,6 +152,19 @@ export const View = () => {
             cell.addEventListener('dragover', (e) => {
                 e.preventDefault();
             });
+
+        playerCells.forEach((cell) => {
+            cell.addEventListener('dragenter', () => {
+                cell.classList.add('hover');
+            });
+        });
+
+        playerCells.forEach((cell) => {
+            cell.addEventListener('dragleave', () => {
+                cell.classList.remove('hover');
+            });
+        });
+
         });
         playerCells.forEach((cell) => {
             cell.addEventListener('drop', (e) => {

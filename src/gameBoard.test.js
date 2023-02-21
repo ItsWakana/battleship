@@ -203,13 +203,13 @@ describe('Computer can place its ships', () => {
 
     beforeEach(() => board = Gameboard());
 
-    test('Return false as computer cannot place ship here', () => {
+    test('Return bool on computer ship placement', () => {
         board.placeShip(Ship(5), [4,2]);
         board.placeShip(Ship(2), [7,5]);
         board.placeShip(Ship(4), [8,2]);
         board.placeShip(Ship(3), [7,1]);
 
-        expect(board.canPlaceShip(Ship(5), [4,4])).toBe(false);
+        expect(board.canPlaceShip(Ship(5), [4,1])).toBe(false);
         expect(board.canPlaceShip(Ship(4), [7,8])).toBe(false);
         expect(board.canPlaceShip(Ship(2), [7,2])).toBe(false);
         expect(board.canPlaceShip(Ship(2), [2,9])).toBe(false);

@@ -22,16 +22,15 @@ const gameController = () => {
 
             view.dragAndDropShips((ship, coordinate) => {
 
-                const arrayCoordinate = [+coordinate[0], +coordinate[1]];
-                const shipLength = +ship.dataset.length;
-                game.playerBoard.placeShip(gameHelper.makeShip(shipLength), arrayCoordinate);
-                ship.remove();
+                checkShipPlacement(ship, coordinate);
                 view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
                 if (game.playerBoard.allShipsPlaced()) {
+                    view.DOMHelper.currentPlayerOutline(false);
                     view.onCellClick(playRound);
                 }
             });
+
             gameStarted = true;
         }
     }
@@ -54,9 +53,21 @@ const gameController = () => {
         }
     }
 
-    const setUpShips = () => {
+    const checkShipPlacement = (ship, coordinate) => {
+        const arrayCoordinate = [+coordinate[0], +coordinate[1]];
+        const shipLength = +ship.dataset.length;
+        const newShip = gameHelper.makeShip(shipLength);
 
+        if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate)) {
+            game.playerBoard.placeShip(newShip, arrayCoordinate);
+            ship.remove();
+        } else {
+            console.log('Ship placement error');
+            //handle a missplaced ship, user tooltip or error pop up
+        }
     }
+
+
     const executePlayerTurn = (coordinate) => {
 
         game.currentPlayer = game.player.getName();
