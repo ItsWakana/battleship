@@ -37,22 +37,24 @@ const gameController = () => {
     }
 
     const playRound = async (coordinate) => {
+        if (coordinate) {
+            if (game.computerBoard.isValidAttack(coordinate)) {    
+                executePlayerTurn(coordinate);
+                if (game.computerBoard.getLastHit() === 'ship') {
+                    view.DOMHelper.setUserInstruction('Its your turn!');
+                    view.setHit(coordinate, true);
+                    view.computerViewUpdate();
+                    return;
+                } else {
+                    await delay(2000);
 
-        try {
-            executePlayerTurn(coordinate);
-            if (game.computerBoard.getLastHit() === 'ship') {
-                view.setHit(coordinate, true);
-                view.computerViewUpdate();
-                return;
-            } else {
-                await delay(2000);
-
-                executeComputerTurn();
+                    executeComputerTurn();
+                }
             }
-
-        } catch(err) {
-            view.computerViewUpdate();
+        } else {
+            console.log('Error: Attack already placed');
         }
+
     }
 
     const checkShipPlacement = (ship, coordinate) => {
@@ -68,22 +70,17 @@ const gameController = () => {
             //handle a missplaced ship, user tooltip or error pop up
         }
     }
-
-
+    
     const executePlayerTurn = (coordinate) => {
 
         game.currentPlayer = game.player.getName();
         view.DOMHelper.setUserInstruction('Computer is attacking!');
         view.playerViewUpdate();
 
-        if (game.computerBoard.isValidAttack(coordinate)) {
-            console.log('valid');
-            game.player.attack([coordinate[0], coordinate[1]]);
-            updateGameStateAndView();
-            game.currentPlayer = game.computer.getName();
-        } else {
-            view.DOMHelper.setUserInstruction('Its your turn!');
-        }
+        game.player.attack([coordinate[0], coordinate[1]]);
+        updateGameStateAndView();
+        game.currentPlayer = game.computer.getName();
+         
     }
     
     const executeComputerTurn = async () => {
