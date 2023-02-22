@@ -80,7 +80,7 @@ const DOMHelperCreation = () => {
             ship.className = 'ship-element';
             ship.classList.add(`length-${ship.dataset.length}`);
             shipElementArea.appendChild(ship);
-            ship.draggable = 'true';
+            ship.draggable = true;
             ship.dataset.orientation = 'horizontal';
         }
     }
@@ -105,7 +105,8 @@ const DOMHelperCreation = () => {
             const rotateButton = document.createElement('img');
             rotateButton.src = rotate;
             rotateButton.className = 'rotate-button';
-            rotateButton.draggable = 'false';
+            rotateButton.draggable = false;
+            console.log(rotateButton);
             rotateButton.addEventListener('click', () => {
                 // rotateButton.classList.toggle('active');
                 callback(ship);
@@ -117,10 +118,7 @@ const DOMHelperCreation = () => {
         });
 
         shipMainContainer.appendChild(shipSubContainer);
-        
-        //add a button in each shipContainer that has a rotate button that will rotate the ship in place. We could add a data attriute to the element which indicates whether the ship is in a vertical or horizontal orientation. 
-
-        //When the user clicks the rotate button, we'll need to somehow change the flex display properties so it flips the ship to vertical. This could probably be achieved with flex direction column or flex direction row
+    
     }
 
 
@@ -226,10 +224,13 @@ export const View = () => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
         shipElements.forEach((ship) => {
+            console.log(ship)
             ship.addEventListener('dragstart', () => {
                 draggedShip = ship;
             });
         });
+
+        
 
         playerCells.forEach((cell) => {
             cell.addEventListener('dragover', (e) => {
