@@ -9,15 +9,37 @@ export const Gameboard = () => {
         const randomPlacement = Math.floor(Math.random() * validShipPositions.length);
         const position = validShipPositions[randomPlacement];
 
-        if (canPlaceShip(ship, position)) {
-            placeShip(ship, position);
+        const randomOrientation = Math.floor(Math.random() * 2)
+        if (canPlaceShip(ship, position, randomOrientation)) {
+            placeShip(ship, position, randomOrientation);
             return;
         }
 
         placeComputerShip(ship);
     }
 
-    const canPlaceShip = (ship, position) => {
+    const canPlaceShip = (ship, position, isVertical) => {
+
+        if (isVertical) {
+            if ((position[0] - 1) + ship.length > 9) {
+                console.log('Error: Ship does not fit on the board');
+                return false;
+            }
+
+            for (let i=0; i<ship.length; i++) {
+                if (typeof board[position[0] + i][position[1]] === 'object') {
+                    console.log('Error: Ship exists in this position');
+                    return false;
+                }
+            }
+
+            if (board[position[0]][position[1]] !== '') {
+                return false;
+            }
+
+            return true;
+        }
+
         if ((position[1] - 1) + ship.length > 9) {
             console.log('Error: Ship does not fit on the board');
             return false;
@@ -77,10 +99,16 @@ export const Gameboard = () => {
         return arr;
     }
 
-    const placeShip = (ship, coordinate) => {
+    const placeShip = (ship, coordinate, isVertical) => {
 
-        for (let i=0; i<ship.length; i++) {
-            board[coordinate[0]][coordinate[1] + i] = ship;
+        if (isVertical) {
+            for (let i=0; i<ship.length; i++) {
+                board[coordinate[0] + i][coordinate[1]] = ship;
+            }
+        } else {
+            for (let i=0; i<ship.length; i++) {
+                board[coordinate[0]][coordinate[1] + i] = ship;
+            }
         }
 
         ships.push(ship);

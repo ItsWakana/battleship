@@ -9,10 +9,10 @@ describe('placeShip', () => {
         board = Gameboard();
     });
 
-    test('Should place ship on the board', () => {
+    test('Should place horizontal ship on the board', () => {
         const ship = {type: 'Carrier', length: 5}
 
-        expect(board.canPlaceShip(ship, [0,2])).toBe(true);
+        expect(board.canPlaceShip(ship, [0,2], false)).toBe(true);
         board.placeShip(ship, [0,2]);
         
         expect(board.getBoard()[0][2]).toBe(ship);
@@ -24,33 +24,38 @@ describe('placeShip', () => {
         expect(board.getShips()).toEqual([ship]);
     });
 
-    test('Should place ship on the board', () => {
+    test('Should place vertical ship on the board', () => {
         const ship = {type: 'Destroyer', length: 2}
 
-        expect(board.canPlaceShip(ship, [0,8])).toBe(true);
+        expect(board.canPlaceShip(ship, [0,8], true)).toBe(true);
 
-        board.placeShip(ship, [0,8]);
+        board.placeShip(ship, [0,8], true);
 
         expect(board.getBoard()[0][8]).toBe(ship);
-        expect(board.getBoard()[0][9]).toBe(ship);
+        expect(board.getBoard()[1][8]).toBe(ship);
 
         expect(board.getShips()).toEqual([ship]);
     });
 
     test('Should throw error if ship not on the board', () => {
         const ship1 = {type: 'Cruiser', length: 3}
-        expect(board.canPlaceShip(ship1, [3,8])).toBe(false);
+        expect(board.canPlaceShip(ship1, [3,8], false)).toBe(false);
 
         const ship2 = {type: 'Battleship', length: 4}
-        expect(board.canPlaceShip(ship2, [8,6])).toBe(true);
+        expect(board.canPlaceShip(ship2, [8,6], false)).toBe(true);
+
+        const ship3 = {type: 'Cruiser', length: 3}
+        expect(board.canPlaceShip(ship3, [8,6], true)).toBe(false);
     });
 
     test('Should throw error if ship exists in position', () => {
-        board.placeShip(Ship(2), [7,6]);
-        board.placeShip(Ship(5), [2,2]);
+        board.placeShip(Ship(2), [7,6], false); // [7,6][7,7]
+        board.placeShip(Ship(5), [2,2], true); // [2,2][3,2][4,2][5,2][6,2]
 
-        expect(board.canPlaceShip(Ship(2), [7,7])).toBe(false);
-        expect(board.canPlaceShip(Ship(5), [2,5])).toBe(false);
+        expect(board.canPlaceShip(Ship(2), [7,7], true)).toBe(false);
+        // [7,7][8,7]
+        expect(board.canPlaceShip(Ship(5), [2,5],false)).toBe(true);
+        // [2,5][2,6][2,7][2,8][2,9]
     });
 
 });
@@ -215,17 +220,31 @@ describe('Computer can place its ships', () => {
 
     beforeEach(() => board = Gameboard());
 
-    test('Return bool on computer ship placement', () => {
-        board.placeShip(Ship(5), [4,2]);
-        board.placeShip(Ship(2), [7,5]);
-        board.placeShip(Ship(4), [8,2]);
-        board.placeShip(Ship(3), [7,1]);
+    test('Return bool on computer horizontal ship placement', () => {
+        board.placeShip(Ship(5), [4,2], false);
+        board.placeShip(Ship(2), [7,5], false);
+        board.placeShip(Ship(4), [8,2], false);
+        board.placeShip(Ship(3), [7,1], false);
 
-        expect(board.canPlaceShip(Ship(5), [4,1])).toBe(false);
-        expect(board.canPlaceShip(Ship(4), [7,8])).toBe(false);
-        expect(board.canPlaceShip(Ship(2), [7,2])).toBe(false);
-        expect(board.canPlaceShip(Ship(2), [2,9])).toBe(false);
-        expect(board.canPlaceShip(Ship(3), [5,4])).toBe(true);
+        expect(board.canPlaceShip(Ship(5), [4,1], false)).toBe(false);
+        expect(board.canPlaceShip(Ship(4), [7,8], false)).toBe(false);
+        expect(board.canPlaceShip(Ship(2), [7,2], false)).toBe(false);
+        expect(board.canPlaceShip(Ship(2), [2,9], false)).toBe(false);
+        expect(board.canPlaceShip(Ship(3), [5,4], false)).toBe(true);
+        
+    });
+
+    test('Return bool on computer vertical ship placement', () => {
+        board.placeShip(Ship(5), [0,2], true); // [0,2][1,2][2,2][3,2][4,2]
+        board.placeShip(Ship(2), [3,5], true); // [3,5][4,5]
+        board.placeShip(Ship(4), [1,2], true); // [1,2][2,2][3,2][4,2]
+        board.placeShip(Ship(3), [2,1], true); // [2,1][3,1][4,1]
+
+        expect(board.canPlaceShip(Ship(5), [0,1], true)).toBe(false);
+        expect(board.canPlaceShip(Ship(4), [1,4], true)).toBe(true);
+        expect(board.canPlaceShip(Ship(2), [3,1], true)).toBe(false);
+        expect(board.canPlaceShip(Ship(2), [2,9], true)).toBe(true);
+        expect(board.canPlaceShip(Ship(3), [5,4], true)).toBe(true);
         
     });
 

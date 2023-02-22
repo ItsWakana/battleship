@@ -14,6 +14,9 @@ const gameController = () => {
         if (!gameStarted) {
             view.DOMHelper.generateGrids();
             view.DOMHelper.generateShipElements();
+            view.DOMHelper.generateShipRotationControls((shipElement) => {
+                view.DOMHelper.applyRotation(shipElement);
+            });
             view.setPlayerAndComputerCells();
 
             game.placeAllComputerShips();
@@ -22,6 +25,12 @@ const gameController = () => {
 
             view.dragAndDropShips((ship, coordinate) => {
 
+                //check if the ship is horizontal using the ship elements dataset
+
+                // if ship orientation is horizontal
+                // call shipplacement passing in false as its not horizontal.
+
+                //otherwise if its not horizontal we know its vertical, so we can call shipPlacement but pass in true as it must be vertical.
                 checkShipPlacement(ship, coordinate);
                 view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
@@ -58,16 +67,27 @@ const gameController = () => {
     }
 
     const checkShipPlacement = (ship, coordinate) => {
+
         const arrayCoordinate = [+coordinate[0], +coordinate[1]];
         const shipLength = +ship.dataset.length;
         const newShip = gameHelper.makeShip(shipLength);
-
-        if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate)) {
-            game.playerBoard.placeShip(newShip, arrayCoordinate);
-            ship.remove();
+        
+        if (ship.dataset.orientation === 'horizontal') {
+            if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, false)) {
+                game.playerBoard.placeShip(newShip, arrayCoordinate, false);
+                ship.remove();
+            } else {
+                console.log('Error: Cannot place ship there');
+                //handle a missplaced ship, user tooltip or error pop up
+            }
         } else {
-            console.log('Error: Cannot place ship there');
-            //handle a missplaced ship, user tooltip or error pop up
+            if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, true)) {
+                game.playerBoard.placeShip(newShip, arrayCoordinate, true);
+                ship.remove();
+            } else {
+                console.log('Error: Cannot place ship there');
+                //handle a missplaced ship, user tooltip or error pop up
+            }
         }
     }
 

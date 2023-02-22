@@ -142,13 +142,21 @@ h2 {
     justify-content: center;
     gap: 20px;
     width: 100%;
-    height: 120px;
+    height: 200px;
     background: var(--grid-border-clr);
+}
+
+.ship-sub-container {
+    width: 100px;
+    height: 100px;
+    border: solid 1px red;
+    position: relative;
 }
 
 .ship-element {
     background: var(--secondary-clr);
     height: 30px;
+    transition: 150ms;
 }
 
 .ship-element:hover {
@@ -162,12 +170,63 @@ h2 {
 
 .ship-element.length-3 {
     width: 70px;
+
 }
 
 .ship-element.length-4 {
     width: 90px;
+
 }
 
 .ship-element.length-5 {
     width: 110px;
+
 }
+
+.ship-element.vertical {
+    background: var(--secondary-clr);
+    width: 30px;
+}
+
+.ship-element.length-2.vertical {
+    height: 50px;
+}
+
+.ship-element.length-3.vertical {
+    height: 70px;
+}
+
+.ship-element.length-4.vertical {
+    height: 90px;
+}
+
+.ship-element.length-5.vertical {
+    height: 110px;
+}
+
+.rotate-button {
+    position: absolute;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    bottom: 0;
+    right: 0;
+}
+
+
+/* .ship-element.length-2.rotate {
+    transform: rotate(90deg);
+}
+
+.ship-element.length-3.rotate {
+    transform: rotate(90deg);
+}
+
+.ship-element.length-4.rotate {
+    transform: rotate(90deg);
+
+}
+
+.ship-element.length-5.rotate {
+    transform: rotate(90deg);
+} */

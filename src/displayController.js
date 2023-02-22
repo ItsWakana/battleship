@@ -79,8 +79,62 @@ const DOMHelperCreation = () => {
             ship.classList.add(`length-${ship.dataset.length}`);
             shipElementArea.appendChild(ship);
             ship.draggable = 'true';
+            ship.dataset.orientation = 'horizontal';
         }
+    }
 
+    const generateShipRotationControls = (callback) => {
+        const shipMainContainer = document.querySelector('.ship-container');
+        
+        const shipContainer = document.createElement('div');
+        shipContainer.className = 'ship-sub-container';
+
+
+        const ships = shipMainContainer.querySelectorAll('.ship-element');
+
+        ships.forEach((ship) => {
+            shipMainContainer.removeChild(ship);
+
+            const shipContainer = document.createElement('div');
+            shipContainer.className = 'ship-sub-container';
+            shipContainer.appendChild(ship);
+
+            shipMainContainer.appendChild(shipContainer);
+
+            const button = document.createElement('button');
+            button.className = 'rotate-button';
+            button.textContent = 'rotate';
+
+            button.addEventListener('click', () => {
+                callback(ship);
+                changeOrientation(ship);
+                // applyRotation(ship);
+            });
+            shipContainer.appendChild(button);
+        });
+        
+        //add a button in each shipContainer that has a rotate button that will rotate the ship in place. We could add a data attriute to the element which indicates whether the ship is in a vertical or horizontal orientation. 
+
+        //When the user clicks the rotate button, we'll need to somehow change the flex display properties so it flips the ship to vertical. This could probably be achieved with flex direction column or flex direction row
+    }
+
+
+    const applyRotation = (shipElement) => {
+        //instead of the added classes switching the width and height of the pieces i could just use a transform rotation on the element instead.
+
+        if (shipElement.dataset.orientation === 'horizontal') {
+            shipElement.classList.add('vertical');
+        } else {
+            shipElement.classList.remove('vertical');
+        }
+    }
+
+    const changeOrientation = (ship) => {
+        if (ship.dataset.orientation === 'horizontal') {
+            ship.dataset.orientation = 'vertical';
+        } else {
+            ship.dataset.orientation = 'horizontal';
+        }
     }
 
     const removeGrids = () => {
@@ -124,7 +178,7 @@ const DOMHelperCreation = () => {
         heading.textContent = message;
     }
 
-    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells, setUserInstruction }
+    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells, setUserInstruction, generateShipRotationControls,applyRotation }
 }
 
 export const View = () => {
@@ -162,6 +216,7 @@ export const View = () => {
             child.classList.add('player-ship-hit');
         }
     }
+
     const dragAndDropShips = (callback) => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
@@ -208,7 +263,7 @@ export const View = () => {
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                // cell.style.backgroundColor = 'red';
+                cell.style.backgroundColor = 'red';
             }
         });
 
