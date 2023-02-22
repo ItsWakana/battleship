@@ -1,3 +1,5 @@
+import rotate from './assets/rotate.svg';
+
 const DOMHelperCreation = () => {
 
     const playerBoard = document.querySelector('.grid.left');
@@ -60,7 +62,7 @@ const DOMHelperCreation = () => {
 
         const title = document.createElement('h2');
         title.className = 'user-instruction';
-        title.textContent = 'Drag your ships in place!'
+        title.textContent = 'Drag your fleet onto the battlefield, captain!'
         shipElementArea.appendChild(title);
 
         const carrier = document.createElement('div');
@@ -100,18 +102,18 @@ const DOMHelperCreation = () => {
 
             shipSubContainer.appendChild(shipContainer);
 
-            // shipMainContainer.appendChild(shipContainer);
+            const rotateButton = document.createElement('img');
+            rotateButton.src = rotate;
+            rotateButton.className = 'rotate-button';
 
-            const button = document.createElement('button');
-            button.className = 'rotate-button';
-            button.textContent = 'rotate';
-
-            button.addEventListener('click', () => {
+            rotateButton.addEventListener('click', () => {
+                // rotateButton.classList.toggle('active');
                 callback(ship);
                 changeOrientation(ship);
                 // applyRotation(ship);
             });
-            shipContainer.appendChild(button);
+
+            shipContainer.appendChild(rotateButton);
         });
 
         shipMainContainer.appendChild(shipSubContainer);

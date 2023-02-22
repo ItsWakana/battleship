@@ -77,8 +77,12 @@ const gameController = () => {
                 game.playerBoard.placeShip(newShip, arrayCoordinate, false);
                 // ship.remove();
                 ship.parentNode.classList.add('invisible');
-                await delay(500);
-                ship.parentNode.remove();
+
+                ship.parentNode.addEventListener('transitionend', () => {
+                    ship.parentNode.remove();
+                });
+                // await delay(500);
+                // ship.parentNode.remove();
             } else {
                 console.log('Error: Cannot place ship there');
                 //handle a missplaced ship, user tooltip or error pop up
@@ -88,8 +92,12 @@ const gameController = () => {
                 game.playerBoard.placeShip(newShip, arrayCoordinate, true);
                 // ship.remove();
                 ship.parentNode.classList.add('invisible');
-                await delay(500);
-                ship.parentNode.remove();
+
+                ship.parentNode.addEventListener('transitionend', () => {
+                    ship.parentNode.remove();
+                });
+                // await delay(500);
+                // ship.parentNode.remove();
             } else {
                 console.log('Error: Cannot place ship there');
                 //handle a missplaced ship, user tooltip or error pop up
