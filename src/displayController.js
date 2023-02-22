@@ -56,7 +56,7 @@ const DOMHelperCreation = () => {
     }
 
     const generateShipElements = () => {
-        const shipElementArea = document.querySelector('.ship-container');
+        const shipElementArea = document.querySelector('.ship-main-container');
 
         const title = document.createElement('h2');
         title.className = 'user-instruction';
@@ -84,11 +84,10 @@ const DOMHelperCreation = () => {
     }
 
     const generateShipRotationControls = (callback) => {
-        const shipMainContainer = document.querySelector('.ship-container');
-        
-        const shipContainer = document.createElement('div');
-        shipContainer.className = 'ship-sub-container';
+        const shipMainContainer = document.querySelector('.ship-main-container');
 
+        const shipSubContainer = document.createElement('div');
+        shipSubContainer.className = 'ship-sub-container';
 
         const ships = shipMainContainer.querySelectorAll('.ship-element');
 
@@ -96,10 +95,12 @@ const DOMHelperCreation = () => {
             shipMainContainer.removeChild(ship);
 
             const shipContainer = document.createElement('div');
-            shipContainer.className = 'ship-sub-container';
+            shipContainer.className = 'ship-element-container';
             shipContainer.appendChild(ship);
 
-            shipMainContainer.appendChild(shipContainer);
+            shipSubContainer.appendChild(shipContainer);
+
+            // shipMainContainer.appendChild(shipContainer);
 
             const button = document.createElement('button');
             button.className = 'rotate-button';
@@ -112,6 +113,8 @@ const DOMHelperCreation = () => {
             });
             shipContainer.appendChild(button);
         });
+
+        shipMainContainer.appendChild(shipSubContainer);
         
         //add a button in each shipContainer that has a rotate button that will rotate the ship in place. We could add a data attriute to the element which indicates whether the ship is in a vertical or horizontal orientation. 
 
@@ -263,7 +266,7 @@ export const View = () => {
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                cell.style.backgroundColor = 'red';
+                // cell.style.backgroundColor = 'red';
             }
         });
 
