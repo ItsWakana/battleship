@@ -150,20 +150,16 @@ export const View = () => {
     }
 
     const setHit = (coordinate, isPlayer) => {
-        // const shipHitMarker = document.createElement('div');
-        // shipHitMarker.className = 'ship-hit-marker';
 
         if (isPlayer) {
             const element = document.querySelector(`[data-player="computer"][data-xy-pos="${coordinate}"]`);
             const child = element.querySelector('.attack-marker');
             child.classList.add('computer-ship-hit');
-            // child.appendChild(shipHitMarker);
         } else {
             coordinate = coordinate.join('');
             const element = document.querySelector(`[data-player="player"][data-xy-pos="${coordinate}"]`);
             const child = element.querySelector('.attack-marker');
             child.classList.add('player-ship-hit');
-            // child.appendChild(shipHitMarker);
         }
     }
     const dragAndDropShips = (callback) => {
@@ -204,7 +200,6 @@ export const View = () => {
         computerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (computerBoard[xy[0]][xy[1]] === 'x') {
-                // cell.textContent = computerBoard[xy[0]][xy[1]];
                 if (!cell.hasChildNodes()) {
                     const marker = document.createElement('div');
                     marker.className = 'attack-marker';
@@ -220,7 +215,6 @@ export const View = () => {
         playerCells.forEach((cell) => {
             const xy = cell.dataset.xyPos;
             if (playerBoard[xy[0]][xy[1]] === 'x') {
-                // cell.textContent = playerBoard[xy[0]][xy[1]];
                 if (!cell.hasChildNodes()) {
                     const marker = document.createElement('div');
                     marker.className = 'attack-marker';
@@ -229,7 +223,6 @@ export const View = () => {
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
-                // cell.style.backgroundColor = 'black';
                 cell.classList.add('placed');
             }
         });

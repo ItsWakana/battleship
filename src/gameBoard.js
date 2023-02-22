@@ -1,5 +1,3 @@
-//for the moment, our gameboard can just be logic. We can represent it as a 2d array of positions and coordinates. The ships available in a particular gameboard should be stored inside some kind of data structure (maybe an array?). We should set some kind of limit for how many ships a board can have, so the user can't add more than the limit.
-
 export const Gameboard = () => {
     const board = [];
 
@@ -20,14 +18,14 @@ export const Gameboard = () => {
     }
 
     const canPlaceShip = (ship, position) => {
-        console.log(`Ship Length: ${ship.length}, Coordinate: ${position}`);
         if ((position[1] - 1) + ship.length > 9) {
-            console.log('too long')
+            console.log('Error: Ship does not fit on the board');
             return false;
         }
 
         for (let i=0; i<=ship.length; i++) {
             if (typeof board[position[0]][position[1] + i] === 'object') {
+                console.log('Error: Ship exists in this position');
                 return false;
             }
         }
@@ -40,7 +38,6 @@ export const Gameboard = () => {
     }
 
     const allShipsPlaced = () => {
-        console.log(ships);
         return ships.length >= 4;
     }
 
@@ -81,12 +78,6 @@ export const Gameboard = () => {
     }
 
     const placeShip = (ship, coordinate) => {
-        // if (board[coordinate[0]][coordinate[1]] !== '') {
-        //     throw new Error('Ship exists in this position');
-        // } 
-        // if (coordinate[1] + ship.length > 9) {
-        //     throw new Error('Ship not on the board');
-        // }
 
         for (let i=0; i<ship.length; i++) {
             board[coordinate[0]][coordinate[1] + i] = ship;
@@ -100,17 +91,6 @@ export const Gameboard = () => {
     const getLastHit = () => {
         return lastHit;
     }
-
-    // const isValidAttack = (coordinate) => {
-    //     if (coordinate[0] <= 9 && coordinate[1] <= 9) {
-
-    //         if (board[coordinate[0]][coordinate[1]] === 'x') {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
 
     const isValidAttack = (coordinate) => {
         if (coordinate[0] <= 9 && coordinate[1] <= 9) {
@@ -140,24 +120,6 @@ export const Gameboard = () => {
             }
 
             board[coordinate[0]][coordinate[1]] = 'x';
-        // if (coordinate[0] <= 9 && coordinate[1] <= 9) {
-        //     const boardItem = board[coordinate[0]][coordinate[1]];
-
-        //     if (boardItem === '') {
-        //         missedShots[coordinate[0]].push(coordinate[1]);
-        //         lastHit = null;
-        //     }
-        //     if (typeof boardItem === 'object') {
-        //         boardItem.hit();
-        //         lastHit = 'ship';
-        //     }
-        //     if (board[coordinate[0]][coordinate[1]] === 'x') {
-        //         throw new Error('Cannot attack same coordinate more than once');
-        //     }
-        //     board[coordinate[0]][coordinate[1]] = 'x';
-        // } else {
-        //     throw new Error('Attack is not on the board');
-        // }
         
         return coordinate;
     }
