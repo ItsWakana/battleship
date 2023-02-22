@@ -11,8 +11,10 @@ describe('placeShip', () => {
 
     test('Should place ship on the board', () => {
         const ship = {type: 'Carrier', length: 5}
-        board.placeShip(ship, [0,2]);
 
+        expect(board.canPlaceShip(ship, [0,2])).toBe(true);
+        board.placeShip(ship, [0,2]);
+        
         expect(board.getBoard()[0][2]).toBe(ship);
         expect(board.getBoard()[0][3]).toBe(ship);
         expect(board.getBoard()[0][4]).toBe(ship);
@@ -22,23 +24,33 @@ describe('placeShip', () => {
         expect(board.getShips()).toEqual([ship]);
     });
 
+    test('Should place ship on the board', () => {
+        const ship = {type: 'Destroyer', length: 2}
+
+        expect(board.canPlaceShip(ship, [0,8])).toBe(true);
+
+        board.placeShip(ship, [0,8]);
+
+        expect(board.getBoard()[0][8]).toBe(ship);
+        expect(board.getBoard()[0][9]).toBe(ship);
+
+        expect(board.getShips()).toEqual([ship]);
+    });
+
     test('Should throw error if ship not on the board', () => {
         const ship1 = {type: 'Cruiser', length: 3}
-
-        expect(() => board.placeShip(ship1, [3,8])).toThrow('Ship not on the board');
+        expect(board.canPlaceShip(ship1, [3,8])).toBe(false);
 
         const ship2 = {type: 'Battleship', length: 4}
-
-        expect(() => board.placeShip(ship2, [8,6])).toThrow('Ship not on the board');
+        expect(board.canPlaceShip(ship2, [8,6])).toBe(true);
     });
 
     test('Should throw error if ship exists in position', () => {
         board.placeShip(Ship(2), [7,6]);
         board.placeShip(Ship(5), [2,2]);
 
-        expect(() => board.placeShip(Ship(2), [7,7])).toThrowError('Ship exists in this position');
-
-        expect(() => board.placeShip(Ship(5), [2,5]).toThrowError('Ship exists in this position'));
+        expect(board.canPlaceShip(Ship(2), [7,7])).toBe(false);
+        expect(board.canPlaceShip(Ship(5), [2,5])).toBe(false);
     });
 
 });
@@ -88,14 +100,14 @@ describe('recieveAttack', () => {
         board.placeShip(Ship(5), [4,4]);
         board.recieveAttack([4,4]);
         board.recieveAttack([6,2]);
-        
-        expect(() => board.recieveAttack([4,4])).toThrowError('Cannot attack same coordinate more than once');
 
-        expect(() => board.recieveAttack([6,2])).toThrowError('Cannot attack same coordinate more than once');
+        expect(board.isValidAttack([4,4])).toBe(false);
+        expect(board.isValidAttack([6,2])).toBe(false);
     });
 
     test('Should throw error if an attack is not on the board', () => {
-        expect(() => board.recieveAttack([10,4])).toThrowError('Attack is not on the board');
+
+        expect(board.isValidAttack([10,4])).toBe(false);
     });
 
     test('Missed shot should be recorded', () => {

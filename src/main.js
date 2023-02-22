@@ -66,11 +66,11 @@ const gameController = () => {
             game.playerBoard.placeShip(newShip, arrayCoordinate);
             ship.remove();
         } else {
-            console.log('Ship placement error');
+            console.log('Error: Cannot place ship there');
             //handle a missplaced ship, user tooltip or error pop up
         }
     }
-    
+
     const executePlayerTurn = (coordinate) => {
 
         game.currentPlayer = game.player.getName();

@@ -20,7 +20,9 @@ export const Gameboard = () => {
     }
 
     const canPlaceShip = (ship, position) => {
-        if (position[1] + ship.length > 9) {
+        console.log(`Ship Length: ${ship.length}, Coordinate: ${position}`);
+        if ((position[1] - 1) + ship.length > 9) {
+            console.log('too long')
             return false;
         }
 
@@ -79,12 +81,12 @@ export const Gameboard = () => {
     }
 
     const placeShip = (ship, coordinate) => {
-        if (board[coordinate[0]][coordinate[1]] !== '') {
-            throw new Error('Ship exists in this position');
-        } 
-        if (coordinate[1] + ship.length > 9) {
-            throw new Error('Ship not on the board');
-        }
+        // if (board[coordinate[0]][coordinate[1]] !== '') {
+        //     throw new Error('Ship exists in this position');
+        // } 
+        // if (coordinate[1] + ship.length > 9) {
+        //     throw new Error('Ship not on the board');
+        // }
 
         for (let i=0; i<ship.length; i++) {
             board[coordinate[0]][coordinate[1] + i] = ship;
@@ -99,15 +101,28 @@ export const Gameboard = () => {
         return lastHit;
     }
 
+    // const isValidAttack = (coordinate) => {
+    //     if (coordinate[0] <= 9 && coordinate[1] <= 9) {
+
+    //         if (board[coordinate[0]][coordinate[1]] === 'x') {
+    //             return false;
+    //         }
+    //     }
+
+    //     return true;
+    // }
+
     const isValidAttack = (coordinate) => {
         if (coordinate[0] <= 9 && coordinate[1] <= 9) {
 
             if (board[coordinate[0]][coordinate[1]] === 'x') {
                 return false;
             }
-        }
 
-        return true;
+            return true;
+        }
+        console.log('Error: Out of bounds attack');
+        return false;
     }
 
     const recieveAttack = (coordinate) => {
