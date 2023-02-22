@@ -105,7 +105,7 @@ const DOMHelperCreation = () => {
             const rotateButton = document.createElement('img');
             rotateButton.src = rotate;
             rotateButton.className = 'rotate-button';
-
+            rotateButton.draggable = 'false';
             rotateButton.addEventListener('click', () => {
                 // rotateButton.classList.toggle('active');
                 callback(ship);

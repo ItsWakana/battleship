@@ -25,6 +25,9 @@ const gameController = () => {
 
             view.dragAndDropShips((ship, coordinate) => {
 
+                //currently an error with being able to drag the refresh icon onto the board and it seems to place it on the board even  though the refresh icon is set to non-draggable. Thinking this could be because our refresh icon is a child element on the ship element, so it still counts it as draggable.
+
+
                 //check if the ship is horizontal using the ship elements dataset
 
                 // if ship orientation is horizontal
