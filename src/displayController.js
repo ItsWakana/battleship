@@ -1,22 +1,24 @@
 import rotate from './assets/rotate.svg';
+import { CustomElementCreator } from './DOMCreation';
 
 const DOMHelperCreation = () => {
 
+    const creator = CustomElementCreator();
+
+    
     const playerBoard = document.querySelector('.grid.left');
     const computerBoard = document.querySelector('.grid.right');
     
     const makeGridSquares = (container, isCompGrid) => {
             for (let i=0; i<11; i++) {
 
-                const row = document.createElement('div');
-                row.className = 'row';
+                const row = creator.oneElement('row', 'div');
                 container.appendChild(row);
     
                 for (let j=0; j<11; j++) {
 
-                        const box = document.createElement('div');
-                        box.className = 'box';
-                        row.appendChild(box);
+                        const box = creator.oneElement('box', 'div');
+                        row.appendChild(box)
                         box.dataset.xyPos = `${j-1}${i-1}`;
                         if (isCompGrid) {
                             box.dataset.player = 'computer';
@@ -60,23 +62,18 @@ const DOMHelperCreation = () => {
     const generateShipElements = () => {
         const shipElementArea = document.querySelector('.ship-main-container');
 
-        const title = document.createElement('h2');
-        title.className = 'user-instruction';
+        const title = creator.oneElement('user-instruction', 'h2');
         title.textContent = 'Drag your fleet onto the battlefield, captain!'
         shipElementArea.appendChild(title);
+        
+        const ships = creator.multipleElements('div', 4);
+        const shipLengths = [5,4,3,2];
 
-        const carrier = document.createElement('div');
-        const battleship = document.createElement('div')
-        const cruiser = document.createElement('div');
-        const destroyer = document.createElement('div');
+        ships.forEach((ship, i) => {
+            ship.dataset.length = shipLengths[i];
+        });
         
-        carrier.dataset.length = 5;
-        battleship.dataset.length = 4;
-        cruiser.dataset.length = 3;
-        destroyer.dataset.length = 2;
-        const shipElements = [carrier,battleship,cruiser,destroyer];
-        
-        for (const ship of shipElements) {
+        for (const ship of ships) {
             ship.className = 'ship-element';
             ship.classList.add(`length-${ship.dataset.length}`);
             shipElementArea.appendChild(ship);
@@ -88,25 +85,21 @@ const DOMHelperCreation = () => {
     const generateShipRotationControls = (callback) => {
         const shipMainContainer = document.querySelector('.ship-main-container');
 
-        const shipSubContainer = document.createElement('div');
-        shipSubContainer.className = 'ship-sub-container';
+        const shipSubContainer = creator.oneElement('ship-sub-container', 'div');
 
         const ships = shipMainContainer.querySelectorAll('.ship-element');
 
         ships.forEach((ship) => {
             shipMainContainer.removeChild(ship);
 
-            const shipContainer = document.createElement('div');
-            shipContainer.className = 'ship-element-container';
+            const shipContainer = creator.oneElement('ship-element-container', 'div');
             shipContainer.appendChild(ship);
 
             shipSubContainer.appendChild(shipContainer);
 
-            const rotateButton = document.createElement('img');
+            const rotateButton = creator.oneElement('rotate-button', 'img');
             rotateButton.src = rotate;
-            rotateButton.className = 'rotate-button';
             rotateButton.draggable = false;
-            console.log(rotateButton);
             rotateButton.addEventListener('click', () => {
                 // rotateButton.classList.toggle('active');
                 callback(ship);
@@ -123,7 +116,6 @@ const DOMHelperCreation = () => {
 
 
     const applyRotation = (shipElement) => {
-        //instead of the added classes switching the width and height of the pieces i could just use a transform rotation on the element instead.
 
         if (shipElement.dataset.orientation === 'horizontal') {
             shipElement.classList.add('vertical');
@@ -157,13 +149,26 @@ const DOMHelperCreation = () => {
     }
 
     const disableCells = () => {
+
         computerBoard.classList.add('disabled');
         playerBoard.classList.add('disabled');
+
+        const enabledCells = document.querySelectorAll('.box');
+        enabledCells.forEach((cell) => {
+            cell.classList.add('disabled');
+        });
     }
 
     const enableCells = () => {
+
         computerBoard.classList.remove('disabled');
         playerBoard.classList.remove('disabled');
+
+        const disabledCells = document.querySelectorAll('.box');
+
+        disabledCells.forEach((cell) => {
+            cell.classList.remove('disabled');
+        });
     }
 
     const currentPlayerOutline = (isPlayersTurn) => {
@@ -181,7 +186,17 @@ const DOMHelperCreation = () => {
         heading.textContent = message;
     }
 
-    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells, setUserInstruction, generateShipRotationControls,applyRotation }
+    const setInGameStyles = () => {
+        const button = document.querySelector('.start-game');
+
+        button.classList.add('in-progress');
+    }
+
+    const resetGameStyles = () => {
+
+    }
+
+    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells, setUserInstruction, setInGameStyles, resetGameStyles, generateShipRotationControls,applyRotation }
 }
 
 export const View = () => {
@@ -224,7 +239,6 @@ export const View = () => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
         shipElements.forEach((ship) => {
-            console.log(ship)
             ship.addEventListener('dragstart', () => {
                 draggedShip = ship;
             });
@@ -269,7 +283,7 @@ export const View = () => {
             }
 
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                // cell.style.backgroundColor = 'red';
+                cell.style.backgroundColor = 'red';
             }
         });
 

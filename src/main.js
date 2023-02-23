@@ -13,6 +13,7 @@ const gameController = () => {
     const gameLoop = () => {
         if (!gameStarted) {
             view.DOMHelper.generateGrids();
+            view.DOMHelper.setInGameStyles();
             view.DOMHelper.generateShipElements();
             view.DOMHelper.generateShipRotationControls((shipElement) => {
                 view.DOMHelper.applyRotation(shipElement);
@@ -23,17 +24,10 @@ const gameController = () => {
 
             view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
+            // view.DOMHelper.disableCells();
+            
             view.dragAndDropShips((ship, coordinate) => {
 
-                //currently an error with being able to drag the refresh icon onto the board and it seems to place it on the board even  though the refresh icon is set to non-draggable. Thinking this could be because our refresh icon is a child element on the ship element, so it still counts it as draggable.
-
-
-                //check if the ship is horizontal using the ship elements dataset
-
-                // if ship orientation is horizontal
-                // call shipplacement passing in false as its not horizontal.
-
-                //otherwise if its not horizontal we know its vertical, so we can call shipPlacement but pass in true as it must be vertical.
                 checkShipPlacement(ship, coordinate);
                 view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
@@ -160,6 +154,7 @@ const gameController = () => {
     const resetGame = () => {
         game = GameState();
         view.DOMHelper.removeGrids();
+        view.DOMHelper.resetGameStyles();
         gameStarted = false;
     }
 

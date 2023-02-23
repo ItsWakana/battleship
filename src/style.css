@@ -25,6 +25,23 @@ body {
 h2 {
     color: var(--secondary-clr);
 }
+
+.start-game {
+    background: var(--secondary-clr);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 150ms;
+}
+
+.in-progress {
+    cursor: not-allowed;
+    background-color: gray;
+    opacity: 0.5;
+}
+
 .gameboards {
     display: flex;
     justify-content: center;
@@ -43,10 +60,11 @@ h2 {
     transition: 100ms;
 }
 
-.grid.left.disabled,
+/* .grid.left.disabled,
 .grid.right.disabled {
     pointer-events: none;
-}
+    cursor: not-allowed;
+} */
 
 .row {
     flex-grow: 1;
@@ -63,13 +81,21 @@ h2 {
     /* border: solid 1px rgb(56, 58, 70); */
     border: solid 1px var(--grid-border-clr);
     flex-grow: 1;
-    cursor: pointer;
+    /* cursor: pointer; */
     aspect-ratio: 1/1;
     text-align: center;
     font-weight: bold;
     font-size: 30px;
 }
 
+/* .box .disabled {
+    pointer-events: none;
+} */
+
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
 .box.hover {
     background-color: var(--box-hover-clr);
 }
