@@ -13,6 +13,9 @@ const DOMHelperCreation = () => {
     let computerBoard;
     
     const initializeDisplay = () => {
+
+        const transitionContainer = document.querySelector('.transition-container');
+
         generateGrids();
         setInGameStyles();
         generateShipElements();
@@ -62,13 +65,12 @@ const DOMHelperCreation = () => {
         10: 'J'
     }
 
-    const generateGrids = () => {
+    const generateGrids = async () => {
 
         const mainBoardsContainer = document.querySelector('.gameboards');
 
         const shipMainContainer = document.querySelector('.ship-main-container');
         const transitionContainer = document.querySelector('.transition-container');
-        // transitionContainer.classList.add('shift-down');
 
         
         playerBoard = document.createElement('div');
@@ -81,14 +83,31 @@ const DOMHelperCreation = () => {
         playerBoard.dataset.grid = false;
         
         
-        playerBoard.classList.add('visible');
-        computerBoard.classList.add('visible');
+        // playerBoard.classList.add('visible');
+        // computerBoard.classList.add('visible');
         
+        // transitionContainer.classList.add('shift-down');
+        
+        // makeGridSquares(playerBoard, false);
+        // makeGridSquares(computerBoard, true);
+        // mainBoardsContainer.append(playerBoard, computerBoard);
 
-        
+
+        //when the button is pressed, we want to animate the transitionContainer down first, after that animation is completed we want to append the grids to the DOM.
         makeGridSquares(playerBoard, false);
         makeGridSquares(computerBoard, true);
+
         mainBoardsContainer.append(playerBoard, computerBoard);
+
+        transitionContainer.classList.add('shift-down');
+
+        setTimeout(() => {
+            // mainBoardsContainer.append(playerBoard, computerBoard);
+            playerBoard.classList.add('visible');
+            computerBoard.classList.add('visible');
+        }, 500);
+
+        
     }
 
     const generateShipElements = () => {
