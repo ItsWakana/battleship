@@ -45,7 +45,7 @@ export const Gameboard = () => {
             return false;
         }
 
-        for (let i=0; i<=ship.length; i++) {
+        for (let i=0; i<ship.length; i++) {
             if (typeof board[position[0]][position[1] + i] === 'object') {
                 console.log('Error: Ship exists in this position');
                 return false;

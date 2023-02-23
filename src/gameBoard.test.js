@@ -14,6 +14,10 @@ describe('placeShip', () => {
 
         expect(board.canPlaceShip(ship, [0,2], false)).toBe(true);
         board.placeShip(ship, [0,2]);
+
+        board.placeShip(Ship(5), [4,5], false);
+
+        expect(board.canPlaceShip(Ship(2), [4,3], false)).toBe(true);
         
         expect(board.getBoard()[0][2]).toBe(ship);
         expect(board.getBoard()[0][3]).toBe(ship);
@@ -30,6 +34,10 @@ describe('placeShip', () => {
         expect(board.canPlaceShip(ship, [0,8], true)).toBe(true);
 
         board.placeShip(ship, [0,8], true);
+
+        // board.placeShip(Ship(5), [4,3], true);
+
+        // expect(board.canPlaceShip(Ship(2), [2,3], true)).toBe(true);
 
         expect(board.getBoard()[0][8]).toBe(ship);
         expect(board.getBoard()[1][8]).toBe(ship);
