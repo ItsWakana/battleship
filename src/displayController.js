@@ -6,8 +6,11 @@ const DOMHelperCreation = () => {
     const creator = CustomElementCreator();
 
     
-    const playerBoard = document.querySelector('.grid.left');
-    const computerBoard = document.querySelector('.grid.right');
+    // const playerBoard = document.querySelector('.grid.left');
+    // const computerBoard = document.querySelector('.grid.right');
+
+    let playerBoard;
+    let computerBoard;
     
     const initializeDisplay = () => {
         generateGrids();
@@ -60,11 +63,32 @@ const DOMHelperCreation = () => {
     }
 
     const generateGrids = () => {
+
+        const mainBoardsContainer = document.querySelector('.gameboards');
+
+        const shipMainContainer = document.querySelector('.ship-main-container');
+        const transitionContainer = document.querySelector('.transition-container');
+        // transitionContainer.classList.add('shift-down');
+
+        
+        playerBoard = document.createElement('div');
+        computerBoard = document.createElement('div');
+        
+        playerBoard.className = 'grid left';
+        
+        computerBoard.className = 'grid right';
+        
+        playerBoard.dataset.grid = false;
+        
+        
         playerBoard.classList.add('visible');
         computerBoard.classList.add('visible');
+        
 
+        
         makeGridSquares(playerBoard, false);
         makeGridSquares(computerBoard, true);
+        mainBoardsContainer.append(playerBoard, computerBoard);
     }
 
     const generateShipElements = () => {
@@ -146,13 +170,18 @@ const DOMHelperCreation = () => {
         computerBoard.classList.add('invisible');
         playerBoard.addEventListener('transitionend', () => {
 
-            while (playerBoard.hasChildNodes()) {
-                playerBoard.removeChild(playerBoard.lastChild);
-            }
+            // while (playerBoard.hasChildNodes()) {
+            //     playerBoard.removeChild(playerBoard.lastChild);
+            // }
     
-            while (computerBoard.hasChildNodes()) {
-                computerBoard.removeChild(computerBoard.lastChild);
-            }
+            // while (computerBoard.hasChildNodes()) {
+            //     computerBoard.removeChild(computerBoard.lastChild);
+            // }
+            playerBoard.remove();
+            computerBoard.remove();
+
+            playerBoard.classList.remove('invisible');
+            computerBoard.classList.remove('invisible');
         });
 
         const shipContainer = document.querySelector('.ship-container');

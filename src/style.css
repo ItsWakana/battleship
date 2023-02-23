@@ -170,6 +170,21 @@ h2 {
   transform: translateX(-50%) rotate(-45deg);
 }
 
+.transition-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    min-height: 200px;
+    transition: 2s ease-out;
+    overflow: hidden;
+}
+
+.transition-container.shift-down {
+    transform: translateY(20%);
+}
 .ship-main-container {
     display: flex;
     flex-direction: column;
