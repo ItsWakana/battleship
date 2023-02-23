@@ -11,11 +11,11 @@ describe('placeShip', () => {
 
     test('Should place horizontal ship on the board', () => {
         const ship = {type: 'Carrier', length: 5}
-
+        const ship2 = {type: 'Carrier', length: 5}
         expect(board.canPlaceShip(ship, [0,2], false)).toBe(true);
         board.placeShip(ship, [0,2]);
 
-        board.placeShip(Ship(5), [4,5], false);
+        board.placeShip(ship2, [4,5], false);
 
         expect(board.canPlaceShip(Ship(2), [4,3], false)).toBe(true);
         
@@ -25,7 +25,7 @@ describe('placeShip', () => {
         expect(board.getBoard()[0][5]).toBe(ship);
         expect(board.getBoard()[0][6]).toBe(ship);
 
-        expect(board.getShips()).toEqual([ship]);
+        expect(board.getShips()).toEqual([ship, ship2]);
     });
 
     test('Should place vertical ship on the board', () => {
