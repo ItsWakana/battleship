@@ -12,9 +12,9 @@ const gameController = () => {
 
     const gameLoop = () => {
         if (!gameStarted) {
-            view.DOMHelper.generateGrids();
-            view.DOMHelper.setInGameStyles();
-            view.DOMHelper.generateShipElements();
+
+            view.DOMHelper.initializeDisplay();
+
             view.DOMHelper.generateShipRotationControls((shipElement) => {
                 view.DOMHelper.applyRotation(shipElement);
             });
@@ -60,7 +60,7 @@ const gameController = () => {
 
     }
 
-    const checkShipPlacement = async (ship, coordinate) => {
+    const checkShipPlacement = (ship, coordinate) => {
 
         const arrayCoordinate = [+coordinate[0], +coordinate[1]];
         const shipLength = +ship.dataset.length;
@@ -69,14 +69,9 @@ const gameController = () => {
         if (ship.dataset.orientation === 'horizontal') {
             if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, false)) {
                 game.playerBoard.placeShip(newShip, arrayCoordinate, false);
-                // ship.remove();
-                ship.parentNode.classList.add('invisible');
 
-                ship.parentNode.addEventListener('transitionend', () => {
-                    ship.parentNode.remove();
-                });
-                // await delay(500);
-                // ship.parentNode.remove();
+                view.DOMHelper.transitionElementRemoval(ship.parentNode);
+
             } else {
                 console.log('Error: Cannot place ship there');
                 //handle a missplaced ship, user tooltip or error pop up
@@ -84,14 +79,9 @@ const gameController = () => {
         } else {
             if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, true)) {
                 game.playerBoard.placeShip(newShip, arrayCoordinate, true);
-                // ship.remove();
-                ship.parentNode.classList.add('invisible');
 
-                ship.parentNode.addEventListener('transitionend', () => {
-                    ship.parentNode.remove();
-                });
-                // await delay(500);
-                // ship.parentNode.remove();
+                view.DOMHelper.transitionElementRemoval(ship.parentNode);
+
             } else {
                 console.log('Error: Cannot place ship there');
                 //handle a missplaced ship, user tooltip or error pop up

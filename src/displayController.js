@@ -9,6 +9,12 @@ const DOMHelperCreation = () => {
     const playerBoard = document.querySelector('.grid.left');
     const computerBoard = document.querySelector('.grid.right');
     
+    const initializeDisplay = () => {
+        generateGrids();
+        setInGameStyles();
+        generateShipElements();
+    }
+
     const makeGridSquares = (container, isCompGrid) => {
             for (let i=0; i<11; i++) {
 
@@ -54,6 +60,8 @@ const DOMHelperCreation = () => {
     }
 
     const generateGrids = () => {
+        playerBoard.classList.add('visible');
+        computerBoard.classList.add('visible');
 
         makeGridSquares(playerBoard, false);
         makeGridSquares(computerBoard, true);
@@ -211,7 +219,15 @@ const DOMHelperCreation = () => {
 
     }
 
-    return { generateGrids, generateShipElements, removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, setInGameStyles, resetGameStyles, generateShipRotationControls,applyRotation }
+    const transitionElementRemoval = (element) => {
+        element.classList.add('invisible');
+
+        element.addEventListener('transitionend', () => {
+            element.remove();
+        });
+    }
+
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeDisplay }
 }
 
 export const View = () => {
