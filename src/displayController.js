@@ -142,13 +142,18 @@ const DOMHelperCreation = () => {
 
     const removeGridsAndHeading = () => {
         
-        while (playerBoard.hasChildNodes()) {
-            playerBoard.removeChild(playerBoard.lastChild);
-        }
+        playerBoard.classList.add('invisible');
+        computerBoard.classList.add('invisible');
+        playerBoard.addEventListener('transitionend', () => {
 
-        while (computerBoard.hasChildNodes()) {
-            computerBoard.removeChild(computerBoard.lastChild);
-        }
+            while (playerBoard.hasChildNodes()) {
+                playerBoard.removeChild(playerBoard.lastChild);
+            }
+    
+            while (computerBoard.hasChildNodes()) {
+                computerBoard.removeChild(computerBoard.lastChild);
+            }
+        });
 
         const shipContainer = document.querySelector('.ship-container');
         if (shipContainer) {
