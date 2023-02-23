@@ -132,7 +132,7 @@ const DOMHelperCreation = () => {
         }
     }
 
-    const removeGrids = () => {
+    const removeGridsAndHeading = () => {
         
         while (playerBoard.hasChildNodes()) {
             playerBoard.removeChild(playerBoard.lastChild);
@@ -143,9 +143,16 @@ const DOMHelperCreation = () => {
         }
 
         const shipContainer = document.querySelector('.ship-container');
-        while (shipContainer.hasChildNodes()) {
-            shipContainer.removeChild(shipContainer.lastChild);
+        if (shipContainer) {
+            while (shipContainer.hasChildNodes()) {
+                shipContainer.removeChild(shipContainer.lastChild);
+            }
         }
+
+        const heading = document.querySelector('.user-instruction');
+        heading.remove();
+
+
     }
 
     const disableCells = () => {
@@ -193,10 +200,18 @@ const DOMHelperCreation = () => {
     }
 
     const resetGameStyles = () => {
+        const button = document.querySelector('.start-game');
+        button.classList.remove('in-progress');
+
+        playerBoard.style.border = 'none';
+        computerBoard.style.border = 'none';
+
+        enableCells();
+
 
     }
 
-    return { generateGrids, generateShipElements, removeGrids, currentPlayerOutline, enableCells, disableCells, setUserInstruction, setInGameStyles, resetGameStyles, generateShipRotationControls,applyRotation }
+    return { generateGrids, generateShipElements, removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, setInGameStyles, resetGameStyles, generateShipRotationControls,applyRotation }
 }
 
 export const View = () => {
@@ -245,7 +260,6 @@ export const View = () => {
         });
 
         
-
         playerCells.forEach((cell) => {
             cell.addEventListener('dragover', (e) => {
                 e.preventDefault();

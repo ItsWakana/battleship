@@ -24,10 +24,7 @@ const gameController = () => {
 
             view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
-            // view.DOMHelper.disableCells();
-            
             view.dragAndDropShips((ship, coordinate) => {
-
                 checkShipPlacement(ship, coordinate);
                 view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
@@ -104,6 +101,8 @@ const gameController = () => {
 
     const executePlayerTurn = (coordinate) => {
 
+        if (game.checkForWinner()) return;
+
         game.currentPlayer = game.player.getName();
         view.DOMHelper.setUserInstruction('Computer is attacking!');
         view.playerViewUpdate();
@@ -115,6 +114,8 @@ const gameController = () => {
     }
     
     const executeComputerTurn = async () => {
+
+        if (game.checkForWinner()) return;
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.setUserInstruction('Its your turn!');
         const position = game.computer.attack();
@@ -152,10 +153,10 @@ const gameController = () => {
     }
 
     const resetGame = () => {
-        game = GameState();
-        view.DOMHelper.removeGrids();
-        view.DOMHelper.resetGameStyles();
         gameStarted = false;
+        game = GameState();
+        view.DOMHelper.removeGridsAndHeading();
+        view.DOMHelper.resetGameStyles();
     }
 
     view.startButton.addEventListener('click', gameLoop);
