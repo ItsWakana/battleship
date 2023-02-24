@@ -98,11 +98,9 @@ const DOMHelperCreation = () => {
         makeGridSquares(computerBoard, true);
 
         mainBoardsContainer.append(playerBoard, computerBoard);
-
         transitionContainer.classList.add('shift-down');
 
         setTimeout(() => {
-            // mainBoardsContainer.append(playerBoard, computerBoard);
             playerBoard.classList.add('visible');
             computerBoard.classList.add('visible');
         }, 500);
@@ -187,6 +185,7 @@ const DOMHelperCreation = () => {
         
         playerBoard.classList.add('invisible');
         computerBoard.classList.add('invisible');
+        resetShipContainerPosition();
         playerBoard.addEventListener('transitionend', () => {
 
             // while (playerBoard.hasChildNodes()) {
@@ -216,6 +215,11 @@ const DOMHelperCreation = () => {
 
     }
 
+    const resetShipContainerPosition = () => {
+        const container = document.querySelector('.transition-container');
+
+        container.classList.remove('shift-down');
+    }
     const disableCells = () => {
 
         computerBoard.classList.add('disabled');
