@@ -132,6 +132,7 @@ const DOMHelperCreation = () => {
         
         for (const ship of ships) {
             ship.className = 'ship-element';
+            
             ship.classList.add(`length-${ship.dataset.length}`);
             shipElementArea.appendChild(ship);
             ship.draggable = true;
@@ -319,6 +320,29 @@ export const View = () => {
         }
     }
 
+    const setHorizontalShipHover = (draggedShip, currentCell) => {
+        for (let i=0; i<draggedShip.dataset.length; i++) {
+            const YboardPosition = Number(currentCell.dataset.xyPos[0]);
+            const XboardPosition = Number(currentCell.dataset.xyPos[1]) + i;
+            const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+            if (tile) {
+            tile.classList.add('hover');
+            }
+        }
+    }
+
+    const setVerticalShipHover = (draggedShip, currentCell) => {
+        for (let i=0; i<draggedShip.dataset.length; i++) {
+            const YboardPosition = Number(currentCell.dataset.xyPos[0]) + i;
+            const XboardPosition = Number(currentCell.dataset.xyPos[1]);
+            const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+            if (tile) {
+            tile.classList.add('hover');
+            }
+        }
+    }
+
+
     const dragAndDropShips = (callback) => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
@@ -338,26 +362,29 @@ export const View = () => {
             cell.addEventListener('dragenter', () => {
                 if (draggedShip.dataset.orientation === 'horizontal') {
 
-                    //setHorizontalShipHover(draggedShip)
-                    for (let i=0; i<draggedShip.dataset.length; i++) {
-                        const YboardPosition = Number(cell.dataset.xyPos[0]);
-                        const XboardPosition = Number(cell.dataset.xyPos[1]) + i;
-                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
-                        if (tile) {
-                        tile.classList.add('hover');
-                        }
-                    }
+                    setHorizontalShipHover(draggedShip, cell)
+
+
+                    // for (let i=0; i<draggedShip.dataset.length; i++) {
+                    //     const YboardPosition = Number(cell.dataset.xyPos[0]);
+                    //     const XboardPosition = Number(cell.dataset.xyPos[1]) + i;
+                    //     const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+                    //     if (tile) {
+                    //     tile.classList.add('hover');
+                    //     }
+                    // }
                 } else {
 
-                    //setVerticalShipHover(draggedShip)
-                    for (let i=0; i<draggedShip.dataset.length; i++) {
-                        const YboardPosition = Number(cell.dataset.xyPos[0]) + i;
-                        const XboardPosition = Number(cell.dataset.xyPos[1]);
-                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
-                        if (tile) {
-                        tile.classList.add('hover');
-                        }
-                    }
+                    setVerticalShipHover(draggedShip, cell)
+
+                    // for (let i=0; i<draggedShip.dataset.length; i++) {
+                    //     const YboardPosition = Number(cell.dataset.xyPos[0]) + i;
+                    //     const XboardPosition = Number(cell.dataset.xyPos[1]);
+                    //     const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+                    //     if (tile) {
+                    //     tile.classList.add('hover');
+                    //     }
+                    // }
                 }
             });
         });
