@@ -7,7 +7,7 @@
 :root {
     --main-background-clr: rgb(6, 18, 31);
     --grid-border-clr: rgb(22, 47, 73);
-    --box-hover-clr: rgb(15, 29, 44);
+    --box-hover-clr: rgb(32, 57, 83);
     --ship-clr: rgb(36, 60, 85);
     --secondary-clr: #cee61c;
 }
@@ -35,6 +35,10 @@ h2 {
     cursor: pointer;
     transition: 150ms;
     font-weight: bold;
+}
+
+.start-game:hover {
+    transform: scale(1.07);
 }
 
 .in-progress {
@@ -94,6 +98,7 @@ h2 {
     text-align: center;
     font-weight: bold;
     font-size: 30px;
+    transition: 150ms ease;
 }
 
 /* .box .disabled {
@@ -179,15 +184,10 @@ h2 {
     width: 100%;
     height: min-content;
     position: absolute;
-    top: 0vh;
+    top: 0;
     transition: all 0.5s ease;
 }
 
-.transition-container.shift-down {
-    /* transform: translateY(170%); */
-    /* transform: translateY(100%); */
-    top: 60vh;
-}
 .ship-main-container {
     display: flex;
     flex-direction: column;

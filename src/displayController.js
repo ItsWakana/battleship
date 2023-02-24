@@ -5,20 +5,16 @@ const DOMHelperCreation = () => {
 
     const creator = CustomElementCreator();
 
-    
-    // const playerBoard = document.querySelector('.grid.left');
-    // const computerBoard = document.querySelector('.grid.right');
-
     let playerBoard;
     let computerBoard;
     
     const initializeDisplay = () => {
 
-        const transitionContainer = document.querySelector('.transition-container');
-
         generateGrids();
         setInGameStyles();
         generateShipElements();
+
+        window.addEventListener('resize', adjustTransitionContainerSize);
     }
 
     const makeGridSquares = (container, isCompGrid) => {
@@ -52,6 +48,22 @@ const DOMHelperCreation = () => {
             }
     }
 
+    const adjustTransitionContainerSize = () => {
+
+        const mainBoardsContainer = document.querySelector('.gameboards');
+
+        const transitionContainer = document.querySelector('.transition-container');
+
+        const gameboardsHeight = mainBoardsContainer.offsetHeight;
+        transitionContainer.style.top = `${gameboardsHeight + 35}px`;
+    }
+
+    const setDefaultContainerSize = () => {
+        const transitionContainer = document.querySelector('.transition-container');
+
+        transitionContainer.style.top = '0vh';
+    }
+
     const setAlphabet = {
         1: 'A',
         2: 'B',
@@ -69,7 +81,6 @@ const DOMHelperCreation = () => {
 
         const mainBoardsContainer = document.querySelector('.gameboards');
 
-        const shipMainContainer = document.querySelector('.ship-main-container');
         const transitionContainer = document.querySelector('.transition-container');
 
         
@@ -82,22 +93,19 @@ const DOMHelperCreation = () => {
         
         playerBoard.dataset.grid = false;
         
-        
-        // playerBoard.classList.add('visible');
-        // computerBoard.classList.add('visible');
-        
-        // transitionContainer.classList.add('shift-down');
-        
-        // makeGridSquares(playerBoard, false);
-        // makeGridSquares(computerBoard, true);
-        // mainBoardsContainer.append(playerBoard, computerBoard);
-
-
-        //when the button is pressed, we want to animate the transitionContainer down first, after that animation is completed we want to append the grids to the DOM.
         makeGridSquares(playerBoard, false);
         makeGridSquares(computerBoard, true);
 
         mainBoardsContainer.append(playerBoard, computerBoard);
+
+        const setTransitionContainerTop = () => {
+
+            const gameboardsHeight = mainBoardsContainer.offsetHeight;
+            transitionContainer.style.top = `${gameboardsHeight + 35}px`;
+        }
+
+        setTransitionContainerTop();
+
         transitionContainer.classList.add('shift-down');
 
         setTimeout(() => {
@@ -105,7 +113,7 @@ const DOMHelperCreation = () => {
             computerBoard.classList.add('visible');
         }, 500);
 
-        
+        window.addEventListener('resize', setTransitionContainerTop);
     }
 
     const generateShipElements = () => {
@@ -185,16 +193,9 @@ const DOMHelperCreation = () => {
         
         playerBoard.classList.add('invisible');
         computerBoard.classList.add('invisible');
-        resetShipContainerPosition();
+        setDefaultContainerSize();
         playerBoard.addEventListener('transitionend', () => {
 
-            // while (playerBoard.hasChildNodes()) {
-            //     playerBoard.removeChild(playerBoard.lastChild);
-            // }
-    
-            // while (computerBoard.hasChildNodes()) {
-            //     computerBoard.removeChild(computerBoard.lastChild);
-            // }
             playerBoard.remove();
             computerBoard.remove();
 
@@ -215,11 +216,6 @@ const DOMHelperCreation = () => {
 
     }
 
-    const resetShipContainerPosition = () => {
-        const container = document.querySelector('.transition-container');
-
-        container.classList.remove('shift-down');
-    }
     const disableCells = () => {
 
         computerBoard.classList.add('disabled');
@@ -340,13 +336,60 @@ export const View = () => {
 
         playerCells.forEach((cell) => {
             cell.addEventListener('dragenter', () => {
-                cell.classList.add('hover');
+                if (draggedShip.dataset.orientation === 'horizontal') {
+
+                    //setHorizontalShipHover(draggedShip)
+                    for (let i=0; i<draggedShip.dataset.length; i++) {
+                        const YboardPosition = Number(cell.dataset.xyPos[0]);
+                        const XboardPosition = Number(cell.dataset.xyPos[1]) + i;
+                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+                        if (tile) {
+                        tile.classList.add('hover');
+                        }
+                    }
+                } else {
+
+                    //setVerticalShipHover(draggedShip)
+                    for (let i=0; i<draggedShip.dataset.length; i++) {
+                        const YboardPosition = Number(cell.dataset.xyPos[0]) + i;
+                        const XboardPosition = Number(cell.dataset.xyPos[1]);
+                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+                        if (tile) {
+                        tile.classList.add('hover');
+                        }
+                    }
+                }
             });
         });
 
         playerCells.forEach((cell) => {
             cell.addEventListener('dragleave', () => {
-                cell.classList.remove('hover');
+                
+                if (draggedShip.dataset.orientation === 'horizontal') {
+
+                    //removeHorizontalShipHover(draggedShip)
+                    for (let i=0; i<draggedShip.dataset.length; i++) {
+                        const YboardPosition = Number(cell.dataset.xyPos[0]);
+                        const XboardPosition = Number(cell.dataset.xyPos[1]) + i;
+                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+
+                        if (tile) {
+                        tile.classList.remove('hover');
+                        }
+                    }
+                } else {
+
+                    //removeVerticalShipHover(draggedShip)
+                    for (let i=0; i<draggedShip.dataset.length; i++) {
+                        const YboardPosition = Number(cell.dataset.xyPos[0]) + i;
+                        const XboardPosition = Number(cell.dataset.xyPos[1]);
+                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
+
+                        if (tile) {
+                        tile.classList.remove('hover');
+                        }
+                    }
+                }
             });
         });
 
@@ -354,6 +397,7 @@ export const View = () => {
         playerCells.forEach((cell) => {
             cell.addEventListener('drop', (e) => {
                 callback(draggedShip, e.target.dataset.xyPos);
+                playerCells.forEach((cell) => cell.classList.remove('hover'))
             });
         });
     }
