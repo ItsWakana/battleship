@@ -28,7 +28,11 @@ export const GameState = () => {
 
     let currentPlayer;
 
-    // const gameInit = gameInitHelper();
+    let playerCaptain = null;
+
+    const playerHasCaptain = () => {
+        return playerCaptain === true;
+    }
     
     let playerBoard = Gameboard();
     let computerBoard = Gameboard();
@@ -54,5 +58,5 @@ export const GameState = () => {
         return null;
     }
 
-    return { playerBoard, computerBoard, player, computer, checkForWinner, placeAllComputerShips, currentPlayer }
+    return { playerBoard, computerBoard, player, computer, checkForWinner, placeAllComputerShips, currentPlayer, playerHasCaptain }
 }

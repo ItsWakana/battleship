@@ -8,7 +8,7 @@ const DOMHelperCreation = () => {
     let playerBoard;
     let computerBoard;
     
-    const initializeDisplay = () => {
+    const initializeMainDisplay = () => {
 
         generateGrids();
         setInGameStyles();
@@ -281,7 +281,7 @@ const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeDisplay }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay }
 }
 
 export const View = () => {
@@ -340,7 +340,6 @@ export const View = () => {
             if (tile) {
                 toRemoveHover ? tile.classList.remove('hover')
                 : tile.classList.add('hover');
-            // tile.classList.add('hover');
             }
         }
     }
@@ -350,24 +349,23 @@ export const View = () => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
 
-        shipElements.forEach((ship) => {
+        for (const ship of shipElements) {
             ship.addEventListener('dragstart', () => {
                 draggedShip = ship;
-                draggedShip.parentNode.classList.add('hidden');
+                // draggedShip.parentNode.classList.add('hidden');
             });
 
-            ship.addEventListener('dragend', () => {
-                draggedShip.parentNode.classList.remove('hidden');
-            });
-        });
 
-        
-        playerCells.forEach((cell) => {
+            // ship.addEventListener('dragend', () => {
+            //     draggedShip.parentNode.classList.remove('hidden');
+            // });
+        }
+
+        for (const cell of playerCells) {
             cell.addEventListener('dragover', (e) => {
                 e.preventDefault();
             });
 
-        playerCells.forEach((cell) => {
             cell.addEventListener('dragenter', () => {
                 if (draggedShip.dataset.orientation === 'horizontal') {
                     setHorizontalShipHover(draggedShip, cell, false)
@@ -375,9 +373,7 @@ export const View = () => {
                     setVerticalShipHover(draggedShip, cell, false)
                 }
             });
-        });
 
-        playerCells.forEach((cell) => {
             cell.addEventListener('dragleave', () => {
                 
                 if (draggedShip.dataset.orientation === 'horizontal') {
@@ -387,24 +383,24 @@ export const View = () => {
                     setVerticalShipHover(draggedShip, cell, true)
                 }
             });
-        });
+        }        
 
-        });
-        playerCells.forEach((cell) => {
+        for (const cell of playerCells) {
             cell.addEventListener('drop', (e) => {
 
-                draggedShip.addEventListener('dragend', (e) => {
-                    draggedShip.parentNode.classList.add('hidden');
-                });
+                // draggedShip.addEventListener('dragend', (e) => {
+                //     draggedShip.parentNode.classList.add('hidden');
+                // });
 
                 callback(draggedShip, e.target.dataset.xyPos);
                 playerCells.forEach((cell) => cell.classList.remove('hover'))
             });
-        });
+        }
     }
 
     const updateBoard = (computerBoard, playerBoard) => {
-        computerCells.forEach((cell) => {
+
+        for (const cell of computerCells) {
             const xy = cell.dataset.xyPos;
             if (computerBoard[xy[0]][xy[1]] === 'x') {
                 if (!cell.hasChildNodes()) {
@@ -417,9 +413,9 @@ export const View = () => {
             if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
                 cell.style.backgroundColor = 'red';
             }
-        });
+        }
 
-        playerCells.forEach((cell) => {
+        for (const cell of playerCells) {
             const xy = cell.dataset.xyPos;
             if (playerBoard[xy[0]][xy[1]] === 'x') {
                 if (!cell.hasChildNodes()) {
@@ -432,7 +428,7 @@ export const View = () => {
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
                 cell.classList.add('placed');
             }
-        });
+        }
     }
 
     const playerViewUpdate = () => {
@@ -450,13 +446,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    const resetDisplay = () => {
-        playerCells.forEach((cell) => {
-            cell.textContent = '';
-        });
-
-        computerCells.forEach((cell) => cell.textContent = '');
-    }
-
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, resetDisplay, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit }
 }

@@ -13,7 +13,13 @@ const gameController = () => {
     const gameLoop = () => {
         if (!gameStarted) {
 
-            view.DOMHelper.initializeDisplay();
+            // if (!game.playerHasCaptain()) {
+            //     console.log('player has no captain');
+            //     view.DOMHelper.initializeCaptainPicker();
+            //     return;
+            // }
+
+            view.DOMHelper.initializeMainDisplay();
 
             view.DOMHelper.generateShipRotationControls((shipElement) => {
                 view.DOMHelper.applyRotation(shipElement);
