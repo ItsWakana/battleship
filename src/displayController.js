@@ -320,24 +320,27 @@ export const View = () => {
         }
     }
 
-    const setHorizontalShipHover = (draggedShip, currentCell) => {
+    const setHorizontalShipHover = (draggedShip, currentCell, toRemoveHover) => {
         for (let i=0; i<draggedShip.dataset.length; i++) {
             const YboardPosition = Number(currentCell.dataset.xyPos[0]);
             const XboardPosition = Number(currentCell.dataset.xyPos[1]) + i;
             const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
             if (tile) {
-            tile.classList.add('hover');
+                toRemoveHover ? tile.classList.remove('hover')
+                : tile.classList.add('hover');
             }
         }
     }
 
-    const setVerticalShipHover = (draggedShip, currentCell) => {
+    const setVerticalShipHover = (draggedShip, currentCell, toRemoveHover) => {
         for (let i=0; i<draggedShip.dataset.length; i++) {
             const YboardPosition = Number(currentCell.dataset.xyPos[0]) + i;
             const XboardPosition = Number(currentCell.dataset.xyPos[1]);
             const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
             if (tile) {
-            tile.classList.add('hover');
+                toRemoveHover ? tile.classList.remove('hover')
+                : tile.classList.add('hover');
+            // tile.classList.add('hover');
             }
         }
     }
@@ -346,9 +349,15 @@ export const View = () => {
     const dragAndDropShips = (callback) => {
         const shipElements = document.querySelectorAll('.ship-element');
         let draggedShip;
+
         shipElements.forEach((ship) => {
             ship.addEventListener('dragstart', () => {
                 draggedShip = ship;
+                draggedShip.parentNode.classList.add('hidden');
+            });
+
+            ship.addEventListener('dragend', () => {
+                draggedShip.parentNode.classList.remove('hidden');
             });
         });
 
@@ -361,30 +370,9 @@ export const View = () => {
         playerCells.forEach((cell) => {
             cell.addEventListener('dragenter', () => {
                 if (draggedShip.dataset.orientation === 'horizontal') {
-
-                    setHorizontalShipHover(draggedShip, cell)
-
-
-                    // for (let i=0; i<draggedShip.dataset.length; i++) {
-                    //     const YboardPosition = Number(cell.dataset.xyPos[0]);
-                    //     const XboardPosition = Number(cell.dataset.xyPos[1]) + i;
-                    //     const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
-                    //     if (tile) {
-                    //     tile.classList.add('hover');
-                    //     }
-                    // }
+                    setHorizontalShipHover(draggedShip, cell, false)
                 } else {
-
-                    setVerticalShipHover(draggedShip, cell)
-
-                    // for (let i=0; i<draggedShip.dataset.length; i++) {
-                    //     const YboardPosition = Number(cell.dataset.xyPos[0]) + i;
-                    //     const XboardPosition = Number(cell.dataset.xyPos[1]);
-                    //     const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
-                    //     if (tile) {
-                    //     tile.classList.add('hover');
-                    //     }
-                    // }
+                    setVerticalShipHover(draggedShip, cell, false)
                 }
             });
         });
@@ -394,28 +382,9 @@ export const View = () => {
                 
                 if (draggedShip.dataset.orientation === 'horizontal') {
 
-                    //removeHorizontalShipHover(draggedShip)
-                    for (let i=0; i<draggedShip.dataset.length; i++) {
-                        const YboardPosition = Number(cell.dataset.xyPos[0]);
-                        const XboardPosition = Number(cell.dataset.xyPos[1]) + i;
-                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
-
-                        if (tile) {
-                        tile.classList.remove('hover');
-                        }
-                    }
+                    setHorizontalShipHover(draggedShip, cell, true)
                 } else {
-
-                    //removeVerticalShipHover(draggedShip)
-                    for (let i=0; i<draggedShip.dataset.length; i++) {
-                        const YboardPosition = Number(cell.dataset.xyPos[0]) + i;
-                        const XboardPosition = Number(cell.dataset.xyPos[1]);
-                        const tile = document.querySelector(`.box[data-player="player"][data-xy-pos="${YboardPosition}${XboardPosition}"]`);
-
-                        if (tile) {
-                        tile.classList.remove('hover');
-                        }
-                    }
+                    setVerticalShipHover(draggedShip, cell, true)
                 }
             });
         });
@@ -423,6 +392,11 @@ export const View = () => {
         });
         playerCells.forEach((cell) => {
             cell.addEventListener('drop', (e) => {
+
+                draggedShip.addEventListener('dragend', (e) => {
+                    draggedShip.parentNode.classList.add('hidden');
+                });
+
                 callback(draggedShip, e.target.dataset.xyPos);
                 playerCells.forEach((cell) => cell.classList.remove('hover'))
             });

@@ -300,3 +300,7 @@ h2 {
     scale: 0;
     /* opacity: 0; */
 }
+
+.hidden {
+    opacity: 0;
+}
