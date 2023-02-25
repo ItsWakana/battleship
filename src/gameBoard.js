@@ -102,10 +102,12 @@ export const Gameboard = () => {
     const placeShip = (ship, coordinate, isVertical) => {
 
         if (isVertical) {
+            ship.setShipDirection('Vertical');
             for (let i=0; i<ship.length; i++) {
                 board[coordinate[0] + i][coordinate[1]] = ship;
             }
         } else {
+            ship.setShipDirection('Horizontal');
             for (let i=0; i<ship.length; i++) {
                 board[coordinate[0]][coordinate[1] + i] = ship;
             }

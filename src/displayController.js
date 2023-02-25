@@ -426,6 +426,15 @@ export const View = () => {
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
+                const ship = playerBoard[xy[0]][xy[1]];
+                // const shipSquare = document.createElement('div');
+
+                // if (ship.getShipDirection() === 'Horizontal') {
+                //     shipSquare.className = 'ship-square-horizontal';
+                // } else if (ship.getShipDirection() === 'Vertical') {
+                //     shipSquare.className = 'ship-square-vertical';
+                // }
+                // cell.appendChild(shipSquare);
                 cell.classList.add('placed');
             }
         }

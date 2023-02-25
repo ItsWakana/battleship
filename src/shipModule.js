@@ -11,6 +11,16 @@ export const Ship = (length) => {
 
     const type = shipLookup[length];
     
+    let shipDirection = null;
+
+    const setShipDirection = (direction) => {
+        shipDirection = direction;
+    }
+
+    const getShipDirection = () => {
+        return shipDirection;
+    }
+
     let damageRecieved = 0;
 
     const hit = () => {
@@ -21,5 +31,5 @@ export const Ship = (length) => {
 
     const getDamageRecieved = () => damageRecieved;
 
-    return { type, length, getDamageRecieved, hit, isSunk }
+    return { type, length, getDamageRecieved, hit, isSunk, setShipDirection, getShipDirection }
 }

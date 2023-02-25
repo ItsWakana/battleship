@@ -7,6 +7,7 @@
 :root {
     --main-background-clr: rgb(6, 18, 31);
     --grid-border-clr: rgb(22, 47, 73);
+    --ship-border-clr: #c4ce35;
     --box-hover-clr: rgb(32, 57, 83);
     --ship-clr: rgb(36, 60, 85);
     --secondary-clr: #cee61c;
@@ -95,6 +96,8 @@ h2 {
     flex-grow: 1;
     /* cursor: pointer; */
     aspect-ratio: 1/1;
+    height: 100%;
+    width: 100%;
     text-align: center;
     font-weight: bold;
     font-size: 30px;
@@ -115,6 +118,21 @@ h2 {
 
 .box.placed {
     background-color: var(--secondary-clr);
+    border-radius: 8px;
+    border: solid 1px var(--ship-border-clr);
+
+}
+
+.ship-square-horizontal {
+    width: 100%;
+    height: 60%;
+    background: red;
+}
+
+.ship-square-vertical {
+    width: 60%;
+    height: 100%;
+    background: red;
 }
 .outer-box {
     background-color: var(--main-background-clr);
@@ -206,9 +224,6 @@ h2 {
 }
 
 .ship-element-container {
-    /* width: 100px;
-    height: 100px; */
-    /* border: solid 1px red; */
     position: relative;
     transition: 250ms ease-out;
 }
