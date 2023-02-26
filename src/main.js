@@ -16,6 +16,7 @@ const gameController = () => {
             // if (!game.playerHasCaptain()) {
             //     console.log('player has no captain');
             //     view.DOMHelper.initializeCaptainPicker();
+            //     gameStarted = true;
             //     return;
             // }
 

@@ -11,6 +11,7 @@
     --box-hover-clr: rgb(32, 57, 83);
     --ship-clr: rgb(36, 60, 85);
     --secondary-clr: #cee61c;
+    font-size: 16px;
 }
 
 body {
@@ -53,6 +54,26 @@ h2 {
     justify-content: center;
     gap: 20px;
     width: 80%;
+}
+
+.captain-container {
+    display: flex;
+    opacity: 0;
+    position: relative;
+    top: -10rem;
+    background: pink;
+    border-radius: 5px;
+    flex-shrink: 0;
+    width: 40rem;
+    height: 12rem;
+    /* aspect-ratio: 1/1; */
+    /* transition: 100ms; */
+    transition: 700ms ease;
+}
+
+.captain-container.visible {
+    opacity: 1;
+    top: 0rem;
 }
 .grid.left,
 .grid.right {

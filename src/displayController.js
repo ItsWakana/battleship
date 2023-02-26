@@ -17,6 +17,33 @@ const DOMHelperCreation = () => {
         window.addEventListener('resize', adjustTransitionContainerSize);
     }
 
+    const initializeCaptainPicker = () => {
+        const mainBoardsContainer = document.querySelector('.gameboards');
+
+        const captainContainer = creator.oneElement('captain-container', 'div');
+
+        mainBoardsContainer.appendChild(captainContainer);
+
+        const transitionContainer = document.querySelector('.transition-container');
+
+        const setTransitionContainerTop = () => {
+
+            const gameboardsHeight = mainBoardsContainer.offsetHeight;
+            transitionContainer.style.top = `${gameboardsHeight + 35}px`;
+        }
+
+        setTransitionContainerTop();
+
+        transitionContainer.classList.add('shift-down');
+
+        setTimeout(() => {
+            captainContainer.classList.add('visible');
+        }, 500);
+
+        window.addEventListener('resize', setTransitionContainerTop);
+
+    }
+
     const makeGridSquares = (container, isCompGrid) => {
             for (let i=0; i<11; i++) {
 
@@ -281,7 +308,7 @@ const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker }
 }
 
 export const View = () => {
@@ -426,7 +453,7 @@ export const View = () => {
             }
 
             if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
-                const ship = playerBoard[xy[0]][xy[1]];
+                // const ship = playerBoard[xy[0]][xy[1]];
                 // const shipSquare = document.createElement('div');
 
                 // if (ship.getShipDirection() === 'Horizontal') {
