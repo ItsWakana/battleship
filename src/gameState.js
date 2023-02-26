@@ -33,6 +33,14 @@ export const GameState = () => {
     const playerHasCaptain = () => {
         return playerCaptain === true;
     }
+
+    const setPlayerCaptain = (captain) => {
+        playerCaptain = captain;
+    }
+
+    const getPlayerCaptain = () => {
+        return playerCaptain;
+    }
     
     let playerBoard = Gameboard();
     let computerBoard = Gameboard();
@@ -58,5 +66,5 @@ export const GameState = () => {
         return null;
     }
 
-    return { playerBoard, computerBoard, player, computer, checkForWinner, placeAllComputerShips, currentPlayer, playerHasCaptain }
+    return { playerBoard, computerBoard, player, computer, checkForWinner, placeAllComputerShips, currentPlayer, playerHasCaptain, setPlayerCaptain, getPlayerCaptain }
 }

@@ -10,39 +10,63 @@ const gameController = () => {
 
     let gameStarted = false;
 
-    const gameLoop = () => {
+    const gameLoop = async () => {
         if (!gameStarted) {
+            if (!game.playerHasCaptain()) {
+                view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
+                    game.setPlayerCaptain(captainChoice);
+                    view.DOMHelper.removeCaptainPicker();
 
-            // if (!game.playerHasCaptain()) {
-            //     console.log('player has no captain');
-            //     view.DOMHelper.initializeCaptainPicker();
-            //     gameStarted = true;
-            //     return;
-            // }
+                    await delay(700);
+                    
+                    view.DOMHelper.initializeMainDisplay();
 
-            view.DOMHelper.initializeMainDisplay();
+                    view.DOMHelper.generateShipRotationControls((shipElement) => {
+                        view.DOMHelper.applyRotation(shipElement);
+                    });
+                    view.setPlayerAndComputerCells();
+        
+                    game.placeAllComputerShips();
+        
+                    view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+        
+                    view.dragAndDropShips((ship, coordinate) => {
+                        checkShipPlacement(ship, coordinate);
+                        view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+        
+                        if (game.playerBoard.allShipsPlaced()) {
+                            view.DOMHelper.currentPlayerOutline(false);
+                            view.DOMHelper.setUserInstruction('Its your turn!');
+                            view.onCellClick(playRound);
+                        }
+                    });
+                    gameStarted = true;
+                });
+            }
 
-            view.DOMHelper.generateShipRotationControls((shipElement) => {
-                view.DOMHelper.applyRotation(shipElement);
-            });
-            view.setPlayerAndComputerCells();
+            // view.DOMHelper.initializeMainDisplay();
 
-            game.placeAllComputerShips();
+            // view.DOMHelper.generateShipRotationControls((shipElement) => {
+            //     view.DOMHelper.applyRotation(shipElement);
+            // });
+            // view.setPlayerAndComputerCells();
 
-            view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+            // game.placeAllComputerShips();
 
-            view.dragAndDropShips((ship, coordinate) => {
-                checkShipPlacement(ship, coordinate);
-                view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+            // view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
-                if (game.playerBoard.allShipsPlaced()) {
-                    view.DOMHelper.currentPlayerOutline(false);
-                    view.DOMHelper.setUserInstruction('Its your turn!');
-                    view.onCellClick(playRound);
-                }
-            });
+            // view.dragAndDropShips((ship, coordinate) => {
+            //     checkShipPlacement(ship, coordinate);
+            //     view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
 
-            gameStarted = true;
+            //     if (game.playerBoard.allShipsPlaced()) {
+            //         view.DOMHelper.currentPlayerOutline(false);
+            //         view.DOMHelper.setUserInstruction('Its your turn!');
+            //         view.onCellClick(playRound);
+            //     }
+            // });
+
+            // gameStarted = true;
         }
     }
 

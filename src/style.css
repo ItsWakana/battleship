@@ -58,10 +58,15 @@ h2 {
 
 .captain-container {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
     opacity: 0;
     position: relative;
     top: -10rem;
-    background: pink;
+    background: var(--grid-border-clr);
+    color: var(--secondary-clr);
     border-radius: 5px;
     flex-shrink: 0;
     width: 40rem;
@@ -71,6 +76,27 @@ h2 {
     transition: 700ms ease;
 }
 
+.captain-avatars {
+    display: flex;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    gap: 20px;
+}
+
+.captain-container .captain {
+    /* background: white; */
+    border: solid 4px var(--ship-clr);
+    color: var(--secondary-clr);
+    /* border-radius: 30%; */
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding: 60px 40px;
+}
+
+.captain-container .captain:hover {
+    transform: scale(1.04);
+}
 .captain-container.visible {
     opacity: 1;
     top: 0rem;

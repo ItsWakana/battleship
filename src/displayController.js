@@ -17,15 +17,18 @@ const DOMHelperCreation = () => {
         window.addEventListener('resize', adjustTransitionContainerSize);
     }
 
-    const initializeCaptainPicker = () => {
+    const initializeCaptainPicker = (callback) => {
         const mainBoardsContainer = document.querySelector('.gameboards');
-
         const captainContainer = creator.oneElement('captain-container', 'div');
 
-        mainBoardsContainer.appendChild(captainContainer);
+        const title = document.createElement('h3');
+        title.textContent = 'Pick your captain!'
+        captainContainer.appendChild(title);
+        mainBoardsContainer.append(captainContainer);
 
         const transitionContainer = document.querySelector('.transition-container');
 
+        setInGameStyles();
         const setTransitionContainerTop = () => {
 
             const gameboardsHeight = mainBoardsContainer.offsetHeight;
@@ -40,8 +43,42 @@ const DOMHelperCreation = () => {
             captainContainer.classList.add('visible');
         }, 500);
 
+        createCaptains(captainContainer, callback);
+    
         window.addEventListener('resize', setTransitionContainerTop);
 
+    }
+
+    const removeCaptainPicker = () => {
+        const captainContainer = document.querySelector('.captain-container');
+
+        captainContainer.classList.remove('visible');
+        setDefaultContainerSize();
+
+        captainContainer.addEventListener('transitionend', () => {
+            captainContainer.remove();
+        });
+
+    }
+
+    const createCaptains = (container, callback) => {
+
+        const captainAvatars = creator.oneElement('captain-avatars', 'div');
+
+        const captains = creator.multipleElements('div', 3);
+        let counter = 1;
+        for (const captain of captains) {
+                captain.className = 'captain';
+                captain.textContent = `Captain ${counter}`;
+                captain.dataset.captain = `Captain ${counter++}`;
+                captainAvatars.appendChild(captain);
+
+                captain.addEventListener('click', () => {
+                    callback(captain.dataset.captain);
+                });
+        }
+
+        container.append(captainAvatars);
     }
 
     const makeGridSquares = (container, isCompGrid) => {
@@ -308,7 +345,7 @@ const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker }
 }
 
 export const View = () => {
