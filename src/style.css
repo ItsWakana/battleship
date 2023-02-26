@@ -15,7 +15,7 @@
 }
 
 body {
-    height: 100vh;
+    /* height: 100vh; */
     background-color: var(--main-background-clr);
     margin-top: 10px;
     display: flex;
@@ -67,7 +67,7 @@ h2 {
     top: -10rem;
     background: var(--grid-border-clr);
     color: var(--secondary-clr);
-    border-radius: 5px;
+    border-radius: 15px;
     flex-shrink: 0;
     width: 40rem;
     height: 12rem;

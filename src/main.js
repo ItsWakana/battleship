@@ -2,6 +2,7 @@ import './style.css';
 import { View } from "./displayController";
 import { GameState } from './gameState';
 import { gameInitHelper } from './gameState';
+
 const gameController = () => {
 
     const view = View();
@@ -13,6 +14,7 @@ const gameController = () => {
     const gameLoop = () => {
         if (!gameStarted) {
             if (!game.playerHasCaptain()) {
+                gameStarted = true;
                 view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
                     game.setPlayerCaptain(captainChoice);
                     view.DOMHelper.removeCaptainPicker();
@@ -40,7 +42,6 @@ const gameController = () => {
                             view.onCellClick(playRound);
                         }
                     });
-                    gameStarted = true;
                 });
             }
 
