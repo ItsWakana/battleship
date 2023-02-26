@@ -10,7 +10,7 @@ const gameController = () => {
 
     let gameStarted = false;
 
-    const gameLoop = async () => {
+    const gameLoop = () => {
         if (!gameStarted) {
             if (!game.playerHasCaptain()) {
                 view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
