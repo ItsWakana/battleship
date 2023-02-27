@@ -13,40 +13,6 @@ export const View = () => {
         playerCells = document.querySelectorAll('[data-player="player"]');
         computerCells = document.querySelectorAll('[data-player="computer"]');
     }
-    
-    // const toggleBoard = () => {
-    //     const computerBoard = document.querySelector('.grid-right');
-    //     const playerBoard = document.querySelector('.grid-left');
-
-
-    // }
-
-    const showComputerBoard = () => {
-        const computerBoard = document.querySelector('.grid.right');
-        
-        computerBoard.classList.remove('fade-out');
-        computerBoard.classList.remove('hide');
-    }
-
-    const hideComputerBoard = () => {
-        const computerBoard = document.querySelector('.grid.right');
-        computerBoard.classList.add('fade-out');
-        computerBoard.classList.add('hide');
-    }
-
-    const showPlayerBoard = () => {
-        const playerBoard = document.querySelector('.grid.left');
-        playerBoard.classList.remove('fade-out');
-        playerBoard.classList.remove('hide');
-    }
-
-    const hidePlayerBoard = () => {
-        const playerBoard = document.querySelector('.grid.left');
-        playerBoard.classList.add('fade-out');
-        playerBoard.classList.add('hide');
-    }
-
-
 
     const onCellClick = (callback) => {
 
@@ -148,12 +114,19 @@ export const View = () => {
             });
         }
     }
+    //we want to update one board at a time, just pass in the board we want to update at that point. No point in updating both. We can have a bool value that checks if its a computer board or not.
+    const updateBoard = (board, isComputerBoard) => {
+        let boardCells;
 
-    const updateBoard = (computerBoard, playerBoard) => {
+        if (isComputerBoard) {
+            boardCells = computerCells
+        } else {
+            boardCells = playerCells;
+        }
 
-        for (const cell of computerCells) {
+        for (const cell of boardCells) {
             const xy = cell.dataset.xyPos;
-            if (computerBoard[xy[0]][xy[1]] === 'x') {
+            if (board[xy[0]][xy[1]] === 'x') {
                 if (!cell.hasChildNodes()) {
                     const marker = document.createElement('div');
                     marker.className = 'attack-marker';
@@ -161,35 +134,57 @@ export const View = () => {
                 }
             }
 
-            if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-                // cell.style.backgroundColor = 'red';
-            }
-        }
+            if (typeof board[xy[0]][xy[1]] === 'object') {
+                if (!isComputerBoard) {
+                    cell.classList.add('placed');
+                } else {
 
-        for (const cell of playerCells) {
-            const xy = cell.dataset.xyPos;
-            if (playerBoard[xy[0]][xy[1]] === 'x') {
-                if (!cell.hasChildNodes()) {
-                    const marker = document.createElement('div');
-                    marker.className = 'attack-marker';
-                    cell.appendChild(marker);
-                }  
-            }
-
-            if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
-                // const ship = playerBoard[xy[0]][xy[1]];
-                // const shipSquare = document.createElement('div');
-
-                // if (ship.getShipDirection() === 'Horizontal') {
-                //     shipSquare.className = 'ship-square-horizontal';
-                // } else if (ship.getShipDirection() === 'Vertical') {
-                //     shipSquare.className = 'ship-square-vertical';
-                // }
-                // cell.appendChild(shipSquare);
-                cell.classList.add('placed');
+                    cell.style.backgroundColor = 'red';
+                }
             }
         }
     }
+    // const updateBoard = (computerBoard, playerBoard) => {
+
+    //     for (const cell of computerCells) {
+    //         const xy = cell.dataset.xyPos;
+    //         if (computerBoard[xy[0]][xy[1]] === 'x') {
+    //             if (!cell.hasChildNodes()) {
+    //                 const marker = document.createElement('div');
+    //                 marker.className = 'attack-marker';
+    //                 cell.appendChild(marker);
+    //             }
+    //         }
+
+    //         if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
+    //             // cell.style.backgroundColor = 'red';
+    //         }
+    //     }
+
+    //     for (const cell of playerCells) {
+    //         const xy = cell.dataset.xyPos;
+    //         if (playerBoard[xy[0]][xy[1]] === 'x') {
+    //             if (!cell.hasChildNodes()) {
+    //                 const marker = document.createElement('div');
+    //                 marker.className = 'attack-marker';
+    //                 cell.appendChild(marker);
+    //             }  
+    //         }
+
+    //         if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
+    //             // const ship = playerBoard[xy[0]][xy[1]];
+    //             // const shipSquare = document.createElement('div');
+
+    //             // if (ship.getShipDirection() === 'Horizontal') {
+    //             //     shipSquare.className = 'ship-square-horizontal';
+    //             // } else if (ship.getShipDirection() === 'Vertical') {
+    //             //     shipSquare.className = 'ship-square-vertical';
+    //             // }
+    //             // cell.appendChild(shipSquare);
+    //             cell.classList.add('placed');
+    //         }
+    //     }
+    // }
 
     const playerViewUpdate = () => {
         DOMHelper.disableCells();
@@ -206,5 +201,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, showComputerBoard, hideComputerBoard, showPlayerBoard, hidePlayerBoard }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit }
 }

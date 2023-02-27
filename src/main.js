@@ -30,18 +30,19 @@ const gameController = () => {
         
                     game.placeAllComputerShips();
         
-                    view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+                    // view.updateBoard(game.computerBoard.getBoard(), true);
                     
-                    view.hideComputerBoard();
-                    view.showPlayerBoard();
+                    // view.hideComputerBoard();
+                    // view.showPlayerBoard();
         
                     view.dragAndDropShips((ship, coordinate) => {
                         checkShipPlacement(ship, coordinate);
-                        view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
-        
+
+                        view.updateBoard(game.playerBoard.getBoard(), false);
+                        
                         if (game.playerBoard.allShipsPlaced()) {
-                            view.showComputerBoard();
-                            view.hidePlayerBoard();
+                            // view.showComputerBoard();
+                            // view.hidePlayerBoard();
                             view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
                             view.onCellClick(playRound);
@@ -86,15 +87,15 @@ const gameController = () => {
                     view.computerViewUpdate();
                     return;
                 } else {
-                    await delay(500);
-                    view.showPlayerBoard();
-                    view.hideComputerBoard();
+                    // await delay(500);
+                    // view.showPlayerBoard();
+                    // view.hideComputerBoard();
                     await delay(2000);
 
                     executeComputerTurn();
-                    await delay(2000);
-                    view.showComputerBoard();
-                    view.hidePlayerBoard();
+                    // await delay(2000);
+                    // view.showComputerBoard();
+                    // view.hidePlayerBoard();
                 }
             }
         } else {
@@ -141,7 +142,8 @@ const gameController = () => {
         view.playerViewUpdate();
 
         game.player.attack([coordinate[0], coordinate[1]]);
-        updateGameStateAndView();
+        checkForGameWinner();
+        view.updateBoard(game.computerBoard.getBoard(), true);
         game.currentPlayer = game.computer.getName();
          
     }
@@ -152,7 +154,8 @@ const gameController = () => {
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.setUserInstruction('Its your turn!');
         const position = game.computer.attack();
-        updateGameStateAndView();
+        checkForGameWinner();
+        view.updateBoard(game.playerBoard.getBoard(), false);
 
         while (game.playerBoard.getLastHit() === 'ship') {
             view.setHit(position, false);
@@ -161,7 +164,8 @@ const gameController = () => {
             await delay(2000);
 
             game.computer.attack();
-            updateGameStateAndView();
+            checkForGameWinner();
+            view.updateBoard(game.playerBoard.getBoard(), false);
             view.computerViewUpdate();
         }
         view.DOMHelper.setUserInstruction('Its your turn!');
@@ -174,8 +178,10 @@ const gameController = () => {
         });
 
     }
-    const updateGameStateAndView = () => {
-        view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+    const checkForGameWinner = () => {
+        // view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+        // view.updateBoard(game.computerBoard.getBoard(), true);
+        // view.updateBoard(game.playerBoard.getBoard(), false);
 
         const winner = game.checkForWinner();
         if (winner) {
