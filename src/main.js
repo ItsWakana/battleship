@@ -11,7 +11,7 @@ const gameController = () => {
 
     let gameStarted = false;
 
-    const gameLoop = () => {
+    const gameLoop = async () => {
         if (!gameStarted) {
             if (!game.playerHasCaptain()) {
                 gameStarted = true;
