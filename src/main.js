@@ -31,12 +31,17 @@ const gameController = () => {
                     game.placeAllComputerShips();
         
                     view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
+                    
+                    view.hideComputerBoard();
+                    view.showPlayerBoard();
         
                     view.dragAndDropShips((ship, coordinate) => {
                         checkShipPlacement(ship, coordinate);
                         view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
         
                         if (game.playerBoard.allShipsPlaced()) {
+                            view.showComputerBoard();
+                            view.hidePlayerBoard();
                             view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
                             view.onCellClick(playRound);
@@ -81,9 +86,15 @@ const gameController = () => {
                     view.computerViewUpdate();
                     return;
                 } else {
+                    await delay(500);
+                    view.showPlayerBoard();
+                    view.hideComputerBoard();
                     await delay(2000);
 
                     executeComputerTurn();
+                    await delay(2000);
+                    view.showComputerBoard();
+                    view.hidePlayerBoard();
                 }
             }
         } else {

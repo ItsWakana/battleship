@@ -112,8 +112,21 @@ h2 {
     height: 100%;
     aspect-ratio: 1/1;
     /* transition: 100ms; */
+    opacity: 100;
     transition: 700ms ease;
 
+
+}
+
+.grid.left.fade-out,
+.grid.left.fade-out {
+    opacity: 0;
+    transition: opacity 700ms ease-out;
+}
+
+.grid.left.fade-out.hide,
+.grid.right.fade-out.hide {
+    display: none;
 }
 
 .grid.left.visible,

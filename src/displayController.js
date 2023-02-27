@@ -14,6 +14,40 @@ export const View = () => {
         computerCells = document.querySelectorAll('[data-player="computer"]');
     }
     
+    // const toggleBoard = () => {
+    //     const computerBoard = document.querySelector('.grid-right');
+    //     const playerBoard = document.querySelector('.grid-left');
+
+
+    // }
+
+    const showComputerBoard = () => {
+        const computerBoard = document.querySelector('.grid.right');
+        
+        computerBoard.classList.remove('fade-out');
+        computerBoard.classList.remove('hide');
+    }
+
+    const hideComputerBoard = () => {
+        const computerBoard = document.querySelector('.grid.right');
+        computerBoard.classList.add('fade-out');
+        computerBoard.classList.add('hide');
+    }
+
+    const showPlayerBoard = () => {
+        const playerBoard = document.querySelector('.grid.left');
+        playerBoard.classList.remove('fade-out');
+        playerBoard.classList.remove('hide');
+    }
+
+    const hidePlayerBoard = () => {
+        const playerBoard = document.querySelector('.grid.left');
+        playerBoard.classList.add('fade-out');
+        playerBoard.classList.add('hide');
+    }
+
+
+
     const onCellClick = (callback) => {
 
             computerCells.forEach((cell) => {
@@ -172,5 +206,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, showComputerBoard, hideComputerBoard, showPlayerBoard, hidePlayerBoard }
 }
