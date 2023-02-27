@@ -43,9 +43,15 @@ const gameController = () => {
                         if (game.playerBoard.allShipsPlaced()) {
                             // view.showComputerBoard();
                             // view.hidePlayerBoard();
-                            view.DOMHelper.currentPlayerOutline(false);
+                            // view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
+                            view.DOMHelper.removeCurrentBoard();
+                            view.DOMHelper.renderComputerGrid();
                             view.onCellClick(playRound);
+
+                            //when we click the cell for our attack, we want to remove our board and then render the computers board.
+
+                            //after the computer has made its attack and its a miss, we want to remove its board and re-render our board and apply the on cell click round again until a winner is found.
                         }
                     });
                 });
@@ -81,12 +87,15 @@ const gameController = () => {
         if (coordinate) {
             if (game.computerBoard.isValidAttack(coordinate)) {    
                 executePlayerTurn(coordinate);
+                console.log(game.computerBoard.getBoard());
                 if (game.computerBoard.getLastHit() === 'ship') {
                     view.DOMHelper.setUserInstruction('Its your turn!');
                     view.setHit(coordinate, true);
                     view.computerViewUpdate();
                     return;
                 } else {
+                    // view.DOMHelper.removeCurrentBoard();
+                    // view.DOMHelper.renderPlayerGrid();
                     // await delay(500);
                     // view.showPlayerBoard();
                     // view.hideComputerBoard();
@@ -103,6 +112,33 @@ const gameController = () => {
         }
 
     }
+
+    // const playRound = async (coordinate) => {
+    //     if (coordinate) {
+    //         if (game.computerBoard.isValidAttack(coordinate)) {    
+    //             executePlayerTurn(coordinate);
+    //             if (game.computerBoard.getLastHit() === 'ship') {
+    //                 view.DOMHelper.setUserInstruction('Its your turn!');
+    //                 view.setHit(coordinate, true);
+    //                 view.computerViewUpdate();
+    //                 return;
+    //             } else {
+    //                 // await delay(500);
+    //                 // view.showPlayerBoard();
+    //                 // view.hideComputerBoard();
+    //                 await delay(2000);
+
+    //                 executeComputerTurn();
+    //                 // await delay(2000);
+    //                 // view.showComputerBoard();
+    //                 // view.hidePlayerBoard();
+    //             }
+    //         }
+    //     } else {
+    //         console.log('Error: Attack already placed');
+    //     }
+
+    // }
 
     const checkShipPlacement = (ship, coordinate) => {
 
@@ -145,6 +181,9 @@ const gameController = () => {
         checkForGameWinner();
         view.updateBoard(game.computerBoard.getBoard(), true);
         game.currentPlayer = game.computer.getName();
+
+        view.DOMHelper.removeCurrentBoard();
+        view.DOMHelper.renderComputerGrid();
          
     }
     
@@ -165,9 +204,14 @@ const gameController = () => {
 
             game.computer.attack();
             checkForGameWinner();
+            console.log(game.playerBoard.getBoard());
             view.updateBoard(game.playerBoard.getBoard(), false);
             view.computerViewUpdate();
         }
+
+        view.DOMHelper.removeCurrentBoard();
+        view.DOMHelper.renderComputerGrid();
+        view.onCellClick(playRound);
         view.DOMHelper.setUserInstruction('Its your turn!');
         view.DOMHelper.enableCells();
     }
@@ -179,10 +223,6 @@ const gameController = () => {
 
     }
     const checkForGameWinner = () => {
-        // view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
-        // view.updateBoard(game.computerBoard.getBoard(), true);
-        // view.updateBoard(game.playerBoard.getBoard(), false);
-
         const winner = game.checkForWinner();
         if (winner) {
             view.alertWinner(winner);

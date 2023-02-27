@@ -15,7 +15,8 @@ export const View = () => {
     }
 
     const onCellClick = (callback) => {
-
+            computerCells = document.querySelectorAll('[data-player="computer"]');
+            console.log(computerCells)
             computerCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
                     callback(e.target.dataset.xyPos);
