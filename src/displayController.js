@@ -117,10 +117,12 @@ export const View = () => {
     }
     //we want to update one board at a time, just pass in the board we want to update at that point. No point in updating both. We can have a bool value that checks if its a computer board or not.
     const updateBoard = (board, isComputerBoard) => {
+
+        setPlayerAndComputerCells();
         let boardCells;
 
         if (isComputerBoard) {
-            boardCells = computerCells
+            boardCells = computerCells;
         } else {
             boardCells = playerCells;
         }
@@ -139,7 +141,6 @@ export const View = () => {
                 if (!isComputerBoard) {
                     cell.classList.add('placed');
                 } else {
-
                     cell.style.backgroundColor = 'red';
                 }
             }

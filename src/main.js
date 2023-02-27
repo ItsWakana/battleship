@@ -47,6 +47,7 @@ const gameController = () => {
                             view.DOMHelper.setUserInstruction('Its your turn!');
                             view.DOMHelper.removeCurrentBoard();
                             view.DOMHelper.renderComputerGrid();
+                            view.updateBoard(game.computerBoard.getBoard(), true)
                             view.onCellClick(playRound);
 
                             //when we click the cell for our attack, we want to remove our board and then render the computers board.
@@ -85,12 +86,14 @@ const gameController = () => {
 
     const playRound = async (coordinate) => {
         if (coordinate) {
-            if (game.computerBoard.isValidAttack(coordinate)) {    
+            if (game.computerBoard.isValidAttack(coordinate)) {  
+                // view.updateBoard(game.computerBoard.getBoard(), true);  
                 executePlayerTurn(coordinate);
-                console.log(game.computerBoard.getBoard());
+                view.updateBoard(game.computerBoard.getBoard(), true);  
+
                 if (game.computerBoard.getLastHit() === 'ship') {
                     view.DOMHelper.setUserInstruction('Its your turn!');
-                    view.setHit(coordinate, true);
+                    // view.setHit(coordinate, true);
                     view.computerViewUpdate();
                     return;
                 } else {
@@ -100,8 +103,14 @@ const gameController = () => {
                     // view.showPlayerBoard();
                     // view.hideComputerBoard();
                     await delay(2000);
+                    view.DOMHelper.removeCurrentBoard();
+                    view.DOMHelper.renderPlayerGrid();
 
                     executeComputerTurn();
+
+                    view.DOMHelper.removeCurrentBoard();
+                    view.DOMHelper.renderComputerGrid();
+                    view.onCellClick(playRound);
                     // await delay(2000);
                     // view.showComputerBoard();
                     // view.hidePlayerBoard();
@@ -111,6 +120,56 @@ const gameController = () => {
             console.log('Error: Attack already placed');
         }
 
+    }
+
+    const executePlayerTurn = (coordinate) => {
+
+        if (game.checkForWinner()) return;
+
+        game.currentPlayer = game.player.getName();
+        view.DOMHelper.setUserInstruction('Computer is attacking!');
+        view.playerViewUpdate();
+
+        game.player.attack([coordinate[0], coordinate[1]]);
+        checkForGameWinner();
+        // view.updateBoard(game.computerBoard.getBoard(), true);
+        game.currentPlayer = game.computer.getName();
+
+        //we shouldn't be calling the view updating and removing from inside the players turn, this function should be soley responsible for executing the players turn and the checks associated with a turn. 
+
+        // view.DOMHelper.removeCurrentBoard();
+        // view.DOMHelper.renderComputerGrid();
+
+        // view.updateBoard(game.computerBoard.getBoard(), true);
+         
+    }
+    
+    const executeComputerTurn = async () => {
+
+        if (game.checkForWinner()) return;
+        view.DOMHelper.currentPlayerOutline(false);
+        view.DOMHelper.setUserInstruction('Its your turn!');
+        const position = game.computer.attack();
+        checkForGameWinner();
+        view.updateBoard(game.playerBoard.getBoard(), false);
+
+        while (game.playerBoard.getLastHit() === 'ship') {
+            // view.setHit(position, false);
+            view.DOMHelper.setUserInstruction('Computer is attacking!');
+            view.DOMHelper.currentPlayerOutline(true);
+            await delay(2000);
+
+            game.computer.attack();
+            checkForGameWinner();
+            view.updateBoard(game.playerBoard.getBoard(), false);
+            view.computerViewUpdate();
+        }
+
+        // view.DOMHelper.removeCurrentBoard();
+        // view.DOMHelper.renderComputerGrid();
+        // view.onCellClick(playRound);
+        view.DOMHelper.setUserInstruction('Its your turn!');
+        view.DOMHelper.enableCells();
     }
 
     // const playRound = async (coordinate) => {
@@ -167,53 +226,6 @@ const gameController = () => {
                 //handle a missplaced ship, user tooltip or error pop up
             }
         }
-    }
-
-    const executePlayerTurn = (coordinate) => {
-
-        if (game.checkForWinner()) return;
-
-        game.currentPlayer = game.player.getName();
-        view.DOMHelper.setUserInstruction('Computer is attacking!');
-        view.playerViewUpdate();
-
-        game.player.attack([coordinate[0], coordinate[1]]);
-        checkForGameWinner();
-        view.updateBoard(game.computerBoard.getBoard(), true);
-        game.currentPlayer = game.computer.getName();
-
-        view.DOMHelper.removeCurrentBoard();
-        view.DOMHelper.renderComputerGrid();
-         
-    }
-    
-    const executeComputerTurn = async () => {
-
-        if (game.checkForWinner()) return;
-        view.DOMHelper.currentPlayerOutline(false);
-        view.DOMHelper.setUserInstruction('Its your turn!');
-        const position = game.computer.attack();
-        checkForGameWinner();
-        view.updateBoard(game.playerBoard.getBoard(), false);
-
-        while (game.playerBoard.getLastHit() === 'ship') {
-            view.setHit(position, false);
-            view.DOMHelper.setUserInstruction('Computer is attacking!');
-            view.DOMHelper.currentPlayerOutline(true);
-            await delay(2000);
-
-            game.computer.attack();
-            checkForGameWinner();
-            console.log(game.playerBoard.getBoard());
-            view.updateBoard(game.playerBoard.getBoard(), false);
-            view.computerViewUpdate();
-        }
-
-        view.DOMHelper.removeCurrentBoard();
-        view.DOMHelper.renderComputerGrid();
-        view.onCellClick(playRound);
-        view.DOMHelper.setUserInstruction('Its your turn!');
-        view.DOMHelper.enableCells();
     }
 
     const delay = (ms) => {
