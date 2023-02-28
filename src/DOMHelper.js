@@ -16,8 +16,8 @@ export const DOMHelperCreation = () => {
     
     const initializeMainDisplay = () => {
 
-        // generateGrids();
-        renderPlayerGrid();
+        generateGrids();
+        // renderPlayerGrid();
         setInGameStyles();
         generateShipElements();
 
@@ -152,78 +152,18 @@ export const DOMHelperCreation = () => {
         10: 'J'
     }
 
-    const renderPlayerGrid = () => {
-
-        const transitionContainer = document.querySelector('.transition-container');
-
-        
-        playerBoard = document.createElement('div');
-        playerBoard.className = 'grid left';
-        playerBoard.dataset.grid = false;
-        
-        makeGridSquares(playerBoard, false);
-
-        mainTopContainer.append(playerBoard);
-
-        setTransitionContainerTop();
-
-        transitionContainer.classList.add('shift-down');
-
-        setTimeout(() => {
-            playerBoard.classList.add('visible');
-        }, 500);
-
-        window.addEventListener('resize', setTransitionContainerTop);
-    }
-
-    const renderComputerGrid = () => {
-
-        const transitionContainer = document.querySelector('.transition-container');
-
-        
-        computerBoard = document.createElement('div');
-        computerBoard.className = 'grid left';
-        computerBoard.dataset.grid = false;
-        
-        makeGridSquares(computerBoard, true);
-
-        mainTopContainer.append(computerBoard);
-
-        setTransitionContainerTop();
-
-        transitionContainer.classList.add('shift-down');
-
-        setTimeout(() => {
-            computerBoard.classList.add('visible');
-        }, 500);
-
-        window.addEventListener('resize', setTransitionContainerTop);
-    }
-
-    const removeCurrentBoard = () => {
-        mainTopContainer.lastChild.remove();
-    }
-
-    // const generateGrids = () => {
-
-    //     // const mainBoardsContainer = document.querySelector('.gameboards');
+    // const renderPlayerGrid = () => {
 
     //     const transitionContainer = document.querySelector('.transition-container');
 
         
     //     playerBoard = document.createElement('div');
-    //     computerBoard = document.createElement('div');
-        
     //     playerBoard.className = 'grid left';
-        
-    //     computerBoard.className = 'grid right';
-        
     //     playerBoard.dataset.grid = false;
         
     //     makeGridSquares(playerBoard, false);
-    //     makeGridSquares(computerBoard, true);
 
-    //     mainTopContainer.append(playerBoard, computerBoard);
+    //     mainTopContainer.append(playerBoard);
 
     //     setTransitionContainerTop();
 
@@ -231,11 +171,71 @@ export const DOMHelperCreation = () => {
 
     //     setTimeout(() => {
     //         playerBoard.classList.add('visible');
+    //     }, 500);
+
+    //     window.addEventListener('resize', setTransitionContainerTop);
+    // }
+
+    // const renderComputerGrid = () => {
+
+    //     const transitionContainer = document.querySelector('.transition-container');
+
+        
+    //     computerBoard = document.createElement('div');
+    //     computerBoard.className = 'grid left';
+    //     computerBoard.dataset.grid = false;
+        
+    //     makeGridSquares(computerBoard, true);
+
+    //     mainTopContainer.append(computerBoard);
+
+    //     setTransitionContainerTop();
+
+    //     transitionContainer.classList.add('shift-down');
+
+    //     setTimeout(() => {
     //         computerBoard.classList.add('visible');
     //     }, 500);
 
     //     window.addEventListener('resize', setTransitionContainerTop);
     // }
+
+    // const removeCurrentBoard = () => {
+    //     mainTopContainer.lastChild.remove();
+    // }
+
+    const generateGrids = () => {
+
+        // const mainBoardsContainer = document.querySelector('.gameboards');
+
+        const transitionContainer = document.querySelector('.transition-container');
+
+        
+        playerBoard = document.createElement('div');
+        computerBoard = document.createElement('div');
+        
+        playerBoard.className = 'grid left';
+        
+        computerBoard.className = 'grid right';
+        
+        playerBoard.dataset.grid = false;
+        
+        makeGridSquares(playerBoard, false);
+        makeGridSquares(computerBoard, true);
+
+        mainTopContainer.append(playerBoard, computerBoard);
+
+        setTransitionContainerTop();
+
+        transitionContainer.classList.add('shift-down');
+
+        setTimeout(() => {
+            playerBoard.classList.add('visible');
+            computerBoard.classList.add('visible');
+        }, 500);
+
+        window.addEventListener('resize', setTransitionContainerTop);
+    }
 
     const generateShipElements = () => {
         const shipElementArea = document.querySelector('.ship-main-container');
@@ -402,5 +402,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, renderComputerGrid, renderPlayerGrid, removeCurrentBoard }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker }
 }

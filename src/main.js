@@ -30,90 +30,53 @@ const gameController = () => {
         
                     game.placeAllComputerShips();
         
-                    // view.updateBoard(game.computerBoard.getBoard(), true);
-                    
-                    // view.hideComputerBoard();
-                    // view.showPlayerBoard();
-        
                     view.dragAndDropShips((ship, coordinate) => {
                         checkShipPlacement(ship, coordinate);
 
                         view.updateBoard(game.playerBoard.getBoard(), false);
                         
                         if (game.playerBoard.allShipsPlaced()) {
-                            // view.showComputerBoard();
-                            // view.hidePlayerBoard();
-                            // view.DOMHelper.currentPlayerOutline(false);
+                            view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
-                            view.DOMHelper.removeCurrentBoard();
-                            view.DOMHelper.renderComputerGrid();
                             view.updateBoard(game.computerBoard.getBoard(), true)
+
+                            //when we  click , delay the execution of the visual update by 1second.
                             view.onCellClick(playRound);
-
-                            //when we click the cell for our attack, we want to remove our board and then render the computers board.
-
-                            //after the computer has made its attack and its a miss, we want to remove its board and re-render our board and apply the on cell click round again until a winner is found.
                         }
                     });
                 });
             }
-
-            // view.DOMHelper.initializeMainDisplay();
-
-            // view.DOMHelper.generateShipRotationControls((shipElement) => {
-            //     view.DOMHelper.applyRotation(shipElement);
-            // });
-            // view.setPlayerAndComputerCells();
-
-            // game.placeAllComputerShips();
-
-            // view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
-
-            // view.dragAndDropShips((ship, coordinate) => {
-            //     checkShipPlacement(ship, coordinate);
-            //     view.updateBoard(game.computerBoard.getBoard(), game.playerBoard.getBoard());
-
-            //     if (game.playerBoard.allShipsPlaced()) {
-            //         view.DOMHelper.currentPlayerOutline(false);
-            //         view.DOMHelper.setUserInstruction('Its your turn!');
-            //         view.onCellClick(playRound);
-            //     }
-            // });
-
-            // gameStarted = true;
         }
     }
 
     const playRound = async (coordinate) => {
         if (coordinate) {
-            if (game.computerBoard.isValidAttack(coordinate)) {  
-                // view.updateBoard(game.computerBoard.getBoard(), true);  
+            if (game.computerBoard.isValidAttack(coordinate)) { 
+                view.DOMHelper.disableCells();  
                 executePlayerTurn(coordinate);
+
+                const isaWinner = game.checkForWinner();
+                if (isaWinner) {
+                    view.alertWinner(isaWinner);
+                    resetGame();
+                    return;
+                }
+                //delay displaying players attack by 3 seconds, for sound effects purposes later
+                // await delay(3000);
+                view.DOMHelper.setUserInstruction('Computer is attacking!');
+                view.playerViewUpdate();
+
+
                 view.updateBoard(game.computerBoard.getBoard(), true);  
 
                 if (game.computerBoard.getLastHit() === 'ship') {
                     view.DOMHelper.setUserInstruction('Its your turn!');
-                    // view.setHit(coordinate, true);
+                    view.setHit(coordinate, true);
                     view.computerViewUpdate();
                     return;
                 } else {
-                    // view.DOMHelper.removeCurrentBoard();
-                    // view.DOMHelper.renderPlayerGrid();
-                    // await delay(500);
-                    // view.showPlayerBoard();
-                    // view.hideComputerBoard();
                     await delay(2000);
-                    view.DOMHelper.removeCurrentBoard();
-                    view.DOMHelper.renderPlayerGrid();
-
                     executeComputerTurn();
-
-                    view.DOMHelper.removeCurrentBoard();
-                    view.DOMHelper.renderComputerGrid();
-                    view.onCellClick(playRound);
-                    // await delay(2000);
-                    // view.showComputerBoard();
-                    // view.hidePlayerBoard();
                 }
             }
         } else {
@@ -124,80 +87,36 @@ const gameController = () => {
 
     const executePlayerTurn = (coordinate) => {
 
-        if (game.checkForWinner()) return;
-
         game.currentPlayer = game.player.getName();
-        view.DOMHelper.setUserInstruction('Computer is attacking!');
-        view.playerViewUpdate();
-
         game.player.attack([coordinate[0], coordinate[1]]);
-        checkForGameWinner();
-        // view.updateBoard(game.computerBoard.getBoard(), true);
         game.currentPlayer = game.computer.getName();
 
-        //we shouldn't be calling the view updating and removing from inside the players turn, this function should be soley responsible for executing the players turn and the checks associated with a turn. 
-
-        // view.DOMHelper.removeCurrentBoard();
-        // view.DOMHelper.renderComputerGrid();
-
-        // view.updateBoard(game.computerBoard.getBoard(), true);
-         
+        //we shouldn't be calling the view updating and removing from inside the players turn, this function should be soley responsible for executing the players turn and the checks associated with a turn.   
     }
     
     const executeComputerTurn = async () => {
 
-        if (game.checkForWinner()) return;
+        const position = game.computer.attack();
+        const winner = game.checkForWinner();
+        if (winner) {
+            view.alertWinner(winner);
+            resetGame();
+            return;
+        }
+        //to delay computers attacks, for adding in sound effects later on
+        await delay(3000);
+        view.updateBoard(game.playerBoard.getBoard(), false);
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.setUserInstruction('Its your turn!');
-        const position = game.computer.attack();
-        checkForGameWinner();
-        view.updateBoard(game.playerBoard.getBoard(), false);
+        view.DOMHelper.enableCells();
 
-        while (game.playerBoard.getLastHit() === 'ship') {
-            // view.setHit(position, false);
+        if (game.playerBoard.getLastHit() === 'ship') {
+            view.setHit(position,false);
             view.DOMHelper.setUserInstruction('Computer is attacking!');
             view.DOMHelper.currentPlayerOutline(true);
-            await delay(2000);
-
-            game.computer.attack();
-            checkForGameWinner();
-            view.updateBoard(game.playerBoard.getBoard(), false);
-            view.computerViewUpdate();
+            executeComputerTurn();
         }
-
-        // view.DOMHelper.removeCurrentBoard();
-        // view.DOMHelper.renderComputerGrid();
-        // view.onCellClick(playRound);
-        view.DOMHelper.setUserInstruction('Its your turn!');
-        view.DOMHelper.enableCells();
     }
-
-    // const playRound = async (coordinate) => {
-    //     if (coordinate) {
-    //         if (game.computerBoard.isValidAttack(coordinate)) {    
-    //             executePlayerTurn(coordinate);
-    //             if (game.computerBoard.getLastHit() === 'ship') {
-    //                 view.DOMHelper.setUserInstruction('Its your turn!');
-    //                 view.setHit(coordinate, true);
-    //                 view.computerViewUpdate();
-    //                 return;
-    //             } else {
-    //                 // await delay(500);
-    //                 // view.showPlayerBoard();
-    //                 // view.hideComputerBoard();
-    //                 await delay(2000);
-
-    //                 executeComputerTurn();
-    //                 // await delay(2000);
-    //                 // view.showComputerBoard();
-    //                 // view.hidePlayerBoard();
-    //             }
-    //         }
-    //     } else {
-    //         console.log('Error: Attack already placed');
-    //     }
-
-    // }
 
     const checkShipPlacement = (ship, coordinate) => {
 
@@ -233,14 +152,6 @@ const gameController = () => {
             setTimeout(resolve, ms);
         });
 
-    }
-    const checkForGameWinner = () => {
-        const winner = game.checkForWinner();
-        if (winner) {
-            view.alertWinner(winner);
-            resetGame();
-            return;
-        }
     }
 
     const resetGame = () => {
