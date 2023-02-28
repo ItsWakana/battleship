@@ -36,6 +36,30 @@ export const View = () => {
         }
     }
 
+    const displayCaptainAvatar = (captain) => {
+
+        const computerBoard = document.querySelector('.grid.right')
+
+        const captainAvatar = document.createElement('div');
+        captainAvatar.className = 'captain-board-avatar';
+        captainAvatar.textContent = 'Placeholder, captain pic and some kind of text box will go here'
+        computerBoard.appendChild(captainAvatar);
+        console.log(captain);
+    }
+
+    const hideCaptainAvatar = () => {
+        const captainAvatar = document.querySelector('.captain-board-avatar');
+
+        captainAvatar.classList.add('move-position');
+        // captainAvatar.classList.add('invisible');
+    }
+
+    const showCaptainAvatar = () => {
+        const captainAvatar = document.querySelector('.captain-board-avatar');
+        captainAvatar.classList.remove('move-position');
+        // captainAvatar.classList.remove('invisible');
+    }
+
     const setHorizontalShipHover = (draggedShip, currentCell, toRemoveHover) => {
         for (let i=0; i<draggedShip.dataset.length; i++) {
             const YboardPosition = Number(currentCell.dataset.xyPos[0]);
@@ -201,5 +225,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit }
+    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar }
 }

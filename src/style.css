@@ -84,6 +84,21 @@ h2 {
     gap: 20px;
 }
 
+.captain-board-avatar {
+    position: absolute;
+    left: -45%;
+    bottom: 0;
+    width: 40%;
+    height: 50%;
+    /* transform: scale(1); */
+    background: red;
+    font-size: 1rem;
+    border-radius: 8px;
+    /* border: 2px solid red; */
+    transition: 150ms ;
+}
+
+
 .captain-container .captain {
     /* background: white; */
     border: solid 4px var(--ship-clr);
@@ -121,6 +136,7 @@ h2 {
 .grid.right {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    position: relative;
     transform: scale(0);
     width: 30%;
     min-width: 95px;
@@ -408,6 +424,11 @@ h2 {
 .invisible {
     scale: 0;
     /* opacity: 0; */
+}
+
+.move-position {
+    transform: translateX(55%);
+    width: 100%;
 }
 
 .hidden {

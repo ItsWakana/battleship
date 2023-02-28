@@ -23,8 +23,17 @@ export const DOMHelperCreation = () => {
         // window.addEventListener('resize', adjustTransitionContainerSize);
     }
 
+    const setNewShipContainerHeight = () => {
+        const shipMainContainer = document.querySelector('.ship-main-container')
+        shipMainContainer.classList.add('expand')
+    }
+
+    const removeShipContainerHeight = () => {
+        const shipMainContainer = document.querySelector('.ship-main-container')
+        shipMainContainer.classList.remove('expand')
+    }
+
     const setMainGridToPlayer = () => {
-        console.log(playerBoard);
         playerBoard.classList.add('current');
         computerBoard.classList.remove('current');
     }
@@ -151,58 +160,6 @@ export const DOMHelperCreation = () => {
         9: 'I',
         10: 'J'
     }
-
-    // const renderPlayerGrid = () => {
-
-    //     const transitionContainer = document.querySelector('.transition-container');
-
-        
-    //     playerBoard = document.createElement('div');
-    //     playerBoard.className = 'grid left';
-    //     playerBoard.dataset.grid = false;
-        
-    //     makeGridSquares(playerBoard, false);
-
-    //     mainTopContainer.append(playerBoard);
-
-    //     setTransitionContainerTop();
-
-    //     transitionContainer.classList.add('shift-down');
-
-    //     setTimeout(() => {
-    //         playerBoard.classList.add('visible');
-    //     }, 500);
-
-    //     window.addEventListener('resize', setTransitionContainerTop);
-    // }
-
-    // const renderComputerGrid = () => {
-
-    //     const transitionContainer = document.querySelector('.transition-container');
-
-        
-    //     computerBoard = document.createElement('div');
-    //     computerBoard.className = 'grid left';
-    //     computerBoard.dataset.grid = false;
-        
-    //     makeGridSquares(computerBoard, true);
-
-    //     mainTopContainer.append(computerBoard);
-
-    //     setTransitionContainerTop();
-
-    //     transitionContainer.classList.add('shift-down');
-
-    //     setTimeout(() => {
-    //         computerBoard.classList.add('visible');
-    //     }, 500);
-
-    //     window.addEventListener('resize', setTransitionContainerTop);
-    // }
-
-    // const removeCurrentBoard = () => {
-    //     mainTopContainer.lastChild.remove();
-    // }
 
     const generateGrids = () => {
 
@@ -406,5 +363,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight }
 }

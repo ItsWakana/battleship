@@ -18,9 +18,7 @@ const gameController = () => {
                     game.setPlayerCaptain(captainChoice);
                     view.DOMHelper.removeCaptainPicker();
 
-                    //add class for height increase before we initialize main display
-                    const shipMainContainer = document.querySelector('.ship-main-container')
-                    shipMainContainer.classList.add('expand')
+                    view.DOMHelper.setNewShipContainerHeight();
                     await delay(700);
                     
                     view.DOMHelper.initializeMainDisplay();
@@ -29,7 +27,8 @@ const gameController = () => {
                         view.DOMHelper.applyRotation(shipElement);
                     });
 
-                    
+                    view.displayCaptainAvatar(captainChoice);
+                    view.hideCaptainAvatar();
                     view.setPlayerAndComputerCells();
         
                     game.placeAllComputerShips();
@@ -40,9 +39,10 @@ const gameController = () => {
                         view.updateBoard(game.playerBoard.getBoard(), false);
                         
                         if (game.playerBoard.allShipsPlaced()) {
-                            const shipMainContainer = document.querySelector('.ship-main-container')
-                            shipMainContainer.classList.remove('expand')
+                            view.DOMHelper.removeShipContainerHeight();
+
                             view.DOMHelper.setMainGridToComputer();
+                            view.showCaptainAvatar();
                             view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
                             view.updateBoard(game.computerBoard.getBoard(), true)
@@ -81,6 +81,7 @@ const gameController = () => {
                     return;
                 } else {
                     view.DOMHelper.setMainGridToPlayer();
+                    view.hideCaptainAvatar();
                     await delay(2000);
                     executeComputerTurn();
                 }
@@ -110,7 +111,7 @@ const gameController = () => {
             return;
         }
         //to delay computers attacks, for adding in sound effects later on
-        // await delay(3000);
+        await delay(1000);
         view.updateBoard(game.playerBoard.getBoard(), false);
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.setUserInstruction('Its your turn!');
@@ -123,6 +124,7 @@ const gameController = () => {
             executeComputerTurn();
         } else {
             view.DOMHelper.setMainGridToComputer();
+            view.showCaptainAvatar();
         }
     }
 
