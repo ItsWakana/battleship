@@ -127,12 +127,15 @@ h2 {
     background: var(--main-background-clr);
     border-radius: 5px;
     opacity: 100;
+    font-size: 0.4rem;
     transition: 700ms ease;
 }
 
 .grid.left.current,
 .grid.right.current {
     width: 70%;
+    min-width: 200px;
+    font-size: 0.6rem;
 }
 /* .grid.left {
     min-width: 95px;
@@ -185,7 +188,6 @@ h2 {
     width: 100%;
     text-align: center;
     font-weight: bold;
-    font-size: 30px;
     transition: 150ms ease;
 }
 
@@ -223,7 +225,6 @@ h2 {
     background-color: var(--main-background-clr);
     color: var(--secondary-clr);
     border: none;
-    font-size: 0.6rem;
 }
 
 .attack-marker {
