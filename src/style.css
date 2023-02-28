@@ -286,6 +286,7 @@ h2 {
     flex-direction: column;
     gap: 20px;
     width: 100%;
+    /* height: 200px; */
     height: min-content;
     position: absolute;
     top: 0;
@@ -300,8 +301,14 @@ h2 {
     padding-top: 10px;
     gap: 20px;
     width: 100%;
-    height: 200px;
+    /* height: 200px; */
+    height: 45px;
     background: var(--grid-border-clr);
+    transition: height 700ms ease;
+}
+
+.ship-main-container.expand {
+    height: 220px;
 }
 
 .ship-sub-container {

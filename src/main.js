@@ -18,6 +18,9 @@ const gameController = () => {
                     game.setPlayerCaptain(captainChoice);
                     view.DOMHelper.removeCaptainPicker();
 
+                    //add class for height increase before we initialize main display
+                    const shipMainContainer = document.querySelector('.ship-main-container')
+                    shipMainContainer.classList.add('expand')
                     await delay(700);
                     
                     view.DOMHelper.initializeMainDisplay();
@@ -25,6 +28,8 @@ const gameController = () => {
                     view.DOMHelper.generateShipRotationControls((shipElement) => {
                         view.DOMHelper.applyRotation(shipElement);
                     });
+
+                    
                     view.setPlayerAndComputerCells();
         
                     game.placeAllComputerShips();
@@ -35,6 +40,8 @@ const gameController = () => {
                         view.updateBoard(game.playerBoard.getBoard(), false);
                         
                         if (game.playerBoard.allShipsPlaced()) {
+                            const shipMainContainer = document.querySelector('.ship-main-container')
+                            shipMainContainer.classList.remove('expand')
                             view.DOMHelper.setMainGridToComputer();
                             view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
@@ -60,7 +67,7 @@ const gameController = () => {
                     return;
                 }
                 //delay displaying players attack by 3 seconds, for sound effects purposes later
-                await delay(3000);
+                // await delay(3000);
                 view.DOMHelper.setUserInstruction('Computer is attacking!');
                 view.playerViewUpdate();
 
@@ -103,7 +110,7 @@ const gameController = () => {
             return;
         }
         //to delay computers attacks, for adding in sound effects later on
-        await delay(3000);
+        // await delay(3000);
         view.updateBoard(game.playerBoard.getBoard(), false);
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.setUserInstruction('Its your turn!');
