@@ -17,13 +17,23 @@ export const DOMHelperCreation = () => {
     const initializeMainDisplay = () => {
 
         generateGrids();
-        // renderPlayerGrid();
         setInGameStyles();
         generateShipElements();
-
-        window.addEventListener('resize', adjustTransitionContainerSize);
+        
+        // window.addEventListener('resize', adjustTransitionContainerSize);
     }
 
+    const setMainGridToPlayer = () => {
+        console.log(playerBoard);
+        playerBoard.classList.add('current');
+        computerBoard.classList.remove('current');
+    }
+
+    const setMainGridToComputer = () => {
+        playerBoard.classList.remove('current');
+        computerBoard.classList.add('current');
+
+    }
     const initializeCaptainPicker = (callback) => {
         // const mainBoardsContainer = document.querySelector('.gameboards');
         const captainContainer = creator.oneElement('captain-container', 'div');
@@ -112,16 +122,6 @@ export const DOMHelperCreation = () => {
                     }
                 }
             }
-    }
-
-    const adjustTransitionContainerSize = () => {
-
-        // const mainBoardsContainer = document.querySelector('.gameboards');
-
-        const transitionContainer = document.querySelector('.transition-container');
-
-        const gameboardsHeight = mainTopContainer.offsetHeight;
-        transitionContainer.style.top = `${gameboardsHeight + 35}px`;
     }
 
     const setDefaultContainerSize = () => {
@@ -225,10 +225,14 @@ export const DOMHelperCreation = () => {
 
         mainTopContainer.append(playerBoard, computerBoard);
 
-        setTransitionContainerTop();
+        // setTransitionContainerTop();
 
-        transitionContainer.classList.add('shift-down');
-
+        // transitionContainer.classList.add('shift-down');
+        setTimeout(() => {
+            setTransitionContainerTop();
+            transitionContainer.classList.add('shift-down');
+        },10);
+        
         setTimeout(() => {
             playerBoard.classList.add('visible');
             computerBoard.classList.add('visible');
@@ -402,5 +406,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer }
 }

@@ -13,7 +13,6 @@ const gameController = () => {
 
     const gameLoop = async () => {
         if (!gameStarted) {
-            if (!game.playerHasCaptain()) {
                 gameStarted = true;
                 view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
                     game.setPlayerCaptain(captainChoice);
@@ -22,7 +21,7 @@ const gameController = () => {
                     await delay(700);
                     
                     view.DOMHelper.initializeMainDisplay();
-
+                    view.DOMHelper.setMainGridToPlayer();
                     view.DOMHelper.generateShipRotationControls((shipElement) => {
                         view.DOMHelper.applyRotation(shipElement);
                     });
@@ -36,16 +35,15 @@ const gameController = () => {
                         view.updateBoard(game.playerBoard.getBoard(), false);
                         
                         if (game.playerBoard.allShipsPlaced()) {
+                            view.DOMHelper.setMainGridToComputer();
                             view.DOMHelper.currentPlayerOutline(false);
                             view.DOMHelper.setUserInstruction('Its your turn!');
                             view.updateBoard(game.computerBoard.getBoard(), true)
 
-                            //when we  click , delay the execution of the visual update by 1second.
                             view.onCellClick(playRound);
                         }
                     });
                 });
-            }
         }
     }
 
@@ -62,7 +60,7 @@ const gameController = () => {
                     return;
                 }
                 //delay displaying players attack by 3 seconds, for sound effects purposes later
-                // await delay(3000);
+                await delay(3000);
                 view.DOMHelper.setUserInstruction('Computer is attacking!');
                 view.playerViewUpdate();
 
@@ -75,6 +73,7 @@ const gameController = () => {
                     view.computerViewUpdate();
                     return;
                 } else {
+                    view.DOMHelper.setMainGridToPlayer();
                     await delay(2000);
                     executeComputerTurn();
                 }
@@ -115,6 +114,8 @@ const gameController = () => {
             view.DOMHelper.setUserInstruction('Computer is attacking!');
             view.DOMHelper.currentPlayerOutline(true);
             executeComputerTurn();
+        } else {
+            view.DOMHelper.setMainGridToComputer();
         }
     }
 
