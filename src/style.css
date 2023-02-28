@@ -91,8 +91,11 @@ h2 {
     width: 40%;
     height: 50%;
     /* transform: scale(1); */
-    background: red;
+    background: var(--grid-border-clr);
+    color: var(--ship-border-clr);
+    padding: 5px;
     font-size: 1rem;
+    font-weight: bold;
     border-radius: 8px;
     /* border: 2px solid red; */
     transition: 150ms ;

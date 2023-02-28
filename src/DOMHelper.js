@@ -188,7 +188,7 @@ export const DOMHelperCreation = () => {
         setTimeout(() => {
             setTransitionContainerTop();
             transitionContainer.classList.add('shift-down');
-        },10);
+        },30);
         
         setTimeout(() => {
             playerBoard.classList.add('visible');
@@ -201,9 +201,9 @@ export const DOMHelperCreation = () => {
     const generateShipElements = () => {
         const shipElementArea = document.querySelector('.ship-main-container');
 
-        const title = creator.oneElement('user-instruction', 'h2');
-        title.textContent = 'Drag your fleet onto the battlefield, captain!'
-        shipElementArea.appendChild(title);
+        // const title = creator.oneElement('user-instruction', 'h2');
+        // title.textContent = 'Drag your fleet onto the battlefield, captain!'
+        // shipElementArea.appendChild(title);
         
         const ships = creator.multipleElements('div', 4);
         const shipLengths = [5,4,3,2];
@@ -333,8 +333,9 @@ export const DOMHelperCreation = () => {
     }
 
     const setUserInstruction = (message) => {
-        const heading = document.querySelector('.user-instruction');
-        heading.textContent = message;
+        // const heading = document.querySelector('.user-instruction');
+        const captainSpeech = document.querySelector('.captain-board-avatar');
+        captainSpeech.textContent = message;
     }
 
     const setInGameStyles = () => {

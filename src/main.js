@@ -22,12 +22,14 @@ const gameController = () => {
                     await delay(700);
                     
                     view.DOMHelper.initializeMainDisplay();
+
                     view.DOMHelper.setMainGridToPlayer();
                     view.DOMHelper.generateShipRotationControls((shipElement) => {
                         view.DOMHelper.applyRotation(shipElement);
                     });
 
                     view.displayCaptainAvatar(captainChoice);
+                    view.DOMHelper.setUserInstruction('"Drag our ships on the board, captain!"');
                     view.hideCaptainAvatar();
                     view.setPlayerAndComputerCells();
         
@@ -44,7 +46,7 @@ const gameController = () => {
                             view.DOMHelper.setMainGridToComputer();
                             view.showCaptainAvatar();
                             view.DOMHelper.currentPlayerOutline(false);
-                            view.DOMHelper.setUserInstruction('Its your turn!');
+                            view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
                             view.updateBoard(game.computerBoard.getBoard(), true)
 
                             view.onCellClick(playRound);
@@ -68,14 +70,14 @@ const gameController = () => {
                 }
                 //delay displaying players attack by 3 seconds, for sound effects purposes later
                 // await delay(3000);
-                view.DOMHelper.setUserInstruction('Computer is attacking!');
+                view.DOMHelper.setUserInstruction('"The enemy captain is attacking!"');
                 view.playerViewUpdate();
 
 
                 view.updateBoard(game.computerBoard.getBoard(), true);  
 
                 if (game.computerBoard.getLastHit() === 'ship') {
-                    view.DOMHelper.setUserInstruction('Its your turn!');
+                    view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
                     view.setHit(coordinate, true);
                     view.computerViewUpdate();
                     return;
@@ -114,12 +116,12 @@ const gameController = () => {
         await delay(1000);
         view.updateBoard(game.playerBoard.getBoard(), false);
         view.DOMHelper.currentPlayerOutline(false);
-        view.DOMHelper.setUserInstruction('Its your turn!');
+        view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
         view.DOMHelper.enableCells();
 
         if (game.playerBoard.getLastHit() === 'ship') {
             view.setHit(position,false);
-            view.DOMHelper.setUserInstruction('Computer is attacking!');
+            view.DOMHelper.setUserInstruction('"The enemy captain is attacking!"');
             view.DOMHelper.currentPlayerOutline(true);
             executeComputerTurn();
         } else {
