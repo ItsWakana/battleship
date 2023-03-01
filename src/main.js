@@ -11,52 +11,129 @@ const gameController = () => {
 
     let gameStarted = false;
 
-    const gameLoop = async () => {
-        if (!gameStarted) {
-                gameStarted = true;
-                view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
-                    game.setPlayerCaptain(captainChoice);
-                    view.DOMHelper.removeCaptainPicker();
-
-                    view.DOMHelper.setNewShipContainerHeight();
-                    await delay(700);
-                    
-                    view.DOMHelper.initializeMainDisplay();
-
-                    view.DOMHelper.setMainGridToPlayer();
-                    view.DOMHelper.generateShipRotationControls((shipElement) => {
-                        view.DOMHelper.applyRotation(shipElement);
-                    });
-
-                    view.displayCaptainAvatar(captainChoice);
-                    // view.DOMHelper.setUserInstruction('"Drag our ships on the board, captain!"');
-                    view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
-                    view.hideCaptainAvatar();
-                    view.setPlayerAndComputerCells();
-        
-                    game.placeAllComputerShips();
-        
-                    view.dragAndDropShips((ship, coordinate) => {
-                        checkShipPlacement(ship, coordinate);
-
-                        view.updateBoard(game.playerBoard.getBoard(), false);
-                        
-                        if (game.playerBoard.allShipsPlaced()) {
-                            view.DOMHelper.removeShipContainerHeight();
-
-                            view.DOMHelper.setMainGridToComputer();
-                            view.showCaptainAvatar();
-                            view.DOMHelper.currentPlayerOutline(false);
-                            // view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
-                            view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
-                            view.updateBoard(game.computerBoard.getBoard(), true)
-
-                            view.onCellClick(playRound);
-                        }
-                    });
-                });
+    const gameLoop = () => {
+        if (!gameStarted){
+            gameStarted = true;
+            startGame();
         }
+    
     }
+
+    const startGame = async () => {
+        const captainChoice = await initializeCaptainPicker();
+        view.DOMHelper.setNewShipContainerHeight();
+        await delay(700);
+        
+        view.DOMHelper.initializeMainDisplay();
+
+        view.DOMHelper.setMainGridToPlayer();
+        view.DOMHelper.generateShipRotationControls((shipElement) => {
+            view.DOMHelper.applyRotation(shipElement);
+        });
+
+        view.displayCaptainAvatar(captainChoice);
+        view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
+        view.hideCaptainAvatar();
+        view.setPlayerAndComputerCells();
+
+        game.placeAllComputerShips();
+
+        await shipPlacementHandler();
+        view.onCellClick(playRound);
+        // view.dragAndDropShips((ship, coordinate) => {
+        //     checkShipPlacement(ship, coordinate);
+
+        //     view.updateBoard(game.playerBoard.getBoard(), false);
+            
+        //     if (game.playerBoard.allShipsPlaced()) {
+        //         view.DOMHelper.removeShipContainerHeight();
+
+        //         view.DOMHelper.setMainGridToComputer();
+        //         view.showCaptainAvatar();
+        //         view.DOMHelper.currentPlayerOutline(false);
+        //         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+        //         view.updateBoard(game.computerBoard.getBoard(), true)
+
+        //         view.onCellClick(playRound);
+        //     }
+        // });
+        }
+    
+
+    const shipPlacementHandler = async () => {
+        return new Promise((resolve) => {
+            view.dragAndDropShips((ship, coordinate) => {
+                checkShipPlacement(ship, coordinate);
+
+                view.updateBoard(game.playerBoard.getBoard(), false);
+                
+                if (game.playerBoard.allShipsPlaced()) {
+                    view.DOMHelper.removeShipContainerHeight();
+
+                    view.DOMHelper.setMainGridToComputer();
+                    view.showCaptainAvatar();
+                    view.DOMHelper.currentPlayerOutline(false);
+                    view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+                    view.updateBoard(game.computerBoard.getBoard(), true)
+                    resolve();
+                }
+            });
+        });
+    }
+
+    const initializeCaptainPicker = async () => {
+        return new Promise(resolve => {
+          view.DOMHelper.initializeCaptainPicker(async captainChoice => {
+            game.setPlayerCaptain(captainChoice);
+            view.DOMHelper.removeCaptainPicker();
+            resolve(captainChoice);
+          });
+        });
+      };
+    // const gameLoop = async () => {
+    //     if (!gameStarted) {
+    //             gameStarted = true;
+    //             view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
+    //                 game.setPlayerCaptain(captainChoice);
+    //                 view.DOMHelper.removeCaptainPicker();
+
+    //                 view.DOMHelper.setNewShipContainerHeight();
+    //                 await delay(700);
+                    
+    //                 view.DOMHelper.initializeMainDisplay();
+
+    //                 view.DOMHelper.setMainGridToPlayer();
+    //                 view.DOMHelper.generateShipRotationControls((shipElement) => {
+    //                     view.DOMHelper.applyRotation(shipElement);
+    //                 });
+
+    //                 view.displayCaptainAvatar(captainChoice);
+    //                 view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
+    //                 view.hideCaptainAvatar();
+    //                 view.setPlayerAndComputerCells();
+        
+    //                 game.placeAllComputerShips();
+        
+    //                 view.dragAndDropShips((ship, coordinate) => {
+    //                     checkShipPlacement(ship, coordinate);
+
+    //                     view.updateBoard(game.playerBoard.getBoard(), false);
+                        
+    //                     if (game.playerBoard.allShipsPlaced()) {
+    //                         view.DOMHelper.removeShipContainerHeight();
+
+    //                         view.DOMHelper.setMainGridToComputer();
+    //                         view.showCaptainAvatar();
+    //                         view.DOMHelper.currentPlayerOutline(false);
+    //                         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+    //                         view.updateBoard(game.computerBoard.getBoard(), true)
+
+    //                         view.onCellClick(playRound);
+    //                     }
+    //                 });
+    //             });
+    //     }
+    // }
 
     const playRound = async (coordinate) => {
         if (coordinate) {
@@ -121,10 +198,6 @@ const gameController = () => {
 
 
         view.updateBoard(game.playerBoard.getBoard(), false);
-        // view.DOMHelper.currentPlayerOutline(false);
-        // view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
-        // view.DOMHelper.enableCells();
-
         if (game.playerBoard.getLastHit() === 'ship') {
             view.setHit(position,false);
             view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
@@ -143,7 +216,6 @@ const gameController = () => {
     }
 
     const checkShipPlacement = (ship, coordinate) => {
-
         const arrayCoordinate = [+coordinate[0], +coordinate[1]];
         const shipLength = +ship.dataset.length;
         const newShip = gameHelper.makeShip(shipLength);
@@ -187,6 +259,7 @@ const gameController = () => {
 
     view.startButton.addEventListener('click', gameLoop);
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     gameController();
