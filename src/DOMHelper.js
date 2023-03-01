@@ -293,8 +293,8 @@ export const DOMHelperCreation = () => {
             }
         }
 
-        const heading = document.querySelector('.user-instruction');
-        heading.remove();
+        // const heading = document.querySelector('.user-instruction');
+        // heading.remove();
 
 
     }
@@ -334,9 +334,83 @@ export const DOMHelperCreation = () => {
 
     const setUserInstruction = (message) => {
         // const heading = document.querySelector('.user-instruction');
-        const captainSpeech = document.querySelector('.captain-board-avatar');
-        captainSpeech.textContent = message;
+        const captainSpeech = document.querySelector('.captain-message');
+        captainSpeech.textContent = '';
+        let i = 0;
+        let speed = 50;
+        const typeWriter = () => {
+            if (i < message.length) {
+                captainSpeech.textContent += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+        setTimeout(typeWriter, 500);
+        // typeWriter();
+        // captainSpeech.textContent = message;
     }
+
+    const playerHitResponse = () => {
+
+        const responses = [
+            `"Bullseye! We've hit the enemy's vessel. Go again!"`,
+            `"Nice shot! Enemy ship hit! This is fun, go!"`,
+            `"Enemy ship, meet our firepower! Direct hit! Next shot!"`
+        ]
+
+        return responses[Math.floor(Math.random() * responses.length)]
+    }
+
+    const playerTurnResponse = () => {
+        const responses = [
+            `"It's your turn, captain! Fire at will!"`,
+            `"All systems are go! Take your shot, captain."`,
+            `"The enemy ship is in sight. You have the green light to attack."`,
+            `"The sea is yours, captain. Show the enemy what we're made of!"`,
+            `"We're counting on you, captain. Time to make your move."`
+        ]
+
+        return responses[Math.floor(Math.random() * responses.length)]
+    }
+
+    const computerTurnResponse = () => {
+        const responses = [
+            `"Brace for impact! The enemy is taking their shot."`,
+            `"All hands on deck! Enemy turn to fire."`,
+            `"Eyes on the horizon, captain. The enemy is attacking."`,
+        ]
+
+        return responses[Math.floor(Math.random() * responses.length)]
+    }
+
+    const userShipPlacementResponse = () => {
+        const responses = [
+            `"Hey captain, let's get our ships set up so we can get party started!."`,
+            `"Captain, we need to place our ships before we can start sinkin' theirs. Ready when you are!"`,
+            `"Hurry up and place the ships captain! I wanna start blowing stuff up!"`,
+        ]
+
+        return responses[Math.floor(Math.random() * responses.length)]
+    }
+
+    const enemyMissResponse = () => {
+        const responses = [
+            `"They suck! How could they miss!"`,
+            `"Warra miss. Am i right captain?"`
+        ]
+
+        return responses[Math.floor(Math.random() * responses.length)]
+    }
+
+    const playerMissResponse = () => {
+        const responses = [
+            `"Ah, too bad. We go again."`,
+            `"Well..shit"`
+        ]
+
+        return responses[Math.floor(Math.random() * responses.length)]
+    }
+
 
     const setInGameStyles = () => {
         const button = document.querySelector('.start-game');
@@ -364,5 +438,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, playerHitResponse, playerTurnResponse, computerTurnResponse, userShipPlacementResponse, enemyMissResponse, playerMissResponse }
 }

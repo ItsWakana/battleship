@@ -29,7 +29,8 @@ const gameController = () => {
                     });
 
                     view.displayCaptainAvatar(captainChoice);
-                    view.DOMHelper.setUserInstruction('"Drag our ships on the board, captain!"');
+                    // view.DOMHelper.setUserInstruction('"Drag our ships on the board, captain!"');
+                    view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
                     view.hideCaptainAvatar();
                     view.setPlayerAndComputerCells();
         
@@ -46,7 +47,8 @@ const gameController = () => {
                             view.DOMHelper.setMainGridToComputer();
                             view.showCaptainAvatar();
                             view.DOMHelper.currentPlayerOutline(false);
-                            view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
+                            // view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
+                            view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
                             view.updateBoard(game.computerBoard.getBoard(), true)
 
                             view.onCellClick(playRound);
@@ -69,22 +71,25 @@ const gameController = () => {
                     return;
                 }
                 //delay displaying players attack by 3 seconds, for sound effects purposes later
+
                 // await delay(3000);
-                view.DOMHelper.setUserInstruction('"The enemy captain is attacking!"');
-                view.playerViewUpdate();
 
 
                 view.updateBoard(game.computerBoard.getBoard(), true);  
 
                 if (game.computerBoard.getLastHit() === 'ship') {
-                    view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
+                    view.DOMHelper.setUserInstruction(view.DOMHelper.playerHitResponse());
                     view.setHit(coordinate, true);
                     view.computerViewUpdate();
                     return;
                 } else {
+                    view.DOMHelper.setUserInstruction(view.DOMHelper.playerMissResponse());
+                    await delay(3000);
+                    view.playerViewUpdate();
+                    view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
                     view.DOMHelper.setMainGridToPlayer();
                     view.hideCaptainAvatar();
-                    await delay(2000);
+                    await delay(3000);
                     executeComputerTurn();
                 }
             }
@@ -99,8 +104,6 @@ const gameController = () => {
         game.currentPlayer = game.player.getName();
         game.player.attack([coordinate[0], coordinate[1]]);
         game.currentPlayer = game.computer.getName();
-
-        //we shouldn't be calling the view updating and removing from inside the players turn, this function should be soley responsible for executing the players turn and the checks associated with a turn.   
     }
     
     const executeComputerTurn = async () => {
@@ -113,18 +116,27 @@ const gameController = () => {
             return;
         }
         //to delay computers attacks, for adding in sound effects later on
-        await delay(1000);
+
+        // await delay(3000);
+
+
         view.updateBoard(game.playerBoard.getBoard(), false);
-        view.DOMHelper.currentPlayerOutline(false);
-        view.DOMHelper.setUserInstruction('"Its our turn to attack!"');
-        view.DOMHelper.enableCells();
+        // view.DOMHelper.currentPlayerOutline(false);
+        // view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+        // view.DOMHelper.enableCells();
 
         if (game.playerBoard.getLastHit() === 'ship') {
             view.setHit(position,false);
-            view.DOMHelper.setUserInstruction('"The enemy captain is attacking!"');
+            view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
+            await delay(3000);
             view.DOMHelper.currentPlayerOutline(true);
             executeComputerTurn();
         } else {
+            view.DOMHelper.setUserInstruction(view.DOMHelper.enemyMissResponse());
+            await delay(3000);
+            view.DOMHelper.currentPlayerOutline(false);
+            view.DOMHelper.enableCells();
+            view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
             view.DOMHelper.setMainGridToComputer();
             view.showCaptainAvatar();
         }
