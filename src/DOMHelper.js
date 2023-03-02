@@ -1,4 +1,8 @@
 import rotate from './assets/rotate.svg';
+import captain1 from './assets/captains/captain1.png';
+import captain2 from './assets/captains/captain2.png';
+import captain3 from './assets/captains/captain3.png';
+
 import { CustomElementCreator } from './DOMCreation';
 
 export const DOMHelperCreation = () => {
@@ -19,8 +23,6 @@ export const DOMHelperCreation = () => {
         generateGrids();
         setInGameStyles();
         generateShipElements();
-        
-        // window.addEventListener('resize', adjustTransitionContainerSize);
     }
 
     const setNewShipContainerHeight = () => {
@@ -48,8 +50,7 @@ export const DOMHelperCreation = () => {
         computerBoard.classList.add('current');
 
     }
-    const initializeCaptainPicker = (callback) => {
-        // const mainBoardsContainer = document.querySelector('.gameboards');
+    const initializeCaptainPicker = async (callback) => {
         const captainContainer = creator.oneElement('captain-container', 'div');
 
         const title = document.createElement('h3');
@@ -60,17 +61,16 @@ export const DOMHelperCreation = () => {
         const transitionContainer = document.querySelector('.transition-container');
 
         setInGameStyles();
-
-        setTransitionContainerTop();
-
+        
         transitionContainer.classList.add('shift-down');
-
+        
         setTimeout(() => {
             captainContainer.classList.add('visible');
+            setTransitionContainerTop();
         }, 500);
-
+        
         createCaptains(captainContainer, callback);
-    
+        
         window.addEventListener('resize', setTransitionContainerTop);
 
     }
@@ -87,23 +87,42 @@ export const DOMHelperCreation = () => {
 
     }
 
+    const getCaptainImages = () => {
+        return [ captain1, captain2, captain3 ]
+    }
+
     const createCaptains = (container, callback) => {
 
         const captainAvatars = creator.oneElement('captain-avatars', 'div');
 
         const captains = creator.multipleElements('div', 3);
-        let counter = 1;
+        const captainNames = ['Augustus', 'Donald', 'Burt']
+        let counter = 0;
         for (const captain of captains) {
                 captain.className = 'captain';
-                captain.textContent = `Captain ${counter}`;
-                captain.dataset.captain = `Captain ${counter++}`;
+                // captain.textContent = `captain${counter}`;
+                captain.dataset.captain = counter;
                 captainAvatars.appendChild(captain);
 
                 captain.addEventListener('click', () => {
                     callback(captain.dataset.captain);
                 });
-        }
 
+                const avatarImage = document.createElement('img');
+                avatarImage.src = getCaptainImages()[counter];
+                avatarImage.className = 'captain-wheel-picker-image';
+
+                const nameElement = document.createElement('div');
+                nameElement.className = 'captain-name';
+                nameElement.textContent = captainNames[counter++];
+                // avatarImage.appendChild(nameElement);
+
+
+                avatarImage.classList.add('appear');
+                
+                captain.append(avatarImage, nameElement);
+        }
+        
         container.append(captainAvatars);
     }
 
@@ -443,5 +462,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, playerHitResponse, playerTurnResponse, computerTurnResponse, userShipPlacementResponse, enemyMissResponse, playerMissResponse }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, playerHitResponse, playerTurnResponse, computerTurnResponse, userShipPlacementResponse, enemyMissResponse, playerMissResponse, getCaptainImages }
 }

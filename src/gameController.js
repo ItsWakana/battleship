@@ -29,7 +29,6 @@ export const gameController = () => {
         view.DOMHelper.generateShipRotationControls((shipElement) => {
             view.DOMHelper.applyRotation(shipElement);
         });
-
         view.displayCaptainAvatar(captainChoice);
         view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
         view.hideCaptainAvatar();

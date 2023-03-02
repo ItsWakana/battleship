@@ -1,3 +1,7 @@
+// import captain1 from './assets/captains/captain1.png';
+// import captain2 from './assets/captains/captain2.png';
+// import captain3 from './assets/captains/captain3.png';
+
 import { DOMHelperCreation } from "./DOMHelper";
 
 export const View = () => {
@@ -46,8 +50,8 @@ export const View = () => {
         captainMessage.className = 'captain-message';
         const captainImage = new Image();
 
-        // captainImage.src = 'https://via.placeholder.com/100x100/0000FF/808080?text=Captain+Image&'
-        captainImage.src = 'https://i.pinimg.com/736x/12/b9/52/12b952066530cf3d67f1f4281710f410.jpg'
+        captainImage.src = DOMHelper.getCaptainImages()[captain];
+        console.log(captainImage);
         captainImage.draggable = false;
         captainImage.className = 'captain-image';
 

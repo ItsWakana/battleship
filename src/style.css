@@ -56,7 +56,7 @@ h2 {
     width: 80%;
 }
 
-.captain-container {
+/* .captain-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,10 +71,37 @@ h2 {
     flex-shrink: 0;
     width: 40rem;
     height: 12rem;
-    /* aspect-ratio: 1/1; */
-    /* transition: 100ms; */
+    transition: 700ms ease; 
+} */
+
+.captain-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    position: relative;
+    padding: 10px;
+    top: -10rem;
+    background: var(--grid-border-clr);
+    color: var(--secondary-clr);
+    border-radius: 15px;
+    flex-shrink: 0;
+    width: 100%;
     transition: 700ms ease;
-}
+  }
+
+
+
+/* .captain-avatars {
+    display: flex;
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    height: 100%;
+    gap: 20px;
+} */
 
 .captain-avatars {
     display: flex;
@@ -82,6 +109,8 @@ h2 {
     font-size: 0.8rem;
     cursor: pointer;
     gap: 20px;
+    width: 100%;
+    justify-content: center;
 }
 
 .captain-board-avatar {
@@ -138,18 +167,45 @@ h2 {
     border-top-right-radius: 30px; */
     width: 100%;
     height: 80%;
-    opacity: 0;
+    /* opacity: 0; */
 
 }
 
+
 .captain-container .captain {
-    /* background: white; */
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* border: solid 4px var(--ship-clr); */
+    color: var(--secondary-clr);
+    align-items: center;
+}
+
+/* .captain-container .captain {
     border: solid 4px var(--ship-clr);
     color: var(--secondary-clr);
-    /* border-radius: 30%; */
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    padding: 60px 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .captain-wheel-picker-image {
+    height: 100%;
+} */
+
+.captain-wheel-picker-image {
+    /* transform: scale(0); */
+    transition: 1s ease;
+    max-width: 85%;
+}
+
+.captain-name {
+    text-align: center;
+}
+
+.appear {
+    transform: scale(1);
 }
 
 .captain-container .captain:hover {
