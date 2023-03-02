@@ -243,6 +243,13 @@ export const DOMHelperCreation = () => {
             shipElementArea.appendChild(ship);
             ship.draggable = true;
             ship.dataset.orientation = 'horizontal';
+
+            //generate details to place on the ship
+            for (let i=0; i<ship.dataset.length; i++) {
+                const detail = document.createElement('div');
+                detail.className = 'detail';
+                ship.appendChild(detail);
+            }
         }
     }
 
