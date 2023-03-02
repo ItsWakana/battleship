@@ -100,7 +100,6 @@ export const Gameboard = () => {
     }
 
     const placeShip = (ship, coordinate, isVertical) => {
-
         if (isVertical) {
             ship.setShipDirection('Vertical');
             for (let i=0; i<ship.length; i++) {

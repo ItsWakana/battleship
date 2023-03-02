@@ -24,8 +24,13 @@ export const DOMHelperCreation = () => {
     }
 
     const setNewShipContainerHeight = () => {
-        const shipMainContainer = document.querySelector('.ship-main-container')
-        shipMainContainer.classList.add('expand')
+        return new Promise((resolve) => {
+            const shipMainContainer = document.querySelector('.ship-main-container')
+            shipMainContainer.classList.add('expand');
+            shipMainContainer.addEventListener('transitionend', () => {
+                resolve();
+            });
+        });
     }
 
     const removeShipContainerHeight = () => {

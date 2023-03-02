@@ -20,8 +20,8 @@ export const gameController = () => {
 
     const startGame = async () => {
         const captainChoice = await initializeCaptainPicker();
-        view.DOMHelper.setNewShipContainerHeight();
-        await delay(700);
+        await view.DOMHelper.setNewShipContainerHeight();
+        // await delay(700);
         
         view.DOMHelper.initializeMainDisplay();
 
