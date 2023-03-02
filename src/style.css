@@ -143,8 +143,8 @@ h2 {
     right: 13%;
     /* bottom: 7%; */
     bottom: 30%;
-    max-width: 60%;
-    background-color: yellow;
+    max-width: 90%;
+    background-color: var(--secondary-clr);
     color: black;
     border-radius: 5px;
     padding: 6px;
@@ -323,6 +323,14 @@ h2 {
     border-radius: 8px;
     border: solid 1px var(--ship-border-clr);
 
+}
+
+.box.placed::after {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    background: black;
+    border-radius: 50%;
 }
 
 .ship-square-horizontal {

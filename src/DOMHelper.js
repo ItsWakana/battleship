@@ -54,7 +54,7 @@ export const DOMHelperCreation = () => {
         const captainContainer = creator.oneElement('captain-container', 'div');
 
         const title = document.createElement('h3');
-        title.textContent = 'Pick your captain!'
+        title.textContent = 'Pick your lieutenant!'
         captainContainer.appendChild(title);
         mainTopContainer.append(captainContainer);
 
@@ -416,9 +416,9 @@ export const DOMHelperCreation = () => {
 
     const userShipPlacementResponse = () => {
         const responses = [
-            `"Hey captain, let's get our ships set up so we can get party started!."`,
-            `"Captain, we need to place our ships before we can start sinkin' theirs. Ready when you are!"`,
-            `"Hurry up and place the ships captain! I wanna start blowing stuff up!"`,
+            `"Place the ships, Cap'n!"`,
+            `"Captain, lets place our fleet!"`,
+            `"Let's begin placing our ships!"`,
         ]
 
         return responses[Math.floor(Math.random() * responses.length)]
