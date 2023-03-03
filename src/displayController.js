@@ -2,7 +2,7 @@
 // import captain2 from './assets/captains/captain2.png';
 // import captain3 from './assets/captains/captain3.png';
 
-import { DOMHelperCreation } from "./DOMHelper";
+import { DOMHelperCreation } from "./DOM Helper Modules/DOMHelper";
 
 export const View = () => {
 
@@ -176,7 +176,7 @@ export const View = () => {
                 if (!isComputerBoard) {
                     cell.classList.add('placed');
                 } else {
-                    cell.style.backgroundColor = 'red';
+                    // cell.style.backgroundColor = 'red';
                 }
             }
         }

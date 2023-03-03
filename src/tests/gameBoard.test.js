@@ -1,5 +1,5 @@
-import { Ship } from "./shipModule";
-import { Gameboard } from "./gameBoard";
+import { Ship } from "../shipModule";
+import { Gameboard } from "../gameBoard";
 
 describe('placeShip', () => {
 

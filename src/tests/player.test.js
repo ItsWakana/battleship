@@ -1,5 +1,5 @@
-import { Gameboard } from "./gameBoard";
-import { Player } from "./player";
+import { Gameboard } from "../gameBoard";
+import { Player } from "../player";
 //we need to test the attack method of the Player factory firstly, to make sure the player attack is working as intended we'll need to expect the enemy's gameboard to display a marker on it.
 
 describe('Attack', () => {

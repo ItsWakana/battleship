@@ -157,6 +157,8 @@ export const gameController = () => {
         view.updateBoard(game.computerBoard.getBoard(), true);  
 
         if (game.computerBoard.getLastHit() === 'ship') {
+
+            //if the user clicks another attack directly after the first one, we want to wipe the current execution of the setUserInstruction and iniate a new instruction.
             view.DOMHelper.setUserInstruction(view.DOMHelper.playerHitResponse());
             view.setHit(coordinate, true);
             view.computerViewUpdate();

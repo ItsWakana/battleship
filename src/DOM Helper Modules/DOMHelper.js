@@ -1,7 +1,7 @@
-import rotate from './assets/rotate.svg';
-import captain1 from './assets/captains/captain1.png';
-import captain2 from './assets/captains/captain2.png';
-import captain3 from './assets/captains/captain3.png';
+import rotate from '../assets/rotate.svg';
+import captain1 from '../assets/captains/captain1.png';
+import captain2 from '../assets/captains/captain2.png';
+import captain3 from '../assets/captains/captain3.png';
 
 import { CustomElementCreator } from './DOMCreation';
 
@@ -377,9 +377,32 @@ export const DOMHelperCreation = () => {
             }
         }
         setTimeout(typeWriter, 500);
-        // typeWriter();
-        // captainSpeech.textContent = message;
     }
+
+    // let timeoutID;
+    // const setUserInstruction = (message) => {
+    //     const captainSpeech = document.querySelector('.captain-message');
+    //     captainSpeech.textContent = '';
+    //     // let timeoutID;
+    //     let i; // declare the i variable outside of the if statement
+    //     if (timeoutID) {
+    //         // if the typeWriter function is currently running, clear the timer and reset the counter
+    //         clearTimeout(timeoutID);
+    //         i = 0;
+    //     } else {
+    //         captainSpeech.textContent = ''; // otherwise, clear the speech bubble
+    //         i = 0; // assign a value to i here
+    //     }
+    //     let speed = 50;
+    //     const typeWriter = () => {
+    //         if (i < message.length) {
+    //             captainSpeech.textContent += message.charAt(i);
+    //             i++;
+    //             timeoutID = setTimeout(typeWriter, speed);
+    //         }
+    //     }
+    //     typeWriter();
+    // }
 
     const playerHitResponse = () => {
 
@@ -427,7 +450,7 @@ export const DOMHelperCreation = () => {
     const enemyMissResponse = () => {
         const responses = [
             `"They suck! How could they miss!"`,
-            `"Warra miss. Am i right captain?"`
+            `"Damn, they missed it"`
         ]
 
         return responses[Math.floor(Math.random() * responses.length)]
@@ -436,7 +459,7 @@ export const DOMHelperCreation = () => {
     const playerMissResponse = () => {
         const responses = [
             `"Ah, too bad. We go again."`,
-            `"Well..shit"`
+            `"A miss for us, bad luck.."`
         ]
 
         return responses[Math.floor(Math.random() * responses.length)]

@@ -1,4 +1,4 @@
-import { DOMHelperCreation } from "./DOMHelper";
+import { DOMHelperCreation } from "../DOM Helper Modules/DOMHelper";
 
 describe('InitializeCaptainPicker', () => {
 
