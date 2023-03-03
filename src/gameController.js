@@ -58,8 +58,7 @@ export const gameController = () => {
         //         view.onCellClick(playRound);
         //     }
         // });
-        }
-    
+    }
 
     const shipPlacementHandler = async () => {
         return new Promise((resolve) => {
@@ -90,51 +89,7 @@ export const gameController = () => {
             resolve(captainChoice);
           });
         });
-      };
-    // const gameLoop = async () => {
-    //     if (!gameStarted) {
-    //             gameStarted = true;
-    //             view.DOMHelper.initializeCaptainPicker( async (captainChoice) => {
-    //                 game.setPlayerCaptain(captainChoice);
-    //                 view.DOMHelper.removeCaptainPicker();
-
-    //                 view.DOMHelper.setNewShipContainerHeight();
-    //                 await delay(700);
-                    
-    //                 view.DOMHelper.initializeMainDisplay();
-
-    //                 view.DOMHelper.setMainGridToPlayer();
-    //                 view.DOMHelper.generateShipRotationControls((shipElement) => {
-    //                     view.DOMHelper.applyRotation(shipElement);
-    //                 });
-
-    //                 view.displayCaptainAvatar(captainChoice);
-    //                 view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
-    //                 view.hideCaptainAvatar();
-    //                 view.setPlayerAndComputerCells();
-        
-    //                 game.placeAllComputerShips();
-        
-    //                 view.dragAndDropShips((ship, coordinate) => {
-    //                     checkShipPlacement(ship, coordinate);
-
-    //                     view.updateBoard(game.playerBoard.getBoard(), false);
-                        
-    //                     if (game.playerBoard.allShipsPlaced()) {
-    //                         view.DOMHelper.removeShipContainerHeight();
-
-    //                         view.DOMHelper.setMainGridToComputer();
-    //                         view.showCaptainAvatar();
-    //                         view.DOMHelper.currentPlayerOutline(false);
-    //                         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
-    //                         view.updateBoard(game.computerBoard.getBoard(), true)
-
-    //                         view.onCellClick(playRound);
-    //                     }
-    //                 });
-    //             });
-    //     }
-    // }
+    }
 
     const playRound = async (coordinate) => {
         if (!coordinate) {
@@ -198,7 +153,6 @@ export const gameController = () => {
             resetGame();
             return;
         }
-        //to delay computers attacks, for adding in sound effects later on
 
         if (game.playerBoard.getLastHit() === 'ship') {
             audioSetup.playRandomHitSound();
@@ -206,54 +160,23 @@ export const gameController = () => {
             view.updateBoard(game.playerBoard.getBoard(), false);
             view.setHit(position,false);
             view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
-            await delay(3000);
+            await delay(2500); // wait for message prompt to finish before switching turns
             view.DOMHelper.currentPlayerOutline(true);
             executeComputerTurn();
             return;
         }
+
         audioSetup.playRandomMissSound();
         await delay(2500);
         view.updateBoard(game.playerBoard.getBoard(), false);
         view.DOMHelper.setUserInstruction(view.DOMHelper.enemyMissResponse());
-        await delay(3000)
+        await delay(2500); // wait for message prompt to finish before switching turns
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.enableCells();
         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
         view.DOMHelper.setMainGridToComputer();
         view.showCaptainAvatar();
     }
-
-    // const executeComputerTurn = async () => {
-
-    //     const position = game.computer.attack();
-    //     const winner = game.checkForWinner();
-    //     if (winner) {
-    //         view.alertWinner(winner);
-    //         resetGame();
-    //         return;
-    //     }
-    //     //to delay computers attacks, for adding in sound effects later on
-
-    //     // await delay(3000);
-
-
-    //     view.updateBoard(game.playerBoard.getBoard(), false);
-    //     if (game.playerBoard.getLastHit() === 'ship') {
-    //         view.setHit(position,false);
-    //         view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
-    //         await delay(3000);
-    //         view.DOMHelper.currentPlayerOutline(true);
-    //         executeComputerTurn();
-    //     } else {
-    //         view.DOMHelper.setUserInstruction(view.DOMHelper.enemyMissResponse());
-    //         await delay(3000);
-    //         view.DOMHelper.currentPlayerOutline(false);
-    //         view.DOMHelper.enableCells();
-    //         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
-    //         view.DOMHelper.setMainGridToComputer();
-    //         view.showCaptainAvatar();
-    //     }
-    // }
 
     const checkShipPlacement = (ship, coordinate) => {
         const arrayCoordinate = [+coordinate[0], +coordinate[1]];

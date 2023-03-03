@@ -117,7 +117,6 @@ export const DOMHelperCreation = () => {
                 nameElement.textContent = captainNames[counter++];
                 // avatarImage.appendChild(nameElement);
 
-
                 avatarImage.classList.add('appear');
                 
                 captain.append(avatarImage, nameElement);
@@ -378,31 +377,6 @@ export const DOMHelperCreation = () => {
         }
         setTimeout(typeWriter, 500);
     }
-
-    // let timeoutID;
-    // const setUserInstruction = (message) => {
-    //     const captainSpeech = document.querySelector('.captain-message');
-    //     captainSpeech.textContent = '';
-    //     // let timeoutID;
-    //     let i; // declare the i variable outside of the if statement
-    //     if (timeoutID) {
-    //         // if the typeWriter function is currently running, clear the timer and reset the counter
-    //         clearTimeout(timeoutID);
-    //         i = 0;
-    //     } else {
-    //         captainSpeech.textContent = ''; // otherwise, clear the speech bubble
-    //         i = 0; // assign a value to i here
-    //     }
-    //     let speed = 50;
-    //     const typeWriter = () => {
-    //         if (i < message.length) {
-    //             captainSpeech.textContent += message.charAt(i);
-    //             i++;
-    //             timeoutID = setTimeout(typeWriter, speed);
-    //         }
-    //     }
-    //     typeWriter();
-    // }
 
     const playerHitResponse = () => {
 
