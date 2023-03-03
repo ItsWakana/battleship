@@ -3,6 +3,7 @@
 // import captain3 from './assets/captains/captain3.png';
 
 import { DOMHelperCreation } from "./DOM Helper Modules/DOMHelper";
+import { AvatarResponses } from "./responses";
 
 export const View = () => {
 
@@ -10,6 +11,7 @@ export const View = () => {
     let computerCells;
 
     const DOMHelper = DOMHelperCreation();
+    const response = AvatarResponses();
 
     const startButton = document.querySelector('.start-game');
 
@@ -238,5 +240,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar }
+    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar }
 }

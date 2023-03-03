@@ -33,7 +33,7 @@ export const gameController = () => {
             view.DOMHelper.applyRotation(shipElement);
         });
         view.displayCaptainAvatar(captainChoice);
-        view.DOMHelper.setUserInstruction(view.DOMHelper.userShipPlacementResponse());
+        view.DOMHelper.setUserInstruction(view.response.shipPlacementResponse());
         view.hideCaptainAvatar();
         view.setPlayerAndComputerCells();
 
@@ -73,7 +73,7 @@ export const gameController = () => {
                     view.DOMHelper.setMainGridToComputer();
                     view.showCaptainAvatar();
                     view.DOMHelper.currentPlayerOutline(false);
-                    view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+                    view.DOMHelper.setUserInstruction(view.response.playerTurnResponse());
                     view.updateBoard(game.computerBoard.getBoard(), true)
                     resolve();
                 }
@@ -116,21 +116,21 @@ export const gameController = () => {
 
         if (game.computerBoard.getLastHit() === 'ship') {
             audioSetup.playRandomHitSound();
-            await delay(2500);
+            await delay(delayTime.waitForSound);
             view.updateBoard(game.computerBoard.getBoard(), true);  
             //if the user clicks another attack directly after the first one, we want to wipe the current execution of the setUserInstruction and iniate a new instruction.
-            view.DOMHelper.setUserInstruction(view.DOMHelper.playerHitResponse());
+            view.DOMHelper.setUserInstruction(view.response.playerHitResponse());
             view.setHit(coordinate, true);
             view.computerViewUpdate();
             return;
         }
         audioSetup.playRandomMissSound()
-        await delay(2500);
+        await delay(delayTime.waitForSound);
         view.updateBoard(game.computerBoard.getBoard(), true);  
-        view.DOMHelper.setUserInstruction(view.DOMHelper.playerMissResponse());
-        await delay(3000);
+        view.DOMHelper.setUserInstruction(view.response.playerMissResponse());
+        await delay(delayTime.waitForAvatarMessage);
         view.playerViewUpdate();
-        view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
+        view.DOMHelper.setUserInstruction(view.response.computerTurnResponse());
         view.DOMHelper.setMainGridToPlayer();
         view.hideCaptainAvatar();
         await delay(3000);
@@ -156,24 +156,24 @@ export const gameController = () => {
 
         if (game.playerBoard.getLastHit() === 'ship') {
             audioSetup.playRandomHitSound();
-            await delay(2500);
+            await delay(delayTime.waitForSound);
             view.updateBoard(game.playerBoard.getBoard(), false);
             view.setHit(position,false);
-            view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
-            await delay(2500); // wait for message prompt to finish before switching turns
+            view.DOMHelper.setUserInstruction(view.response.computerTurnResponse());
+            await delay(delayTime.waitForAvatarMessage); // wait for message prompt to finish before switching turns
             view.DOMHelper.currentPlayerOutline(true);
             executeComputerTurn();
             return;
         }
 
         audioSetup.playRandomMissSound();
-        await delay(2500);
+        await delay(delayTime.waitForSound);
         view.updateBoard(game.playerBoard.getBoard(), false);
-        view.DOMHelper.setUserInstruction(view.DOMHelper.enemyMissResponse());
-        await delay(2500); // wait for message prompt to finish before switching turns
+        view.DOMHelper.setUserInstruction(view.response.computerMissResponse());
+        await delay(delayTime.waitForAvatarMessage); // wait for message prompt to finish before switching turns
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.enableCells();
-        view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+        view.DOMHelper.setUserInstruction(view.response.playerTurnResponse());
         view.DOMHelper.setMainGridToComputer();
         view.showCaptainAvatar();
     }
@@ -210,7 +210,11 @@ export const gameController = () => {
         return new Promise((resolve) => {
             setTimeout(resolve, ms);
         });
+    }
 
+    const delayTime = {
+        waitForAvatarMessage: 2500,
+        waitForSound: 2500
     }
 
     const resetGame = () => {
