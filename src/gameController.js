@@ -2,11 +2,13 @@ import './style.css';
 import { View } from "./displayController";
 import { GameState } from './gameState';
 import { gameInitHelper } from './gameState';
+import { AudioSetup } from './Audio Modules/audioCreation';
 
 export const gameController = () => {
 
     const view = View();
     let game = GameState();
+    const audioSetup = AudioSetup();
     const gameHelper = gameInitHelper();
 
     let gameStarted = false;
@@ -24,6 +26,7 @@ export const gameController = () => {
         // await delay(700);
         
         view.DOMHelper.initializeMainDisplay();
+        audioSetup.generateAudioFiles();
 
         view.DOMHelper.setMainGridToPlayer();
         view.DOMHelper.generateShipRotationControls((shipElement) => {
@@ -154,16 +157,21 @@ export const gameController = () => {
 
         // await delay(3000);
 
-        view.updateBoard(game.computerBoard.getBoard(), true);  
+        // view.updateBoard(game.computerBoard.getBoard(), true);  
 
         if (game.computerBoard.getLastHit() === 'ship') {
-
+            audioSetup.playRandomHitSound();
+            await delay(2500);
+            view.updateBoard(game.computerBoard.getBoard(), true);  
             //if the user clicks another attack directly after the first one, we want to wipe the current execution of the setUserInstruction and iniate a new instruction.
             view.DOMHelper.setUserInstruction(view.DOMHelper.playerHitResponse());
             view.setHit(coordinate, true);
             view.computerViewUpdate();
             return;
         }
+        audioSetup.playRandomMissSound()
+        await delay(2500);
+        view.updateBoard(game.computerBoard.getBoard(), true);  
         view.DOMHelper.setUserInstruction(view.DOMHelper.playerMissResponse());
         await delay(3000);
         view.playerViewUpdate();
@@ -192,10 +200,10 @@ export const gameController = () => {
         }
         //to delay computers attacks, for adding in sound effects later on
 
-        await delay(2000);
-
-        view.updateBoard(game.playerBoard.getBoard(), false);
         if (game.playerBoard.getLastHit() === 'ship') {
+            audioSetup.playRandomHitSound();
+            await delay(2500);
+            view.updateBoard(game.playerBoard.getBoard(), false);
             view.setHit(position,false);
             view.DOMHelper.setUserInstruction(view.DOMHelper.computerTurnResponse());
             await delay(3000);
@@ -203,8 +211,11 @@ export const gameController = () => {
             executeComputerTurn();
             return;
         }
+        audioSetup.playRandomMissSound();
+        await delay(2500);
+        view.updateBoard(game.playerBoard.getBoard(), false);
         view.DOMHelper.setUserInstruction(view.DOMHelper.enemyMissResponse());
-        await delay(3000);
+        await delay(3000)
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.enableCells();
         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
