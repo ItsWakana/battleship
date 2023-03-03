@@ -115,7 +115,7 @@ h2 {
 
 .captain-board-avatar {
     position: absolute;
-    left: -45%;
+    left: -43.5%;
     bottom: 0;
     width: 40%;
     height: 50%;
@@ -158,7 +158,7 @@ h2 {
     transform: translateX(-50%) skew(-60deg);
     border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent yellow transparent;
+    border-color: transparent transparent var(--secondary-clr) transparent;
 }
   
 
@@ -559,7 +559,7 @@ h2 {
 
 .move-position {
     transform: translateX(55%);
-    width: 100%;
+    width: 94%;
 }
 
 .hidden {
