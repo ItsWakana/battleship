@@ -96,7 +96,7 @@ export const DOMHelperCreation = () => {
         const captainAvatars = creator.oneElement('captain-avatars', 'div');
 
         const captains = creator.multipleElements('div', 3);
-        const captainNames = ['Augustus', 'Donald', 'Burt']
+        const captainNames = ['Ted', 'Donald', 'Burt']
         let counter = 0;
         for (const captain of captains) {
                 captain.className = 'captain';
