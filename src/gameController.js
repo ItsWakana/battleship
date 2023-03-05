@@ -27,7 +27,7 @@ export const gameController = () => {
         
         view.DOMHelper.initializeMainDisplay();
         audioSetup.generateAudioFiles();
-
+        audioSetup.loopBackgroundSound();
         view.DOMHelper.setMainGridToPlayer();
         view.DOMHelper.generateShipRotationControls((shipElement) => {
             view.DOMHelper.applyRotation(shipElement);
