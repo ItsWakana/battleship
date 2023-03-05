@@ -362,7 +362,7 @@ export const DOMHelperCreation = () => {
         }
     }
 
-    const setUserInstruction = (message) => {
+    const speechBubbleText = (message) => {
         // const heading = document.querySelector('.user-instruction');
         const captainSpeech = document.querySelector('.captain-message');
         captainSpeech.textContent = '';
@@ -466,5 +466,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, setUserInstruction, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages }
 }

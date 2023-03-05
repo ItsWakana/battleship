@@ -28,15 +28,30 @@ export const View = () => {
             });
     }
 
+    const handlePlayerHitState = (coordinate) => {
+        DOMHelper.speechBubbleText(response.playerHitResponse());
+        setHit(coordinate, true);
+        computerViewUpdate();
+    }
+
+    const handlePlayerMissState = () => {
+        playerViewUpdate();
+        DOMHelper.speechBubbleText(response.computerTurnResponse());
+        DOMHelper.setMainGridToPlayer();
+        hideCaptainAvatar();
+    }
+
     const setHit = (coordinate, isPlayer) => {
 
         if (isPlayer) {
-            const element = document.querySelector(`[data-player="computer"][data-xy-pos="${coordinate}"]`);
+            const element = document.querySelector(
+                `[data-player="computer"][data-xy-pos="${coordinate}"]`);
             const child = element.querySelector('.attack-marker');
             child.classList.add('computer-ship-hit');
         } else {
             coordinate = coordinate.join('');
-            const element = document.querySelector(`[data-player="player"][data-xy-pos="${coordinate}"]`);
+            const element = document.querySelector(
+                `[data-player="player"][data-xy-pos="${coordinate}"]`);
             const child = element.querySelector('.attack-marker');
             child.classList.add('player-ship-hit');
         }
@@ -178,7 +193,7 @@ export const View = () => {
                 if (!isComputerBoard) {
                     cell.classList.add('placed');
                 } else {
-                    // cell.style.backgroundColor = 'red';
+                    cell.style.backgroundColor = 'red';
                 }
             }
         }
@@ -240,5 +255,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar }
+    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState }
 }

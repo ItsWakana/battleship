@@ -13,7 +13,7 @@ export const gameController = () => {
 
     let gameStarted = false;
 
-    const gameLoop = () => {
+    const playGame = () => {
         if (!gameStarted) {
             gameStarted = true;
             startGame();
@@ -33,14 +33,14 @@ export const gameController = () => {
             view.DOMHelper.applyRotation(shipElement);
         });
         view.displayCaptainAvatar(captainChoice);
-        view.DOMHelper.setUserInstruction(view.response.shipPlacementResponse());
+        view.DOMHelper.speechBubbleText(view.response.shipPlacementResponse());
         view.hideCaptainAvatar();
         view.setPlayerAndComputerCells();
 
         game.placeAllComputerShips();
 
         await shipPlacementHandler();
-        view.onCellClick(playRound);
+        view.onCellClick(gameLoop);
         // view.dragAndDropShips((ship, coordinate) => {
         //     checkShipPlacement(ship, coordinate);
 
@@ -52,7 +52,7 @@ export const gameController = () => {
         //         view.DOMHelper.setMainGridToComputer();
         //         view.showCaptainAvatar();
         //         view.DOMHelper.currentPlayerOutline(false);
-        //         view.DOMHelper.setUserInstruction(view.DOMHelper.playerTurnResponse());
+        //         view.DOMHelper.speechBubbleText(view.DOMHelper.playerTurnResponse());
         //         view.updateBoard(game.computerBoard.getBoard(), true)
 
         //         view.onCellClick(playRound);
@@ -73,8 +73,8 @@ export const gameController = () => {
                     view.DOMHelper.setMainGridToComputer();
                     view.showCaptainAvatar();
                     view.DOMHelper.currentPlayerOutline(false);
-                    view.DOMHelper.setUserInstruction(view.response.playerTurnResponse());
-                    view.updateBoard(game.computerBoard.getBoard(), true)
+                    view.DOMHelper.speechBubbleText(view.response.playerTurnResponse());
+                    view.updateBoard(game.computerBoard.getBoard(), true);
                     resolve();
                 }
             });
@@ -91,7 +91,7 @@ export const gameController = () => {
         });
     }
 
-    const playRound = async (coordinate) => {
+    const gameLoop = async (coordinate) => {
         if (!coordinate) {
             console.log(`Error: Attack already placed`);
             return;
@@ -100,7 +100,7 @@ export const gameController = () => {
         if (!game.computerBoard.isValidAttack(coordinate)) return;
 
         view.DOMHelper.disableCells();  
-        executePlayerTurn(coordinate);
+        game.player.attack([coordinate[0], coordinate[1]]);
 
         const isaWinner = game.checkForWinner();
         if (isaWinner) {
@@ -108,43 +108,32 @@ export const gameController = () => {
             resetGame();
             return;
         }
-        //delay displaying players attack by 3 seconds, for sound effects purposes later
-
-        // await delay(3000);
-
-        // view.updateBoard(game.computerBoard.getBoard(), true);  
 
         if (game.computerBoard.getLastHit() === 'ship') {
             audioSetup.playRandomHitSound();
             await delay(delayTime.waitForSound);
             view.updateBoard(game.computerBoard.getBoard(), true);  
-            //if the user clicks another attack directly after the first one, we want to wipe the current execution of the setUserInstruction and iniate a new instruction.
-            view.DOMHelper.setUserInstruction(view.response.playerHitResponse());
-            view.setHit(coordinate, true);
-            view.computerViewUpdate();
+            view.handlePlayerHitState(coordinate);
             return;
         }
         audioSetup.playRandomMissSound()
         await delay(delayTime.waitForSound);
         view.updateBoard(game.computerBoard.getBoard(), true);  
-        view.DOMHelper.setUserInstruction(view.response.playerMissResponse());
-        await delay(delayTime.waitForAvatarMessage);
-        view.playerViewUpdate();
-        view.DOMHelper.setUserInstruction(view.response.computerTurnResponse());
-        view.DOMHelper.setMainGridToPlayer();
-        view.hideCaptainAvatar();
+        view.DOMHelper.speechBubbleText(view.response.playerMissResponse());
+        await delay(delayTime.waitForSpeech);
+        view.handlePlayerMissState();
         await delay(3000);
-        executeComputerTurn();
+        handleComputerTurn();
     }
 
-    const executePlayerTurn = (coordinate) => {
-
-        game.currentPlayer = game.player.getName();
-        game.player.attack([coordinate[0], coordinate[1]]);
-        game.currentPlayer = game.computer.getName();
-    }
+    // const executePlayerTurn = (coordinate) => {
+    //     //not sure if i even need currentPlayer state change, because we initiate the turn with our click. The computer doesn't need to know if its the current player.
+    //     game.currentPlayer = game.player.getName();
+    //     game.player.attack([coordinate[0], coordinate[1]]);
+    //     game.currentPlayer = game.computer.getName();
+    // }
     
-    const executeComputerTurn = async () => {
+    const handleComputerTurn = async () => {
 
         const position = game.computer.attack();
         const winner = game.checkForWinner();
@@ -159,21 +148,21 @@ export const gameController = () => {
             await delay(delayTime.waitForSound);
             view.updateBoard(game.playerBoard.getBoard(), false);
             view.setHit(position,false);
-            view.DOMHelper.setUserInstruction(view.response.computerTurnResponse());
-            await delay(delayTime.waitForAvatarMessage); // wait for message prompt to finish before switching turns
+            view.DOMHelper.speechBubbleText(view.response.computerTurnResponse());
+            await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
             view.DOMHelper.currentPlayerOutline(true);
-            executeComputerTurn();
+            handleComputerTurn();
             return;
         }
 
         audioSetup.playRandomMissSound();
         await delay(delayTime.waitForSound);
         view.updateBoard(game.playerBoard.getBoard(), false);
-        view.DOMHelper.setUserInstruction(view.response.computerMissResponse());
-        await delay(delayTime.waitForAvatarMessage); // wait for message prompt to finish before switching turns
+        view.DOMHelper.speechBubbleText(view.response.computerMissResponse());
+        await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
         view.DOMHelper.currentPlayerOutline(false);
         view.DOMHelper.enableCells();
-        view.DOMHelper.setUserInstruction(view.response.playerTurnResponse());
+        view.DOMHelper.speechBubbleText(view.response.playerTurnResponse());
         view.DOMHelper.setMainGridToComputer();
         view.showCaptainAvatar();
     }
@@ -213,7 +202,7 @@ export const gameController = () => {
     }
 
     const delayTime = {
-        waitForAvatarMessage: 2500,
+        waitForSpeech: 2500,
         waitForSound: 2500
     }
 
@@ -224,5 +213,5 @@ export const gameController = () => {
         view.DOMHelper.resetGameStyles();
     }
 
-    view.startButton.addEventListener('click', gameLoop);
+    view.startButton.addEventListener('click', playGame);
 }
