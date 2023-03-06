@@ -115,7 +115,10 @@ export const Gameboard = () => {
         ships.push(ship);
     }
 
-    let lastHit = null;
+    // let lastHit = null;
+    let lastHit = {
+        ship: null,
+    }
 
     const getLastHit = () => {
         return lastHit;
@@ -140,12 +143,14 @@ export const Gameboard = () => {
 
             if (boardItem === '') {
                 missedShots[coordinate[0]].push(coordinate[1]);
-                lastHit = null;
+                // lastHit = null;
+                lastHit['ship'] = null; 
             }
 
             if (typeof boardItem === 'object') {
                 boardItem.hit();
-                lastHit = 'ship';
+                lastHit['ship'] = coordinate;
+                // lastHit = 'ship';
             }
 
             board[coordinate[0]][coordinate[1]] = 'x';

@@ -10,15 +10,16 @@ describe('placeShip', () => {
     });
 
     test('Should place horizontal ship on the board', () => {
-        const ship = Ship(5);
-        const ship2 = Ship(5);
+        const ship = { type: 'Carrier', length: 5, setShipDirection: jest.fn() }
+        const ship2 = { type: 'Carrier', length: 5, setShipDirection: jest.fn() }
 
         expect(board.canPlaceShip(ship, [0,2], false)).toBe(true);
         board.placeShip(ship, [0,2]);
 
         board.placeShip(ship2, [4,5], false);
 
-        expect(board.canPlaceShip(Ship(2), [4,3], false)).toBe(true);
+        const newShip = { type: 'Destroyer', length: 2 }
+        expect(board.canPlaceShip(newShip, [4,3], false)).toBe(true);
         
         expect(board.getBoard()[0][2]).toBe(ship);
         expect(board.getBoard()[0][3]).toBe(ship);
@@ -30,8 +31,7 @@ describe('placeShip', () => {
     });
 
     test('Should place vertical ship on the board', () => {
-        const ship = Ship(2);
-
+        const ship = { type: 'Destroyer', length: 2, setShipDirection: jest.fn() }
         expect(board.canPlaceShip(ship, [0,8], true)).toBe(true);
 
         board.placeShip(ship, [0,8], true);
@@ -54,11 +54,16 @@ describe('placeShip', () => {
     });
 
     test('Should throw error if ship exists in position', () => {
-        board.placeShip(Ship(2), [7,6], false);
-        board.placeShip(Ship(5), [2,2], true); 
 
-        expect(board.canPlaceShip(Ship(2), [7,7], true)).toBe(false);
-        expect(board.canPlaceShip(Ship(5), [2,5],false)).toBe(true);
+        const ship1 = {type: 'Destroyer', length: 2, setShipDirection: jest.fn()}
+        const ship2 = {type: 'Carrier', length: 5, setShipDirection: jest.fn()}
+        board.placeShip(ship1, [7,6], false);
+        board.placeShip(ship2, [2,2], true); 
+
+        const ship3 = {type: 'Destroyer', length: 2}
+        const ship4 = {type: 'Carrier', length: 5}
+        expect(board.canPlaceShip(ship3, [7,7], true)).toBe(false);
+        expect(board.canPlaceShip(ship4, [2,5],false)).toBe(true);
     });
 
 });

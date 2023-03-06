@@ -102,6 +102,7 @@ export const gameController = () => {
         view.DOMHelper.disableCells();  
         game.player.attack([coordinate[0], coordinate[1]]);
 
+
         const isaWinner = game.checkForWinner();
         if (isaWinner) {
             view.alertWinner(isaWinner);
@@ -109,7 +110,7 @@ export const gameController = () => {
             return;
         }
 
-        if (game.computerBoard.getLastHit() === 'ship') {
+        if (game.computerBoard.getLastHit()['ship']) {
             audioSetup.playRandomHitSound();
             await delay(delayTime.waitForSound);
             view.updateBoard(game.computerBoard.getBoard(), true);  
@@ -125,17 +126,17 @@ export const gameController = () => {
         await delay(3000);
         handleComputerTurn();
     }
-
-    // const executePlayerTurn = (coordinate) => {
-    //     //not sure if i even need currentPlayer state change, because we initiate the turn with our click. The computer doesn't need to know if its the current player.
-    //     game.currentPlayer = game.player.getName();
-    //     game.player.attack([coordinate[0], coordinate[1]]);
-    //     game.currentPlayer = game.computer.getName();
-    // }
     
     const handleComputerTurn = async () => {
 
-        const position = game.computer.attack();
+        //first check if the last hit the computer made was a ship, if it was. We want to make a new attack that picks a random attack adjacent to the previous coordinate. So above it, below it or next to it.
+        let attackPosition;
+        if (game.playerBoard.getLastHit()['ship']) {
+            attackPosition = game.computer.attackAdjacentCell(game.playerBoard.getLastHit()['ship']);   
+        } else {
+            attackPosition = game.computer.attack();
+        }
+
         const winner = game.checkForWinner();
         if (winner) {
             view.alertWinner(winner);
@@ -143,11 +144,11 @@ export const gameController = () => {
             return;
         }
 
-        if (game.playerBoard.getLastHit() === 'ship') {
+        if (game.playerBoard.getLastHit()['ship']) {
             audioSetup.playRandomHitSound();
             await delay(delayTime.waitForSound);
             view.updateBoard(game.playerBoard.getBoard(), false);
-            view.setHit(position,false);
+            view.setHit(attackPosition,false);
             view.DOMHelper.speechBubbleText(view.response.computerTurnResponse());
             await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
             view.DOMHelper.currentPlayerOutline(true);
