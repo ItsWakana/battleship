@@ -1,4 +1,6 @@
 import rotate from '../assets/rotate.svg';
+import close from '../assets/close.svg';
+import information from '../assets/information.svg';
 import captain1 from '../assets/captains/captain1.png';
 import captain2 from '../assets/captains/captain2.png';
 import captain3 from '../assets/captains/captain3.png';
@@ -284,6 +286,56 @@ export const DOMHelperCreation = () => {
     
     }
 
+    const createGameRuleModal = () => {
+        const modal = creator.oneElement('modal', 'div');
+        const overlay = creator.oneElement('overlay', 'div');
+
+        const listHeading = document.createElement('h3');
+        listHeading.textContent = 'Rules';
+
+        const myList = document.createElement('ol');
+
+        const listItem1 = document.createElement('li');
+        const listItem2 = document.createElement('li');
+        const listItem3 = document.createElement('li');
+        const listItem4 = document.createElement('li');
+        const listItem5 = document.createElement('li');
+
+        listItem1.textContent = 'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal';
+        listItem2.textContent = 'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!';
+        listItem3.textContent = 'After you make your attack it will be the computers turn';
+        listItem4.textContent = 'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!';
+        listItem5.textContent = 'Your goal is to sink all of their ships, good luck!';
+
+
+        const closeIcon = new Image();
+        closeIcon.src = close;
+        closeIcon.className = 'close-icon';
+
+        closeIcon.addEventListener('click', () => {
+            closeModal(modal);
+        });
+        myList.append(listHeading, listItem1,listItem2, listItem3, listItem4, listItem5);
+
+        modal.append(closeIcon, myList);
+
+        return { modal, overlay };
+    }
+    
+    const openModal = (modal) => {
+        const overlay = document.querySelector('.overlay');
+
+        modal.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+
+    const closeModal = (modal) => {
+        const overlay = document.querySelector('.overlay');
+
+        modal.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+
 
     const applyRotation = (shipElement) => {
 
@@ -322,11 +374,6 @@ export const DOMHelperCreation = () => {
                 shipContainer.removeChild(shipContainer.lastChild);
             }
         }
-
-        // const heading = document.querySelector('.user-instruction');
-        // heading.remove();
-
-
     }
 
     const disableCells = () => {
@@ -363,7 +410,6 @@ export const DOMHelperCreation = () => {
     }
 
     const speechBubbleText = (message) => {
-        // const heading = document.querySelector('.user-instruction');
         const captainSpeech = document.querySelector('.captain-message');
         captainSpeech.textContent = '';
         let i = 0;
@@ -377,68 +423,6 @@ export const DOMHelperCreation = () => {
         }
         setTimeout(typeWriter, 500);
     }
-
-    // const playerHitResponse = () => {
-
-    //     const responses = [
-    //         `"Bullseye! We've hit the enemy's vessel. Go again!"`,
-    //         `"Nice shot! Enemy ship hit! This is fun, go!"`,
-    //         `"Enemy ship, meet our firepower! Direct hit! Next shot!"`
-    //     ]
-
-    //     return responses[Math.floor(Math.random() * responses.length)]
-    // }
-
-    // const playerTurnResponse = () => {
-    //     const responses = [
-    //         `"It's your turn, captain! Fire at will!"`,
-    //         `"All systems are go! Take your shot, captain."`,
-    //         `"The enemy ship is in sight. You have the green light to attack."`,
-    //         `"The sea is yours, captain. Show the enemy what we're made of!"`,
-    //         `"We're counting on you, captain. Time to make your move."`
-    //     ]
-
-    //     return responses[Math.floor(Math.random() * responses.length)]
-    // }
-
-    // const computerTurnResponse = () => {
-    //     const responses = [
-    //         `"Brace for impact! The enemy is taking their shot."`,
-    //         `"All hands on deck! Enemy turn to fire."`,
-    //         `"Eyes on the horizon, captain. The enemy is attacking."`,
-    //     ]
-
-    //     return responses[Math.floor(Math.random() * responses.length)]
-    // }
-
-    // const userShipPlacementResponse = () => {
-    //     const responses = [
-    //         `"Place the ships, Cap'n!"`,
-    //         `"Captain, lets place our fleet!"`,
-    //         `"Let's begin placing our ships!"`,
-    //     ]
-
-    //     return responses[Math.floor(Math.random() * responses.length)]
-    // }
-
-    // const enemyMissResponse = () => {
-    //     const responses = [
-    //         `"They suck! How could they miss!"`,
-    //         `"Damn, they missed it"`
-    //     ]
-
-    //     return responses[Math.floor(Math.random() * responses.length)]
-    // }
-
-    // const playerMissResponse = () => {
-    //     const responses = [
-    //         `"Ah, too bad. We go again."`,
-    //         `"A miss for us, bad luck.."`
-    //     ]
-
-    //     return responses[Math.floor(Math.random() * responses.length)]
-    // }
-
 
     const setInGameStyles = () => {
         const button = document.querySelector('.start-game');
@@ -466,5 +450,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, createGameRuleModal, openModal, closeModal, information }
 }

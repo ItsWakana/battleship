@@ -26,6 +26,8 @@ export const gameController = () => {
         // await delay(700);
         
         view.DOMHelper.initializeMainDisplay();
+        // view.DOMHelper.createGameRuleModal();
+        view.implementRuleModalAndInformationButton();
         audioSetup.generateAudioFiles();
         audioSetup.loopBackgroundSound();
         view.DOMHelper.setMainGridToPlayer();
@@ -112,16 +114,16 @@ export const gameController = () => {
 
         if (game.computerBoard.getLastHit()['ship']) {
             audioSetup.playRandomHitSound();
-            await delay(delayTime.waitForSound);
+            // await delay(delayTime.waitForSound);
             view.updateBoard(game.computerBoard.getBoard(), true);  
             view.handlePlayerHitState(coordinate);
             return;
         }
         audioSetup.playRandomMissSound()
-        await delay(delayTime.waitForSound);
+        // await delay(delayTime.waitForSound);
         view.updateBoard(game.computerBoard.getBoard(), true);  
         view.DOMHelper.speechBubbleText(view.response.playerMissResponse());
-        await delay(delayTime.waitForSpeech);
+        // await delay(delayTime.waitForSpeech);
         view.handlePlayerMissState();
         await delay(3000);
         handleComputerTurn();

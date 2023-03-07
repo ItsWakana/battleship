@@ -57,6 +57,28 @@ export const View = () => {
         }
     }
 
+    const implementRuleModalAndInformationButton = () => {
+
+        const buttonContainer = document.querySelector('.button-container');
+        const infoButton = new Image();
+        infoButton.src = DOMHelper.information;
+        infoButton.className = 'rules-icon';
+        buttonContainer.appendChild(infoButton);
+
+        const gameBoardContainer = document.querySelector('.gameboards');
+
+        const modalObj = DOMHelper.createGameRuleModal();
+        gameBoardContainer.appendChild(modalObj.overlay);
+        gameBoardContainer.appendChild(modalObj.modal);
+
+        infoButton.addEventListener('click', () => {
+            DOMHelper.openModal(modalObj.modal);
+        });
+
+
+
+
+    }
     const displayCaptainAvatar = (captain) => {
 
         const computerBoard = document.querySelector('.grid.right')
@@ -255,5 +277,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState }
+    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, implementRuleModalAndInformationButton }
 }
