@@ -512,7 +512,7 @@ h2 {
 
 .ship-sub-container {
     display: flex;
-    gap: 25px;
+    gap: 12px;
 }
 
 .ship-element-container {

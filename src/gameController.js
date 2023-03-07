@@ -26,7 +26,6 @@ export const gameController = () => {
         // await delay(700);
         
         view.DOMHelper.initializeMainDisplay();
-        // view.DOMHelper.createGameRuleModal();
         view.implementRuleModalAndInformationButton();
         audioSetup.generateAudioFiles();
         audioSetup.loopBackgroundSound();
@@ -108,6 +107,7 @@ export const gameController = () => {
         const isaWinner = game.checkForWinner();
         if (isaWinner) {
             view.alertWinner(isaWinner);
+            view.implementGameOverModal();
             resetGame();
             return;
         }

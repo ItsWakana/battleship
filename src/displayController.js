@@ -79,6 +79,11 @@ export const View = () => {
 
 
     }
+
+    const implementGameOverModal = () => {
+
+    }
+
     const displayCaptainAvatar = (captain) => {
 
         const computerBoard = document.querySelector('.grid.right')
@@ -277,5 +282,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, implementRuleModalAndInformationButton }
+    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, implementRuleModalAndInformationButton, implementGameOverModal }
 }

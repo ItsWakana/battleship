@@ -315,11 +315,18 @@ export const DOMHelperCreation = () => {
         closeIcon.addEventListener('click', () => {
             closeModal(modal);
         });
+
         myList.append(listHeading, listItem1,listItem2, listItem3, listItem4, listItem5);
 
         modal.append(closeIcon, myList);
 
         return { modal, overlay };
+    }
+
+    const createGameOverModal = () => {
+        //we want to create all the elements for our game over modal, when the game state hits a terminal condition we want this  to pop up instead of the alert. It should say who won the game and have a button that says 'play again';
+
+        //This method should only create the modal and append all its elements and return the element, we will append it to our document or container elsewhere.
     }
     
     const openModal = (modal) => {
@@ -369,6 +376,11 @@ export const DOMHelperCreation = () => {
         });
 
         const shipContainer = document.querySelector('.ship-container');
+
+        const buttonContainer = document.querySelector('.button-container');
+
+        buttonContainer.removeChild(buttonContainer.lastChild);
+
         if (shipContainer) {
             while (shipContainer.hasChildNodes()) {
                 shipContainer.removeChild(shipContainer.lastChild);
