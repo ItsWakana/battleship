@@ -58,7 +58,7 @@ export const View = () => {
 
         // const buttonContainer = document.querySelector('.button-container');
         const infoButton = new Image();
-        infoButton.src = DOM.information;
+        infoButton.src = DOM.elements.information;
         infoButton.className = 'rules-icon';
         DOM.elements.buttonContainer.appendChild(infoButton);
 

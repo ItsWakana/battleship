@@ -1,9 +1,9 @@
-import rotate from '../assets/rotate.svg';
-import close from '../assets/close.svg';
-import information from '../assets/information.svg';
-import captain1 from '../assets/captains/captain1.png';
-import captain2 from '../assets/captains/captain2.png';
-import captain3 from '../assets/captains/captain3.png';
+// import rotate from '../assets/rotate.svg';
+// import close from '../assets/close.svg';
+// import information from '../assets/information.svg';
+// import captain1 from '../assets/captains/captain1.png';
+// import captain2 from '../assets/captains/captain2.png';
+// import captain3 from '../assets/captains/captain3.png';
 
 import { CustomElementCreator } from './DOMCreation';
 import { MyElements } from './ElementSelector';
@@ -18,7 +18,7 @@ export const DOMInterface = () => {
 
     //module for querySelector references
 
-    const mainTopContainer = document.querySelector('.gameboards');
+    // const mainTopContainer = document.querySelector('.gameboards');
     // const transitionContainer = document.querySelector('.transition-container');
 
     
@@ -31,17 +31,17 @@ export const DOMInterface = () => {
 
     const setNewShipContainerHeight = () => {
         return new Promise((resolve) => {
-            const shipMainContainer = document.querySelector('.ship-main-container')
-            shipMainContainer.classList.add('expand');
-            shipMainContainer.addEventListener('transitionend', () => {
+            // const shipMainContainer = document.querySelector('.ship-main-container')
+            elements.shipMainContainer.classList.add('expand');
+            elements.shipMainContainer.addEventListener('transitionend', () => {
                 resolve();
             });
         });
     }
 
     const removeShipContainerHeight = () => {
-        const shipMainContainer = document.querySelector('.ship-main-container')
-        shipMainContainer.classList.remove('expand')
+        // const shipMainContainer = document.querySelector('.ship-main-container')
+        elements.shipMainContainer.classList.remove('expand')
     }
 
     const setMainGridToPlayer = () => {
@@ -60,13 +60,13 @@ export const DOMInterface = () => {
         const title = document.createElement('h3');
         title.textContent = 'Pick your lieutenant!'
         captainContainer.appendChild(title);
-        mainTopContainer.append(captainContainer);
+        elements.gameboardContainer.append(captainContainer);
 
-        const transitionContainer = document.querySelector('.transition-container');
+        // const transitionContainer = document.querySelector('.transition-container');
 
         setInGameStyles();
         
-        transitionContainer.classList.add('shift-down');
+        elements.transitionContainer.classList.add('shift-down');
         
         setTimeout(() => {
             captainContainer.classList.add('visible');
@@ -92,7 +92,7 @@ export const DOMInterface = () => {
     }
 
     const getCaptainImages = () => {
-        return [ captain1, captain2, captain3 ]
+        return [ elements.captain1, elements.captain2, elements.captain3 ]
     }
 
     const createCaptains = (container, callback) => {
@@ -161,18 +161,18 @@ export const DOMInterface = () => {
     }
 
     const setDefaultContainerSize = () => {
-        const transitionContainer = document.querySelector('.transition-container');
+        // const transitionContainer = document.querySelector('.transition-container');
 
-        transitionContainer.style.top = '0vh';
+        elements.transitionContainer.style.top = '0vh';
     }
 
     const setTransitionContainerTop = () => {
 
         // const mainBoardsContainer = document.querySelector('.gameboards');
-        const transitionContainer = document.querySelector('.transition-container');
+        // const transitionContainer = document.querySelector('.transition-container');
 
-        const gameboardsHeight = mainTopContainer.offsetHeight;
-        transitionContainer.style.top = `${gameboardsHeight + 35}px`;
+        const gameboardsHeight = elements.gameboardContainer.offsetHeight;
+        elements.transitionContainer.style.top = `${gameboardsHeight + 35}px`;
     }
 
     const setAlphabet = {
@@ -192,7 +192,7 @@ export const DOMInterface = () => {
 
         // const mainBoardsContainer = document.querySelector('.gameboards');
 
-        const transitionContainer = document.querySelector('.transition-container');
+        // const transitionContainer = document.querySelector('.transition-container');
 
         
         playerBoard = document.createElement('div');
@@ -207,14 +207,14 @@ export const DOMInterface = () => {
         makeGridSquares(playerBoard, false);
         makeGridSquares(computerBoard, true);
 
-        mainTopContainer.append(playerBoard, computerBoard);
+        elements.gameboardContainer.append(playerBoard, computerBoard);
 
         // setTransitionContainerTop();
 
         // transitionContainer.classList.add('shift-down');
         setTimeout(() => {
             setTransitionContainerTop();
-            transitionContainer.classList.add('shift-down');
+            elements.transitionContainer.classList.add('shift-down');
         },30);
         
         setTimeout(() => {
@@ -272,7 +272,7 @@ export const DOMInterface = () => {
             shipSubContainer.appendChild(shipContainer);
 
             const rotateButton = creator.oneElement('rotate-button', 'img');
-            rotateButton.src = rotate;
+            rotateButton.src = elements.rotate;
             rotateButton.draggable = false;
             rotateButton.addEventListener('click', () => {
                 // rotateButton.classList.toggle('active');
@@ -304,7 +304,7 @@ export const DOMInterface = () => {
             ], options.type);
 
             const closeIcon = new Image();
-            closeIcon.src = close;
+            closeIcon.src = elements.close;
             closeIcon.className = 'close-icon';
     
             closeIcon.addEventListener('click', () => {
@@ -357,7 +357,7 @@ export const DOMInterface = () => {
 
 
         const closeIcon = new Image();
-        closeIcon.src = close;
+        closeIcon.src = elements.close;
         closeIcon.className = 'close-icon';
 
         closeIcon.addEventListener('click', () => {
@@ -423,17 +423,7 @@ export const DOMInterface = () => {
             computerBoard.classList.remove('invisible');
         });
 
-        const shipContainer = document.querySelector('.ship-container');
-
-        const buttonContainer = document.querySelector('.button-container');
-
-        buttonContainer.removeChild(buttonContainer.lastChild);
-
-        if (shipContainer) {
-            while (shipContainer.hasChildNodes()) {
-                shipContainer.removeChild(shipContainer.lastChild);
-            }
-        }
+        elements.buttonContainer.removeChild(elements.buttonContainer.lastChild);
     }
 
     const disableCells = () => {
@@ -510,5 +500,5 @@ export const DOMInterface = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, createGameRuleModal, openModal, closeModal, information, createModal, elements }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, createGameRuleModal, openModal, closeModal, createModal, elements }
 }
