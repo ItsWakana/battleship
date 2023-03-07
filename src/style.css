@@ -22,13 +22,8 @@ body {
     margin-top: 10px;
     display: flex;
     align-items: center;
-    /* flex-direction: column; */
+    flex-direction: column;
     gap: 30px;
-}
-
-.wrapper > * {
-    margin-left: auto;
-    margin-right: auto;
 }
 
 h2 {
@@ -78,6 +73,7 @@ h2 {
     justify-content: center;
     gap: 20px;
     width: 80%;
+    max-width: 700px;
 }
 
 .modal {
@@ -404,13 +400,13 @@ h2 {
 
 }
 
-.box.placed::after {
+/* .box.placed::after {
     content: '';
     width: 0.5rem;
     height: 0.5rem;
     background: black;
     border-radius: 50%;
-}
+} */
 
 .ship-square-horizontal {
     width: 100%;
