@@ -1,27 +1,24 @@
-// import captain1 from './assets/captains/captain1.png';
-// import captain2 from './assets/captains/captain2.png';
-// import captain3 from './assets/captains/captain3.png';
-
-import { DOMHelperCreation } from "./DOM Helper Modules/DOMHelper";
+import { DOMInterface } from "./DOM Helper Modules/DOMHelper";
 import { AvatarResponses } from "./responses";
 
 export const View = () => {
 
-    let playerCells;
-    let computerCells;
+    // let playerCells;
+    // let computerCells;
 
-    const DOMHelper = DOMHelperCreation();
+    const DOM = DOMInterface();
+    // const elements = MyElements();
     const response = AvatarResponses();
 
-    const startButton = document.querySelector('.start-game');
+    // const startButton = document.querySelector('.start-game');
 
     const setPlayerAndComputerCells = () => {
-        playerCells = document.querySelectorAll('[data-player="player"]');
-        computerCells = document.querySelectorAll('[data-player="computer"]');
+        DOM.elements.playerCells = document.querySelectorAll('[data-player="player"]');
+        DOM.elements.computerCells = document.querySelectorAll('[data-player="computer"]');
     }
 
     const onCellClick = (callback) => {
-            computerCells.forEach((cell) => {
+            DOM.elements.computerCells.forEach((cell) => {
                 cell.addEventListener('click', (e) => {
                     callback(e.target.dataset.xyPos);
                 });
@@ -29,15 +26,15 @@ export const View = () => {
     }
 
     const handlePlayerHitState = (coordinate) => {
-        DOMHelper.speechBubbleText(response.playerHitResponse());
+        DOM.speechBubbleText(response.playerHitResponse());
         setHit(coordinate, true);
         computerViewUpdate();
     }
 
     const handlePlayerMissState = () => {
         playerViewUpdate();
-        DOMHelper.speechBubbleText(response.computerTurnResponse());
-        DOMHelper.setMainGridToPlayer();
+        DOM.speechBubbleText(response.computerTurnResponse());
+        DOM.setMainGridToPlayer();
         hideCaptainAvatar();
     }
 
@@ -57,27 +54,25 @@ export const View = () => {
         }
     }
 
-    const implementRuleModalAndInformationButton = () => {
+    const appendRuleModal = () => {
 
-        const buttonContainer = document.querySelector('.button-container');
+        // const buttonContainer = document.querySelector('.button-container');
         const infoButton = new Image();
-        infoButton.src = DOMHelper.information;
+        infoButton.src = DOM.information;
         infoButton.className = 'rules-icon';
-        buttonContainer.appendChild(infoButton);
+        DOM.elements.buttonContainer.appendChild(infoButton);
 
-        const gameBoardContainer = document.querySelector('.gameboards');
+        // const gameBoardContainer = document.querySelector('.gameboards');
 
-        const modalObj = DOMHelper.createGameRuleModal();
-        gameBoardContainer.appendChild(modalObj.overlay);
-        gameBoardContainer.appendChild(modalObj.modal);
+        const modalObj = DOM.createModal({
+            type: 'Rules'
+        })
+        DOM.elements.gameboardContainer.appendChild(modalObj.overlay);
+        DOM.elements.gameboardContainer.appendChild(modalObj.modal);
 
         infoButton.addEventListener('click', () => {
-            DOMHelper.openModal(modalObj.modal);
+            DOM.openModal(modalObj.modal);
         });
-
-
-
-
     }
 
     const implementGameOverModal = () => {
@@ -94,7 +89,7 @@ export const View = () => {
         captainMessage.className = 'captain-message';
         const captainImage = new Image();
 
-        captainImage.src = DOMHelper.getCaptainImages()[captain];
+        captainImage.src = DOM.getCaptainImages()[captain];
         console.log(captainImage);
         captainImage.draggable = false;
         captainImage.className = 'captain-image';
@@ -158,7 +153,7 @@ export const View = () => {
             // });
         }
 
-        for (const cell of playerCells) {
+        for (const cell of DOM.elements.playerCells) {
             cell.addEventListener('dragover', (e) => {
                 e.preventDefault();
             });
@@ -182,7 +177,7 @@ export const View = () => {
             });
         }        
 
-        for (const cell of playerCells) {
+        for (const cell of DOM.elements.playerCells) {
             cell.addEventListener('drop', (e) => {
 
                 // draggedShip.addEventListener('dragend', (e) => {
@@ -190,7 +185,7 @@ export const View = () => {
                 // });
 
                 callback(draggedShip, e.target.dataset.xyPos);
-                playerCells.forEach((cell) => cell.classList.remove('hover'))
+                DOM.elements.playerCells.forEach((cell) => cell.classList.remove('hover'))
             });
         }
     }
@@ -201,9 +196,9 @@ export const View = () => {
         let boardCells;
 
         if (isComputerBoard) {
-            boardCells = computerCells;
+            boardCells = DOM.elements.computerCells;
         } else {
-            boardCells = playerCells;
+            boardCells = DOM.elements.playerCells;
         }
 
         for (const cell of boardCells) {
@@ -268,19 +263,19 @@ export const View = () => {
     // }
 
     const playerViewUpdate = () => {
-        DOMHelper.disableCells();
-        DOMHelper.currentPlayerOutline(true);
+        DOM.disableCells();
+        DOM.currentPlayerOutline(true);
         
     }
 
     const computerViewUpdate = () => {
-        DOMHelper.enableCells();
-        DOMHelper.currentPlayerOutline(false);
+        DOM.enableCells();
+        DOM.currentPlayerOutline(false);
     }
 
     const alertWinner = (winner) => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOMHelper, response, startButton, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, implementRuleModalAndInformationButton, implementGameOverModal }
+    return { DOM, response, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, appendRuleModal, implementGameOverModal }
 }

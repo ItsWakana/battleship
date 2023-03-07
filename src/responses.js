@@ -13,11 +13,12 @@ export const AvatarResponses = () => {
     
     const playerTurnResponse = () => {
         const responses = [
-            `"It's your turn, captain! Fire at will!"`,
-            `"All systems are go! Take your shot, captain."`,
-            `"The enemy ship is in sight. You have the green light to attack."`,
-            `"The sea is yours, captain. Show the enemy what we're made of!"`,
-            `"We're counting on you, captain. Time to make your move."`
+            `"Fire at will!"`,
+            `"Take your shot!"`,
+            `"You have the green light to attack."`,
+            `"Show the enemy what we're made of!"`,
+            `"We're counting on you, captain."`,
+            `"Time to make your move"`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
@@ -25,9 +26,9 @@ export const AvatarResponses = () => {
     
     const computerTurnResponse = () => {
         const responses = [
-            `"Brace for impact! The enemy is taking their shot."`,
-            `"All hands on deck! Enemy turn to fire."`,
-            `"Eyes on the horizon, captain. The enemy is attacking."`,
+            `"The enemy is taking their shot."`,
+            `"Its the enemies turn to fire."`,
+            `"The enemy is attacking."`,
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
@@ -45,8 +46,11 @@ export const AvatarResponses = () => {
     
     const computerMissResponse = () => {
         const responses = [
-            `"They suck! How could they miss!"`,
-            `"Damn, they missed it"`
+            `"A miss!"`,
+            `"Damn, they missed it"`,
+            `"Good for us"`,
+            `"Nice.."`,
+            `"Plop... Nice miss"`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
@@ -55,7 +59,8 @@ export const AvatarResponses = () => {
     const playerMissResponse = () => {
         const responses = [
             `"Ah, too bad. We go again."`,
-            `"A miss for us, bad luck.."`
+            `"A miss for us, bad luck.."`,
+            `"We'll hit next time"`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]

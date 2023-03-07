@@ -22,19 +22,19 @@ export const gameController = () => {
 
     const startGame = async () => {
         const captainChoice = await initializeCaptainPicker();
-        await view.DOMHelper.setNewShipContainerHeight();
+        await view.DOM.setNewShipContainerHeight();
         // await delay(700);
         
-        view.DOMHelper.initializeMainDisplay();
-        view.implementRuleModalAndInformationButton();
+        view.DOM.initializeMainDisplay();
+        view.appendRuleModal();
         audioSetup.generateAudioFiles();
         audioSetup.loopBackgroundSound();
-        view.DOMHelper.setMainGridToPlayer();
-        view.DOMHelper.generateShipRotationControls((shipElement) => {
-            view.DOMHelper.applyRotation(shipElement);
+        view.DOM.setMainGridToPlayer();
+        view.DOM.generateShipRotationControls((shipElement) => {
+            view.DOM.applyRotation(shipElement);
         });
         view.displayCaptainAvatar(captainChoice);
-        view.DOMHelper.speechBubbleText(view.response.shipPlacementResponse());
+        view.DOM.speechBubbleText(view.response.shipPlacementResponse());
         view.hideCaptainAvatar();
         view.setPlayerAndComputerCells();
 
@@ -69,12 +69,12 @@ export const gameController = () => {
                 view.updateBoard(game.playerBoard.getBoard(), false);
                 
                 if (game.playerBoard.allShipsPlaced()) {
-                    view.DOMHelper.removeShipContainerHeight();
+                    view.DOM.removeShipContainerHeight();
 
-                    view.DOMHelper.setMainGridToComputer();
+                    view.DOM.setMainGridToComputer();
                     view.showCaptainAvatar();
-                    view.DOMHelper.currentPlayerOutline(false);
-                    view.DOMHelper.speechBubbleText(view.response.playerTurnResponse());
+                    view.DOM.currentPlayerOutline(false);
+                    view.DOM.speechBubbleText(view.response.playerTurnResponse());
                     view.updateBoard(game.computerBoard.getBoard(), true);
                     resolve();
                 }
@@ -84,9 +84,9 @@ export const gameController = () => {
 
     const initializeCaptainPicker = async () => {
         return new Promise(resolve => {
-          view.DOMHelper.initializeCaptainPicker(async captainChoice => {
+          view.DOM.initializeCaptainPicker(async captainChoice => {
             game.setPlayerCaptain(captainChoice);
-            view.DOMHelper.removeCaptainPicker();
+            view.DOM.removeCaptainPicker();
             resolve(captainChoice);
           });
         });
@@ -100,7 +100,7 @@ export const gameController = () => {
 
         if (!game.computerBoard.isValidAttack(coordinate)) return;
 
-        view.DOMHelper.disableCells();  
+        view.DOM.disableCells();  
         game.player.attack([coordinate[0], coordinate[1]]);
 
 
@@ -122,7 +122,7 @@ export const gameController = () => {
         audioSetup.playRandomMissSound()
         await delay(delayTime.waitForSound);
         view.updateBoard(game.computerBoard.getBoard(), true);  
-        view.DOMHelper.speechBubbleText(view.response.playerMissResponse());
+        view.DOM.speechBubbleText(view.response.playerMissResponse());
         await delay(delayTime.waitForSpeech);
         view.handlePlayerMissState();
         await delay(3000);
@@ -131,7 +131,6 @@ export const gameController = () => {
     
     const handleComputerTurn = async () => {
 
-        //first check if the last hit the computer made was a ship, if it was. We want to make a new attack that picks a random attack adjacent to the previous coordinate. So above it, below it or next to it.
         let attackPosition;
         if (game.playerBoard.getLastHit()['ship']) {
             attackPosition = game.computer.attackAdjacentCell(game.playerBoard.getLastHit()['ship']);   
@@ -151,23 +150,23 @@ export const gameController = () => {
             await delay(delayTime.waitForSound);
             view.updateBoard(game.playerBoard.getBoard(), false);
             view.setHit(attackPosition,false);
-            view.DOMHelper.speechBubbleText(view.response.computerTurnResponse());
-            await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
-            view.DOMHelper.currentPlayerOutline(true);
+            view.DOM.speechBubbleText(view.response.computerTurnResponse());
+            await delay(delayTime.waitForSpeech);
+            view.DOM.currentPlayerOutline(true);
             handleComputerTurn();
-            return;
+            // return;
+        } else {
+            audioSetup.playRandomMissSound();
+            await delay(delayTime.waitForSound);
+            view.updateBoard(game.playerBoard.getBoard(), false);
+            view.DOM.speechBubbleText(view.response.computerMissResponse());
+            await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
+            view.DOM.currentPlayerOutline(false);
+            view.DOM.enableCells();
+            view.DOM.speechBubbleText(view.response.playerTurnResponse());
+            view.DOM.setMainGridToComputer();
+            view.showCaptainAvatar();
         }
-
-        audioSetup.playRandomMissSound();
-        await delay(delayTime.waitForSound);
-        view.updateBoard(game.playerBoard.getBoard(), false);
-        view.DOMHelper.speechBubbleText(view.response.computerMissResponse());
-        await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
-        view.DOMHelper.currentPlayerOutline(false);
-        view.DOMHelper.enableCells();
-        view.DOMHelper.speechBubbleText(view.response.playerTurnResponse());
-        view.DOMHelper.setMainGridToComputer();
-        view.showCaptainAvatar();
     }
 
     const checkShipPlacement = (ship, coordinate) => {
@@ -179,7 +178,7 @@ export const gameController = () => {
             if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, false)) {
                 game.playerBoard.placeShip(newShip, arrayCoordinate, false);
 
-                view.DOMHelper.transitionElementRemoval(ship.parentNode);
+                view.DOM.transitionElementRemoval(ship.parentNode);
 
             } else {
                 console.log('Error: Cannot place ship there');
@@ -189,7 +188,7 @@ export const gameController = () => {
             if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, true)) {
                 game.playerBoard.placeShip(newShip, arrayCoordinate, true);
 
-                view.DOMHelper.transitionElementRemoval(ship.parentNode);
+                view.DOM.transitionElementRemoval(ship.parentNode);
 
             } else {
                 console.log('Error: Cannot place ship there');
@@ -212,9 +211,9 @@ export const gameController = () => {
     const resetGame = () => {
         gameStarted = false;
         game = GameState();
-        view.DOMHelper.removeGridsAndHeading();
-        view.DOMHelper.resetGameStyles();
+        view.DOM.removeGridsAndHeading();
+        view.DOM.resetGameStyles();
     }
 
-    view.startButton.addEventListener('click', playGame);
+    view.DOM.elements.startButton.addEventListener('click', playGame);
 }

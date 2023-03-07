@@ -6,10 +6,12 @@ import captain2 from '../assets/captains/captain2.png';
 import captain3 from '../assets/captains/captain3.png';
 
 import { CustomElementCreator } from './DOMCreation';
+import { MyElements } from './ElementSelector';
 
-export const DOMHelperCreation = () => {
+export const DOMInterface = () => {
 
     const creator = CustomElementCreator();
+    const elements = MyElements();
 
     let playerBoard;
     let computerBoard;
@@ -286,6 +288,52 @@ export const DOMHelperCreation = () => {
     
     }
 
+    // [{ h3:'Rules', ol: }]
+    const createModal = (options) => {
+        const modal = creator.oneElement('modal', 'div');
+        const overlay = creator.oneElement('overlay', 'div');
+
+        if (options.type === 'Rules') {
+
+            const ruleList = createList('ol', [
+                'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal',
+                'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!',
+                'After you make your attack it will be the computers turn',
+                'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!',
+                'Your goal is to sink all of their ships, good luck!'
+            ], options.type);
+
+            const closeIcon = new Image();
+            closeIcon.src = close;
+            closeIcon.className = 'close-icon';
+    
+            closeIcon.addEventListener('click', () => {
+                closeModal(modal);
+            });
+            modal.append(ruleList, closeIcon);
+
+            return { modal, overlay }
+        }
+    }
+
+    const createList = (listType, listItems, listHeading) => {
+        const myList = document.createElement(listType);
+
+        if (listHeading) {
+            const heading = document.createElement('h3');
+            heading.textContent = listHeading;
+            myList.appendChild(heading);
+        }
+        for (const listItemText of listItems) {
+            const item = document.createElement('li');
+
+            item.textContent = listItemText;
+            myList.appendChild(item);
+        }
+
+        return myList;
+    }
+
     const createGameRuleModal = () => {
         const modal = creator.oneElement('modal', 'div');
         const overlay = creator.oneElement('overlay', 'div');
@@ -462,5 +510,5 @@ export const DOMHelperCreation = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, createGameRuleModal, openModal, closeModal, information }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, createGameRuleModal, openModal, closeModal, information, createModal, elements }
 }
