@@ -287,8 +287,7 @@ export const DOMInterface = () => {
         shipMainContainer.appendChild(shipSubContainer);
     
     }
-
-    // [{ h3:'Rules', ol: }]
+    
     const createModal = (options) => {
         const modal = creator.oneElement('modal', 'div');
         const overlay = creator.oneElement('overlay', 'div');
@@ -334,48 +333,48 @@ export const DOMInterface = () => {
         return myList;
     }
 
-    const createGameRuleModal = () => {
-        const modal = creator.oneElement('modal', 'div');
-        const overlay = creator.oneElement('overlay', 'div');
+    // const createGameRuleModal = () => {
+    //     const modal = creator.oneElement('modal', 'div');
+    //     const overlay = creator.oneElement('overlay', 'div');
 
-        const listHeading = document.createElement('h3');
-        listHeading.textContent = 'Rules';
+    //     const listHeading = document.createElement('h3');
+    //     listHeading.textContent = 'Rules';
 
-        const myList = document.createElement('ol');
+    //     const myList = document.createElement('ol');
 
-        const listItem1 = document.createElement('li');
-        const listItem2 = document.createElement('li');
-        const listItem3 = document.createElement('li');
-        const listItem4 = document.createElement('li');
-        const listItem5 = document.createElement('li');
+    //     const listItem1 = document.createElement('li');
+    //     const listItem2 = document.createElement('li');
+    //     const listItem3 = document.createElement('li');
+    //     const listItem4 = document.createElement('li');
+    //     const listItem5 = document.createElement('li');
 
-        listItem1.textContent = 'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal';
-        listItem2.textContent = 'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!';
-        listItem3.textContent = 'After you make your attack it will be the computers turn';
-        listItem4.textContent = 'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!';
-        listItem5.textContent = 'Your goal is to sink all of their ships, good luck!';
+    //     listItem1.textContent = 'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal';
+    //     listItem2.textContent = 'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!';
+    //     listItem3.textContent = 'After you make your attack it will be the computers turn';
+    //     listItem4.textContent = 'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!';
+    //     listItem5.textContent = 'Your goal is to sink all of their ships, good luck!';
 
 
-        const closeIcon = new Image();
-        closeIcon.src = elements.close;
-        closeIcon.className = 'close-icon';
+    //     const closeIcon = new Image();
+    //     closeIcon.src = elements.close;
+    //     closeIcon.className = 'close-icon';
 
-        closeIcon.addEventListener('click', () => {
-            closeModal(modal);
-        });
+    //     closeIcon.addEventListener('click', () => {
+    //         closeModal(modal);
+    //     });
 
-        myList.append(listHeading, listItem1,listItem2, listItem3, listItem4, listItem5);
+    //     myList.append(listHeading, listItem1,listItem2, listItem3, listItem4, listItem5);
 
-        modal.append(closeIcon, myList);
+    //     modal.append(closeIcon, myList);
 
-        return { modal, overlay };
-    }
+    //     return { modal, overlay };
+    // }
 
-    const createGameOverModal = () => {
-        //we want to create all the elements for our game over modal, when the game state hits a terminal condition we want this  to pop up instead of the alert. It should say who won the game and have a button that says 'play again';
+    // const createGameOverModal = () => {
+    //     //we want to create all the elements for our game over modal, when the game state hits a terminal condition we want this  to pop up instead of the alert. It should say who won the game and have a button that says 'play again';
 
-        //This method should only create the modal and append all its elements and return the element, we will append it to our document or container elsewhere.
-    }
+    //     //This method should only create the modal and append all its elements and return the element, we will append it to our document or container elsewhere.
+    // }
     
     const openModal = (modal) => {
         const overlay = document.querySelector('.overlay');
@@ -500,5 +499,5 @@ export const DOMInterface = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, createGameRuleModal, openModal, closeModal, createModal, elements }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, openModal, closeModal, createModal, elements }
 }
