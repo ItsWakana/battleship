@@ -60,11 +60,9 @@ export const Player = (name, opponentBoard, isCPU = false) => {
     }
 
     const attackAdjacentCell = (coordinate) => {
-        console.log(coordinate);
         const randomAdjacentCell = calculateAdjacentPosition(coordinate);
 
         opponentBoard.recieveAttack(randomAdjacentCell);
-        console.log(randomAdjacentCell);
         return randomAdjacentCell;
     }
 

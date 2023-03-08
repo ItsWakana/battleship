@@ -115,13 +115,16 @@ export const gameController = () => {
         if (game.computerBoard.getLastHit()['ship']) {
             audioSetup.playRandomHitSound();
             await delay(delayTime.waitForSound);
-            view.updateBoard(game.computerBoard.getBoard(), true);  
+            // view.updateBoard(game.computerBoard.getBoard(), true);  
+            view.renderAttackonBoard(game.computerBoard.getBoard(), coordinate, true);
             view.handlePlayerHitState(coordinate);
             return;
         }
         audioSetup.playRandomMissSound()
         await delay(delayTime.waitForSound);
-        view.updateBoard(game.computerBoard.getBoard(), true);  
+        // view.updateBoard(game.computerBoard.getBoard(), true);  
+        view.renderAttackonBoard(game.computerBoard.getBoard(), coordinate, true);
+        //instead of rendering the entire board, we just want to render the last known position.
         view.DOM.speechBubbleText(view.response.playerMissResponse());
         await delay(delayTime.waitForSpeech);
         view.handlePlayerMissState();

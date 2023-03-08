@@ -220,6 +220,32 @@ export const View = () => {
             }
         }
     }
+
+    const renderAttackonBoard = (board, xy, isComputerBoard) => {
+        let cell;
+        if (isComputerBoard) {
+            cell = document.querySelector(`[data-player="computer"][data-xy-pos="${xy}"]`);
+
+        } else {
+            cell = document.querySelector(`[data-player="player"][data-xy-pos="${xy}"]`);
+
+        }
+        if (board[xy[0]][xy[1]] === 'x') {
+            if (!cell.hasChildNodes()) {
+                const marker = document.createElement('div');
+                marker.className = 'attack-marker';
+                cell.appendChild(marker);
+            }
+        }
+
+        if (typeof board[xy[0]][xy[1]] === 'object') {
+            if (!isComputerBoard) {
+                cell.classList.add('placed');
+            } else {
+                cell.style.backgroundColor = 'red';
+            }
+        }
+    }
     // const updateBoard = (computerBoard, playerBoard) => {
 
     //     for (const cell of computerCells) {
@@ -277,5 +303,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOM, response, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, appendRuleModal, appendGameOverModal }
+    return { DOM, response, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, appendRuleModal, appendGameOverModal, renderAttackonBoard }
 }
