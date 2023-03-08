@@ -105,27 +105,22 @@ export const gameController = () => {
 
         const isaWinner = game.checkForWinner();
         if (isaWinner) {
-            // view.alertWinner(isaWinner);
-            // view.implementGameOverModal();
             view.DOM.removeRulesButton();
             view.appendGameOverModal(isaWinner, resetGame);
-            // resetGame();
             return;
         }
 
         if (game.computerBoard.getLastHit()['ship']) {
             audioSetup.playRandomHitSound();
-            // await delay(delayTime.waitForSound);
-            // view.updateBoard(game.computerBoard.getBoard(), true);  
+            await delay(delayTime.waitForSound);
             view.updatePositionOnBoard(game.computerBoard.getBoard(), coordinate, true);
             view.handlePlayerHitState(coordinate);
         } else {
             audioSetup.playRandomMissSound()
-            // await delay(delayTime.waitForSound);
-            // view.updateBoard(game.computerBoard.getBoard(), true);  
+            await delay(delayTime.waitForSound);
             view.updatePositionOnBoard(game.computerBoard.getBoard(), coordinate, true);
             view.DOM.speechBubbleText(view.response.playerMissResponse());
-            // await delay(delayTime.waitForSpeech);
+            await delay(delayTime.waitForSpeech);
             view.handlePlayerMissState();
             await delay(3000);
             handleComputerTurn();
@@ -143,8 +138,6 @@ export const gameController = () => {
 
         const winner = game.checkForWinner();
         if (winner) {
-            // view.alertWinner(winner);
-            // resetGame();
             view.DOM.removeRulesButton();
             view.appendGameOverModal(winner, resetGame);
             return;
@@ -186,7 +179,6 @@ export const gameController = () => {
 
             } else {
                 console.log('Error: Cannot place ship there');
-                //handle a missplaced ship, user tooltip or error pop up
             }
         } else {
             if (game.playerBoard.canPlaceShip(newShip, arrayCoordinate, true)) {
@@ -196,7 +188,6 @@ export const gameController = () => {
 
             } else {
                 console.log('Error: Cannot place ship there');
-                //handle a missplaced ship, user tooltip or error pop up
             }
         }
     }

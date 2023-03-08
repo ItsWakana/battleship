@@ -3,9 +3,9 @@ export const AvatarResponses = () => {
     const playerHitResponse = () => {
 
         const responses = [
-            `"Bullseye! We've hit the enemy's vessel. Go again!"`,
-            `"Nice shot! Enemy ship hit! This is fun, go!"`,
-            `"Enemy ship, meet our firepower! Direct hit! Next shot!"`
+            `"Bullseye! Go again!"`,
+            `"Nice shot! Enemy ship hit!"`,
+            `"Direct hit! Next shot!"`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
@@ -18,7 +18,7 @@ export const AvatarResponses = () => {
             `"You have the green light to attack."`,
             `"Show the enemy what we're made of!"`,
             `"We're counting on you, captain."`,
-            `"Time to make your move"`
+            `"Time to make your move."`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
@@ -47,10 +47,10 @@ export const AvatarResponses = () => {
     const computerMissResponse = () => {
         const responses = [
             `"A miss!"`,
-            `"Damn, they missed it"`,
-            `"Good for us"`,
+            `"Damn, they missed it."`,
+            `"That's good for us."`,
             `"Nice.."`,
-            `"Plop... Nice miss"`
+            `"Plop... Nice miss."`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
@@ -58,9 +58,9 @@ export const AvatarResponses = () => {
     
     const playerMissResponse = () => {
         const responses = [
-            `"Ah, too bad. We go again."`,
+            `"Ah, too bad.."`,
             `"A miss for us, bad luck.."`,
-            `"We'll hit next time"`
+            `"We'll hit them next time."`
         ]
     
         return responses[Math.floor(Math.random() * responses.length)]
