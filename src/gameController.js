@@ -122,7 +122,7 @@ export const gameController = () => {
             view.DOM.speechBubbleText(view.response.playerMissResponse());
             await delay(delayTime.waitForSpeech);
             view.handlePlayerMissState();
-            await delay(3000);
+            await delay(delayTime.waitBetweenTurns);
             handleComputerTurn();
         }
     }
@@ -200,7 +200,8 @@ export const gameController = () => {
 
     const delayTime = {
         waitForSpeech: 2500,
-        waitForSound: 2500
+        waitForSound: 2300,
+        waitBetweenTurns: 3000
     }
 
     const resetGame = () => {

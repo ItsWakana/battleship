@@ -222,7 +222,7 @@ export const View = () => {
                 if (!isComputerBoard) {
                     cell.classList.add('placed');
                 } else {
-                    cell.style.backgroundColor = 'red';
+                    // cell.style.backgroundColor = 'red';
                 }
             }
         }
