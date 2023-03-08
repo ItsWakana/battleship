@@ -154,6 +154,9 @@ export const View = () => {
                 // draggedShip.parentNode.classList.add('hidden');
             });
 
+            ship.addEventListener('touchstart', () => {
+                draggedShip = ship;
+            });
 
             // ship.addEventListener('dragend', () => {
             //     draggedShip.parentNode.classList.remove('hidden');
@@ -173,7 +176,25 @@ export const View = () => {
                 }
             });
 
+            cell.addEventListener('touchenter', () => {
+                if (draggedShip.dataset.orientation === 'horizontal') {
+                    setHorizontalShipHover(draggedShip, cell, false)
+                } else {
+                    setVerticalShipHover(draggedShip, cell, false)
+                }
+            });
+
             cell.addEventListener('dragleave', () => {
+                
+                if (draggedShip.dataset.orientation === 'horizontal') {
+
+                    setHorizontalShipHover(draggedShip, cell, true)
+                } else {
+                    setVerticalShipHover(draggedShip, cell, true)
+                }
+            });
+
+            cell.addEventListener('touchleave', () => {
                 
                 if (draggedShip.dataset.orientation === 'horizontal') {
 

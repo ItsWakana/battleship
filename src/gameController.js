@@ -199,9 +199,9 @@ export const gameController = () => {
     }
 
     const delayTime = {
-        waitForSpeech: 2500,
-        waitForSound: 2300,
-        waitBetweenTurns: 3000
+        waitForSpeech: 2000,
+        waitForSound: 2000,
+        waitBetweenTurns: 2300
     }
 
     const resetGame = () => {
