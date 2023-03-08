@@ -1,10 +1,3 @@
-// import rotate from '../assets/rotate.svg';
-// import close from '../assets/close.svg';
-// import information from '../assets/information.svg';
-// import captain1 from '../assets/captains/captain1.png';
-// import captain2 from '../assets/captains/captain2.png';
-// import captain3 from '../assets/captains/captain3.png';
-
 import { CustomElementCreator } from './DOMCreation';
 import { MyElements } from './ElementSelector';
 
@@ -13,15 +6,6 @@ export const DOMInterface = () => {
     const creator = CustomElementCreator();
     const elements = MyElements();
 
-    let playerBoard;
-    let computerBoard;
-
-    //module for querySelector references
-
-    // const mainTopContainer = document.querySelector('.gameboards');
-    // const transitionContainer = document.querySelector('.transition-container');
-
-    
     const initializeMainDisplay = () => {
 
         generateGrids();
@@ -31,7 +15,6 @@ export const DOMInterface = () => {
 
     const setNewShipContainerHeight = () => {
         return new Promise((resolve) => {
-            // const shipMainContainer = document.querySelector('.ship-main-container')
             elements.shipMainContainer.classList.add('expand');
             elements.shipMainContainer.addEventListener('transitionend', () => {
                 resolve();
@@ -40,18 +23,17 @@ export const DOMInterface = () => {
     }
 
     const removeShipContainerHeight = () => {
-        // const shipMainContainer = document.querySelector('.ship-main-container')
         elements.shipMainContainer.classList.remove('expand')
     }
 
     const setMainGridToPlayer = () => {
-        playerBoard.classList.add('current');
-        computerBoard.classList.remove('current');
+        elements.playerBoard.classList.add('current');
+        elements.computerBoard.classList.remove('current');
     }
 
     const setMainGridToComputer = () => {
-        playerBoard.classList.remove('current');
-        computerBoard.classList.add('current');
+        elements.playerBoard.classList.remove('current');
+        elements.computerBoard.classList.add('current');
 
     }
     const initializeCaptainPicker = async (callback) => {
@@ -61,8 +43,6 @@ export const DOMInterface = () => {
         title.textContent = 'Pick your lieutenant!'
         captainContainer.appendChild(title);
         elements.gameboardContainer.append(captainContainer);
-
-        // const transitionContainer = document.querySelector('.transition-container');
 
         setInGameStyles();
         
@@ -190,17 +170,15 @@ export const DOMInterface = () => {
 
     const generateGrids = () => {
 
-        // const mainBoardsContainer = document.querySelector('.gameboards');
-
-        // const transitionContainer = document.querySelector('.transition-container');
-
-        
-        playerBoard = document.createElement('div');
-        computerBoard = document.createElement('div');
+        const playerBoard = document.createElement('div');
+        const computerBoard = document.createElement('div');
         
         playerBoard.className = 'grid left';
         
         computerBoard.className = 'grid right';
+
+        elements.playerBoard = playerBoard;
+        elements.computerBoard = computerBoard;
         
         playerBoard.dataset.grid = false;
         
@@ -209,9 +187,6 @@ export const DOMInterface = () => {
 
         elements.gameboardContainer.append(playerBoard, computerBoard);
 
-        // setTransitionContainerTop();
-
-        // transitionContainer.classList.add('shift-down');
         setTimeout(() => {
             setTransitionContainerTop();
             elements.transitionContainer.classList.add('shift-down');
@@ -227,10 +202,6 @@ export const DOMInterface = () => {
 
     const generateShipElements = () => {
         const shipElementArea = document.querySelector('.ship-main-container');
-
-        // const title = creator.oneElement('user-instruction', 'h2');
-        // title.textContent = 'Drag your fleet onto the battlefield, captain!'
-        // shipElementArea.appendChild(title);
         
         const ships = creator.multipleElements('div', 4);
         const shipLengths = [5,4,3,2];
@@ -275,10 +246,8 @@ export const DOMInterface = () => {
             rotateButton.src = elements.rotate;
             rotateButton.draggable = false;
             rotateButton.addEventListener('click', () => {
-                // rotateButton.classList.toggle('active');
                 callback(ship);
                 changeOrientation(ship);
-                // applyRotation(ship);
             });
 
             shipContainer.appendChild(rotateButton);
@@ -288,19 +257,16 @@ export const DOMInterface = () => {
     
     }
     
-    const createModal = (options) => {
+    const createModal = (options, contentArray) => {
         const modal = creator.oneElement('modal', 'div');
+        elements.modal = modal;
         const overlay = creator.oneElement('overlay', 'div');
 
         if (options.type === 'Rules') {
 
-            const ruleList = createList('ol', [
-                'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal',
-                'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!',
-                'After you make your attack it will be the computers turn',
-                'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!',
-                'Your goal is to sink all of their ships, good luck!'
-            ], options.type);
+            modal.classList.add('rules');
+
+            const ruleList = createList('ol', contentArray, options.type);
 
             const closeIcon = new Image();
             closeIcon.src = elements.close;
@@ -312,6 +278,27 @@ export const DOMInterface = () => {
             modal.append(ruleList, closeIcon);
 
             return { modal, overlay }
+        }
+
+        if (options.type === 'gameOver') {
+            modal.classList.add('game-over');
+            const resultHeading = document.createElement('h3');
+
+            if (options.winner === 'Player') {
+                resultHeading.textContent = 'You won!';
+            } else {
+                resultHeading.textContent = 'The computer won!';
+            }
+            const resultPara = document.createElement('p');
+            resultPara.textContent = contentArray[0];
+
+
+            const playAgainButton = creator.oneElement('play-again', 'button');
+            playAgainButton.textContent = 'Close';
+
+            modal.append(resultHeading, resultPara, playAgainButton);
+
+            return { modal, overlay, playAgainButton }
         }
     }
 
@@ -332,49 +319,6 @@ export const DOMInterface = () => {
 
         return myList;
     }
-
-    // const createGameRuleModal = () => {
-    //     const modal = creator.oneElement('modal', 'div');
-    //     const overlay = creator.oneElement('overlay', 'div');
-
-    //     const listHeading = document.createElement('h3');
-    //     listHeading.textContent = 'Rules';
-
-    //     const myList = document.createElement('ol');
-
-    //     const listItem1 = document.createElement('li');
-    //     const listItem2 = document.createElement('li');
-    //     const listItem3 = document.createElement('li');
-    //     const listItem4 = document.createElement('li');
-    //     const listItem5 = document.createElement('li');
-
-    //     listItem1.textContent = 'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal';
-    //     listItem2.textContent = 'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!';
-    //     listItem3.textContent = 'After you make your attack it will be the computers turn';
-    //     listItem4.textContent = 'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!';
-    //     listItem5.textContent = 'Your goal is to sink all of their ships, good luck!';
-
-
-    //     const closeIcon = new Image();
-    //     closeIcon.src = elements.close;
-    //     closeIcon.className = 'close-icon';
-
-    //     closeIcon.addEventListener('click', () => {
-    //         closeModal(modal);
-    //     });
-
-    //     myList.append(listHeading, listItem1,listItem2, listItem3, listItem4, listItem5);
-
-    //     modal.append(closeIcon, myList);
-
-    //     return { modal, overlay };
-    // }
-
-    // const createGameOverModal = () => {
-    //     //we want to create all the elements for our game over modal, when the game state hits a terminal condition we want this  to pop up instead of the alert. It should say who won the game and have a button that says 'play again';
-
-    //     //This method should only create the modal and append all its elements and return the element, we will append it to our document or container elsewhere.
-    // }
     
     const openModal = (modal) => {
         const overlay = document.querySelector('.overlay');
@@ -408,27 +352,31 @@ export const DOMInterface = () => {
         }
     }
 
+    const removeRulesButton = () => {
+        elements.buttonContainer.removeChild(elements.buttonContainer.lastChild);
+    }
     const removeGridsAndHeading = () => {
         
-        playerBoard.classList.add('invisible');
-        computerBoard.classList.add('invisible');
+        elements.playerBoard.classList.add('invisible');
+        elements.computerBoard.classList.add('invisible');
         setDefaultContainerSize();
-        playerBoard.addEventListener('transitionend', () => {
+        elements.playerBoard.addEventListener('transitionend', () => {
 
-            playerBoard.remove();
-            computerBoard.remove();
+            elements.playerBoard.remove();
+            elements.computerBoard.remove();
 
-            playerBoard.classList.remove('invisible');
-            computerBoard.classList.remove('invisible');
+            elements.playerBoard.classList.remove('invisible');
+            elements.computerBoard.classList.remove('invisible');
         });
 
-        elements.buttonContainer.removeChild(elements.buttonContainer.lastChild);
+        removeRulesButton();
+        // elements.buttonContainer.removeChild(elements.buttonContainer.lastChild);
     }
 
     const disableCells = () => {
 
-        computerBoard.classList.add('disabled');
-        playerBoard.classList.add('disabled');
+        elements.computerBoard.classList.add('disabled');
+        elements.playerBoard.classList.add('disabled');
 
         const enabledCells = document.querySelectorAll('.box');
         enabledCells.forEach((cell) => {
@@ -438,8 +386,8 @@ export const DOMInterface = () => {
 
     const enableCells = () => {
 
-        computerBoard.classList.remove('disabled');
-        playerBoard.classList.remove('disabled');
+        elements.computerBoard.classList.remove('disabled');
+        elements.playerBoard.classList.remove('disabled');
 
         const disabledCells = document.querySelectorAll('.box');
 
@@ -450,11 +398,11 @@ export const DOMInterface = () => {
 
     const currentPlayerOutline = (isPlayersTurn) => {
         if (isPlayersTurn) {
-            playerBoard.style.border = 'solid 3px red';
-            computerBoard.style.border = '3px transparent';
+            elements.playerBoard.style.border = 'solid 3px red';
+            elements.computerBoard.style.border = '3px transparent';
         } else {
-            computerBoard.style.border = 'solid 3px green';
-            playerBoard.style.border = '3px transparent';
+            elements.computerBoard.style.border = 'solid 3px green';
+            elements.playerBoard.style.border = '3px transparent';
         }
     }
 
@@ -480,11 +428,10 @@ export const DOMInterface = () => {
     }
 
     const resetGameStyles = () => {
-        const button = document.querySelector('.start-game');
-        button.classList.remove('in-progress');
+        elements.startButton.classList.remove('in-progress');
 
-        playerBoard.style.border = 'none';
-        computerBoard.style.border = 'none';
+        elements.playerBoard.style.border = 'none';
+        elements.computerBoard.style.border = 'none';
 
         enableCells();
 
@@ -499,5 +446,5 @@ export const DOMInterface = () => {
         });
     }
 
-    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, openModal, closeModal, createModal, elements }
+    return { removeGridsAndHeading, currentPlayerOutline, enableCells, disableCells, speechBubbleText, resetGameStyles, generateShipRotationControls,applyRotation, transitionElementRemoval, initializeMainDisplay, initializeCaptainPicker, removeCaptainPicker, setMainGridToPlayer, setMainGridToComputer, setNewShipContainerHeight, removeShipContainerHeight, getCaptainImages, openModal, closeModal, createModal, elements, removeRulesButton }
 }

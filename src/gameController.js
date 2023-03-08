@@ -23,7 +23,6 @@ export const gameController = () => {
     const startGame = async () => {
         const captainChoice = await initializeCaptainPicker();
         await view.DOM.setNewShipContainerHeight();
-        // await delay(700);
         
         view.DOM.initializeMainDisplay();
         view.appendRuleModal();
@@ -106,30 +105,31 @@ export const gameController = () => {
 
         const isaWinner = game.checkForWinner();
         if (isaWinner) {
-            view.alertWinner(isaWinner);
-            view.implementGameOverModal();
-            resetGame();
+            // view.alertWinner(isaWinner);
+            // view.implementGameOverModal();
+            view.DOM.removeRulesButton();
+            view.appendGameOverModal(isaWinner, resetGame);
+            // resetGame();
             return;
         }
 
         if (game.computerBoard.getLastHit()['ship']) {
             audioSetup.playRandomHitSound();
-            await delay(delayTime.waitForSound);
+            // await delay(delayTime.waitForSound);
             // view.updateBoard(game.computerBoard.getBoard(), true);  
-            view.renderAttackonBoard(game.computerBoard.getBoard(), coordinate, true);
+            view.updatePositionOnBoard(game.computerBoard.getBoard(), coordinate, true);
             view.handlePlayerHitState(coordinate);
-            return;
+        } else {
+            audioSetup.playRandomMissSound()
+            // await delay(delayTime.waitForSound);
+            // view.updateBoard(game.computerBoard.getBoard(), true);  
+            view.updatePositionOnBoard(game.computerBoard.getBoard(), coordinate, true);
+            view.DOM.speechBubbleText(view.response.playerMissResponse());
+            // await delay(delayTime.waitForSpeech);
+            view.handlePlayerMissState();
+            await delay(3000);
+            handleComputerTurn();
         }
-        audioSetup.playRandomMissSound()
-        await delay(delayTime.waitForSound);
-        // view.updateBoard(game.computerBoard.getBoard(), true);  
-        view.renderAttackonBoard(game.computerBoard.getBoard(), coordinate, true);
-        //instead of rendering the entire board, we just want to render the last known position.
-        view.DOM.speechBubbleText(view.response.playerMissResponse());
-        await delay(delayTime.waitForSpeech);
-        view.handlePlayerMissState();
-        await delay(3000);
-        handleComputerTurn();
     }
     
     const handleComputerTurn = async () => {
@@ -143,8 +143,10 @@ export const gameController = () => {
 
         const winner = game.checkForWinner();
         if (winner) {
-            view.alertWinner(winner);
-            resetGame();
+            // view.alertWinner(winner);
+            // resetGame();
+            view.DOM.removeRulesButton();
+            view.appendGameOverModal(winner, resetGame);
             return;
         }
 
@@ -157,13 +159,12 @@ export const gameController = () => {
             await delay(delayTime.waitForSpeech);
             view.DOM.currentPlayerOutline(true);
             handleComputerTurn();
-            // return;
         } else {
             audioSetup.playRandomMissSound();
             await delay(delayTime.waitForSound);
             view.updateBoard(game.playerBoard.getBoard(), false);
             view.DOM.speechBubbleText(view.response.computerMissResponse());
-            await delay(delayTime.waitForSpeech); // wait for message prompt to finish before switching turns
+            await delay(delayTime.waitForSpeech); 
             view.DOM.currentPlayerOutline(false);
             view.DOM.enableCells();
             view.DOM.speechBubbleText(view.response.playerTurnResponse());
@@ -216,6 +217,7 @@ export const gameController = () => {
         game = GameState();
         view.DOM.removeGridsAndHeading();
         view.DOM.resetGameStyles();
+        view.DOM.closeModal(view.DOM.elements.modal);
     }
 
     view.DOM.elements.startButton.addEventListener('click', playGame);

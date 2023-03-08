@@ -10,6 +10,13 @@ export const MyElements = () => {
     let playerCells;
     let computerCells;
 
+    let playerBoard;
+    let computerBoard;
+
+    let captainAvatar;
+
+    let modal;
+
     const startButton = document.querySelector('.start-game');
     const gameboardContainer = document.querySelector('.gameboards');
     const transitionContainer = document.querySelector('.transition-container');
@@ -19,6 +26,8 @@ export const MyElements = () => {
     return {
         playerCells,
         computerCells,
+        playerBoard,
+        computerBoard,
         startButton,
         gameboardContainer,
         transitionContainer,
@@ -29,6 +38,8 @@ export const MyElements = () => {
         information,
         captain1,
         captain2,
-        captain3
+        captain3,
+        captainAvatar,
+        modal
     }
 }

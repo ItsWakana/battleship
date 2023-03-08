@@ -3,14 +3,8 @@ import { AvatarResponses } from "./responses";
 
 export const View = () => {
 
-    // let playerCells;
-    // let computerCells;
-
     const DOM = DOMInterface();
-    // const elements = MyElements();
     const response = AvatarResponses();
-
-    // const startButton = document.querySelector('.start-game');
 
     const setPlayerAndComputerCells = () => {
         DOM.elements.playerCells = document.querySelectorAll('[data-player="player"]');
@@ -56,17 +50,21 @@ export const View = () => {
 
     const appendRuleModal = () => {
 
-        // const buttonContainer = document.querySelector('.button-container');
         const infoButton = new Image();
         infoButton.src = DOM.elements.information;
         infoButton.className = 'rules-icon';
         DOM.elements.buttonContainer.appendChild(infoButton);
 
-        // const gameBoardContainer = document.querySelector('.gameboards');
-
         const modalObj = DOM.createModal({
             type: 'Rules'
-        })
+        }, [
+            'Place your ships by clicking and dragging them onto your grid, you can use the rotation icon to switch between vertical and horizontal',
+            'You can attack by clicking any square on the opponents grid, your goal is to hit their ships!',
+            'After you make your attack it will be the computers turn',
+            'If either you or the computer hit a ship, that spot will be marked accordingly and will generate an extra turn for the player who hit a ship. Make that move count!',
+            'Your goal is to sink all of their ships, good luck!'
+        ]);
+
         DOM.elements.gameboardContainer.appendChild(modalObj.overlay);
         DOM.elements.gameboardContainer.appendChild(modalObj.modal);
 
@@ -75,13 +73,23 @@ export const View = () => {
         });
     }
 
-    const appendGameOverModal = () => {
+    const appendGameOverModal = (gameWinner, callback) => {
 
+        const modalObj = DOM.createModal({
+            type: 'gameOver',
+            winner: gameWinner
+        }, [
+            'Thanks for playing! You can click the button below and try your luck against the computer one more time!'
+        ]);
+
+        modalObj.playAgainButton.addEventListener('click', callback);
+        DOM.elements.gameboardContainer.appendChild(modalObj.overlay);
+        DOM.elements.gameboardContainer.appendChild(modalObj.modal);
+
+        DOM.openModal(modalObj.modal);
     }
 
     const displayCaptainAvatar = (captain) => {
-
-        const computerBoard = document.querySelector('.grid.right')
 
         const captainAvatar = document.createElement('div');
 
@@ -90,13 +98,12 @@ export const View = () => {
         const captainImage = new Image();
 
         captainImage.src = DOM.getCaptainImages()[captain];
-        console.log(captainImage);
         captainImage.draggable = false;
         captainImage.className = 'captain-image';
 
         captainAvatar.append(captainImage, captainMessage);
         captainAvatar.className = 'captain-board-avatar';
-        computerBoard.appendChild(captainAvatar);
+        DOM.elements.computerBoard.appendChild(captainAvatar);
     }
 
     const hideCaptainAvatar = () => {
@@ -221,7 +228,7 @@ export const View = () => {
         }
     }
 
-    const renderAttackonBoard = (board, xy, isComputerBoard) => {
+    const updatePositionOnBoard = (board, xy, isComputerBoard) => {
         let cell;
         if (isComputerBoard) {
             cell = document.querySelector(`[data-player="computer"][data-xy-pos="${xy}"]`);
@@ -246,47 +253,6 @@ export const View = () => {
             }
         }
     }
-    // const updateBoard = (computerBoard, playerBoard) => {
-
-    //     for (const cell of computerCells) {
-    //         const xy = cell.dataset.xyPos;
-    //         if (computerBoard[xy[0]][xy[1]] === 'x') {
-    //             if (!cell.hasChildNodes()) {
-    //                 const marker = document.createElement('div');
-    //                 marker.className = 'attack-marker';
-    //                 cell.appendChild(marker);
-    //             }
-    //         }
-
-    //         if (typeof computerBoard[xy[0]][xy[1]] === 'object') {
-    //             // cell.style.backgroundColor = 'red';
-    //         }
-    //     }
-
-    //     for (const cell of playerCells) {
-    //         const xy = cell.dataset.xyPos;
-    //         if (playerBoard[xy[0]][xy[1]] === 'x') {
-    //             if (!cell.hasChildNodes()) {
-    //                 const marker = document.createElement('div');
-    //                 marker.className = 'attack-marker';
-    //                 cell.appendChild(marker);
-    //             }  
-    //         }
-
-    //         if (typeof playerBoard[xy[0]][xy[1]] === 'object') {
-    //             // const ship = playerBoard[xy[0]][xy[1]];
-    //             // const shipSquare = document.createElement('div');
-
-    //             // if (ship.getShipDirection() === 'Horizontal') {
-    //             //     shipSquare.className = 'ship-square-horizontal';
-    //             // } else if (ship.getShipDirection() === 'Vertical') {
-    //             //     shipSquare.className = 'ship-square-vertical';
-    //             // }
-    //             // cell.appendChild(shipSquare);
-    //             cell.classList.add('placed');
-    //         }
-    //     }
-    // }
 
     const playerViewUpdate = () => {
         DOM.disableCells();
@@ -303,5 +269,5 @@ export const View = () => {
         alert(`Player ${winner} has won the match!`);
     }
 
-    return { DOM, response, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, appendRuleModal, appendGameOverModal, renderAttackonBoard }
+    return { DOM, response, onCellClick, updateBoard, alertWinner, playerViewUpdate, computerViewUpdate, dragAndDropShips, setPlayerAndComputerCells, setHit, displayCaptainAvatar, hideCaptainAvatar, showCaptainAvatar, handlePlayerHitState, handlePlayerMissState, appendRuleModal, appendGameOverModal, updatePositionOnBoard }
 }

@@ -45,7 +45,7 @@ export const GameState = () => {
     let playerBoard = Gameboard();
     let computerBoard = Gameboard();
     
-    let player = Player('Ryan', computerBoard, false);
+    let player = Player('Player', computerBoard, false);
     let computer = Player('Computer', playerBoard, true)
 
     const placeAllComputerShips = () => {
