@@ -151,16 +151,11 @@ export const View = () => {
         for (const ship of shipElements) {
             ship.addEventListener('dragstart', () => {
                 draggedShip = ship;
-                // draggedShip.parentNode.classList.add('hidden');
             });
 
             ship.addEventListener('touchstart', () => {
                 draggedShip = ship;
             });
-
-            // ship.addEventListener('dragend', () => {
-            //     draggedShip.parentNode.classList.remove('hidden');
-            // });
         }
 
         for (const cell of DOM.elements.playerCells) {
@@ -207,10 +202,6 @@ export const View = () => {
 
         for (const cell of DOM.elements.playerCells) {
             cell.addEventListener('drop', (e) => {
-
-                // draggedShip.addEventListener('dragend', (e) => {
-                //     draggedShip.parentNode.classList.add('hidden');
-                // });
 
                 callback(draggedShip, e.target.dataset.xyPos);
                 DOM.elements.playerCells.forEach((cell) => cell.classList.remove('hover'))
