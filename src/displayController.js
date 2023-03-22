@@ -110,13 +110,11 @@ export const View = () => {
         const captainAvatar = document.querySelector('.captain-board-avatar');
 
         captainAvatar.classList.add('move-position');
-        // captainAvatar.classList.add('invisible');
     }
 
     const showCaptainAvatar = () => {
         const captainAvatar = document.querySelector('.captain-board-avatar');
         captainAvatar.classList.remove('move-position');
-        // captainAvatar.classList.remove('invisible');
     }
 
     const setHorizontalShipHover = (draggedShip, currentCell, toRemoveHover) => {
